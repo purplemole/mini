@@ -1,8 +1,6 @@
 package com.example.mini.view.common
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.util.Log
 import android.widget.TextClock
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -17,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
@@ -26,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.mini.data.HospitalMenu
 import com.example.mini.navigation.NavRoute
-import com.example.mini.navigation.NavigationGraph
 import com.example.mini.navigation.RouteAction
 import com.example.mini.ui.theme.MiniTheme
 import com.example.mini.util.ContinuousClickHelper
@@ -96,7 +94,7 @@ fun ImgMenuBtn(menu: HospitalMenu, routeAction: RouteAction) {
                 }
                 Spacer(modifier = Modifier.size(10.dp))
                 Text(
-                    text = menu.menu,
+                    text = stringResource(id = menu.menu),
                     style = TextStyle(
                         textAlign = TextAlign.Center,
                         fontSize = 10.sp
