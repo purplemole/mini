@@ -5,7 +5,7 @@ import com.example.mini.navigation.NavRoute
 
 data class HospitalMenu(
     val picto: Int,
-    val menu: String, //Int (R.string...)
+    val menu: Int, //Int (R.string...)
     val page: String,
     val route: NavRoute
 )
@@ -13,14 +13,14 @@ data class HospitalMenu(
 object HospitalMenuDummyData {
     private val sampleMainMenu = HospitalMenu(
         picto = R.drawable.ic_launcher_foreground,
-        menu = "신규 고객",
+        menu = R.string.main_b1,
         page = "main",
         route = NavRoute.NEW_CUSTOMER
     )
 
     private val sampleSitesMenu = HospitalMenu(
         picto = R.drawable.ic_launcher_foreground,
-        menu = "진료 시간",
+        menu = R.string.sites_information_b1,
         page = "sites-information",
         route = NavRoute.HOSPITAL_HOURS
     )
@@ -28,15 +28,15 @@ object HospitalMenuDummyData {
     val mainMenuList = listOf(
         sampleMainMenu,
         sampleMainMenu.copy(
-            menu = "당일방문고객",
+            menu = R.string.main_b2,
             route = NavRoute.EXISTING_CUSTOMER
         ),
         sampleMainMenu.copy(
-            menu = "예약 고객",
+            menu = R.string.main_b3,
             route = NavRoute.RESERVATION_CUSTOMER
         ),
         sampleMainMenu.copy(
-            menu = "이용 안내",
+            menu = R.string.main_b4,
             route = NavRoute.SITES_INFORMATION
         )
     )
@@ -44,11 +44,11 @@ object HospitalMenuDummyData {
     val sitesMenuList = listOf(
         sampleSitesMenu,
         sampleSitesMenu.copy(
-            menu = "예약 방법",
+            menu = R.string.sites_information_b2,
             route = NavRoute.RESERVATION_METHOD
         ),
         sampleSitesMenu.copy(
-            menu = "주차 안내",
+            menu = R.string.sites_information_b3,
             route = NavRoute.PARKING
         )
     )
