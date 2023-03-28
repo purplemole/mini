@@ -21,7 +21,7 @@ enum class NavRoute(val routeName: String, val description: String, val pageWait
     RESERVATION_INFORMATION("reservation-information", "예약 고객 안내", 5),
 
     //main - button4
-    SITE_INFORMATION("sites-information", "이용 안내", 10),
+    SITES_INFORMATION("sites-information", "이용 안내", 10),
 
     //main - button4(이용 안내) - button1, button2, button3
     HOSPITAL_HOURS("hospital-hours", "진료 시간", 10),

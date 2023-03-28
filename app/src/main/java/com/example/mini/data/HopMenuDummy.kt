@@ -37,7 +37,7 @@ object HospitalMenuDummyData {
         ),
         sampleMainMenu.copy(
             menu = "이용 안내",
-            route = NavRoute.SITE_INFORMATION
+            route = NavRoute.SITES_INFORMATION
         )
     )
 
