@@ -1,6 +1,7 @@
 package com.example.mini.util
 
 import android.os.SystemClock
+import android.util.Log
 import androidx.compose.runtime.Composable //Unit 전달 방법?
 import com.example.mini.navigation.RouteAction
 
@@ -17,7 +18,7 @@ class ContinuousClickHelper(
     private var clickTime = 0
     private var lastClickTime: Long = 0
 
-    fun touch(routeAction: RouteAction) {
+    fun touch() {
         if (SystemClock.elapsedRealtime() - lastClickTime < timeTimeout) {
             clickTime++
         } else {
@@ -28,6 +29,7 @@ class ContinuousClickHelper(
 
         if(clickTime == timesRequired){
                 // routeAction 수행
+            Log.i("ContinuousClickHelper", "관리자 페이지 진입 가능")
         }
     }
 }

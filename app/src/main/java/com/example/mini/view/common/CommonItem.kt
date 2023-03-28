@@ -2,11 +2,13 @@ package com.example.mini.view.common
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.widget.TextClock
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -14,14 +16,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.mini.data.HospitalMenu
 import com.example.mini.navigation.NavRoute
+import com.example.mini.navigation.NavigationGraph
 import com.example.mini.navigation.RouteAction
+import com.example.mini.ui.theme.MiniTheme
+import com.example.mini.util.ContinuousClickHelper
 import com.example.mini.view.hospital.HospitalBarIcon
 import com.guru.fontawesomecomposelib.FaIcons
 import com.skydoves.landscapist.glide.GlideImage
@@ -110,7 +118,15 @@ fun ImgMenuBtn(menu: HospitalMenu, routeAction: RouteAction) {
 fun HospitalTopBar(routeAction: RouteAction, canNavigate: Boolean = true) {
     TopAppBar(
         title = {
-//                Text(text = "Logo")
+//            Text(
+//                text = "Logo",
+//                modifier = Modifier.fillMaxWidth(),
+//                style = TextStyle(textAlign = TextAlign.Center)
+//            )
+            Row(modifier = Modifier.fillMaxWidth()) {
+                TopAppBarTitle()
+            }
+
         },
         backgroundColor = Color(0xff00000000),
         elevation = 0.dp,
@@ -172,32 +188,56 @@ fun GlideImgView(
 }
 
 /**
- * TODO 작동 확인 필요/parameter 수정 필요(timeZone/context/format12Hour)
+ * TODO button design
  *
- * @param modifier
- * @param format12Hour "yyyy-MM-dd hh:mm:ss a"꼴
- * @param format24Hour "hh:mm:ss" 꼴
- * @param timeZone Asia/Seoul 확인 필요
- * @param mContext 호출하는 곳의 current context 전달 필요!
- *
- * 참고 : https://stackoverflow.com/questions/68025651/whats-the-equivalent-of-textclock-in-jetpack-compose
+ * @param onClick onClick : () -> Unit
  */
 @Composable
-private fun TextClock(
-    modifier: Modifier,
-    format12Hour: String? = null,
-    format24Hour: String? = null,
-    timeZone: String? = null,
-    mContext: Context
-) {
-    AndroidView(
-        factory = { _ -> //it
-            TextClock(mContext).apply {
-                format12Hour?.let { this.format12Hour = it }
-                format24Hour?.let { this.format24Hour = it }
-                timeZone?.let { this.timeZone = it }
+fun OutlineTextBtn(onClick: () -> Unit, btnText: String) {
+    OutlinedButton(onClick = { onClick() }, modifier = Modifier.wrapContentSize()) {
+        Text(text = btnText)
+    }
+}
+
+@Composable
+fun TopAppBarTitle() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        val ccHelper = ContinuousClickHelper()
+        Box(
+            modifier = Modifier
+                .background(Color(0xFFF7E9E9))
+                .width(100.dp)
+                .clickable { ccHelper.touch() },
+            content = {
+                Text(text = "click!!")
             }
-        },
-        modifier = modifier
-    )
+        )
+        Text(
+            "로고",
+            modifier = Modifier
+                .background(Color(0xFFFDE1B6))
+        )
+        AndroidView(
+            factory = { context ->
+                TextClock(context).apply {
+                    format12Hour?.let { this.format12Hour = "yyyy-MM-dd hh:mm" }
+                    timeZone?.let { this.timeZone = "Asia/Seoul" }
+                }
+            },
+            modifier = Modifier.background(Color(0xF1DBAFFF))
+        )
+    }
+}
+
+@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 100)
+@Composable
+fun CommonItemPreview() {
+    MiniTheme {
+        Column {
+            TopAppBarTitle()
+        }
+    }
 }

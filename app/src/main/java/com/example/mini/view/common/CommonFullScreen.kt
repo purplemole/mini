@@ -44,9 +44,8 @@ fun Template0(
                 BottomTTSCaption(caption)
         },
         modifier = modifier.padding(bottom = 15.dp),
-    ) {
-        templateBody()
-    }
+        content = { templateBody() }
+    )
 }
 
 /**

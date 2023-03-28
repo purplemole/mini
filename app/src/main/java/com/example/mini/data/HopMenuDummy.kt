@@ -11,26 +11,45 @@ data class HospitalMenu(
 )
 
 object HospitalMenuDummyData {
-    private val sampleMenu = HospitalMenu(
+    private val sampleMainMenu = HospitalMenu(
         picto = R.drawable.ic_launcher_foreground,
         menu = "신규 고객",
         page = "main",
         route = NavRoute.NEW_CUSTOMER
     )
 
+    private val sampleSitesMenu = HospitalMenu(
+        picto = R.drawable.ic_launcher_foreground,
+        menu = "진료 시간",
+        page = "sites-information",
+        route = NavRoute.HOSPITAL_HOURS
+    )
+
     val mainMenuList = listOf(
-        sampleMenu,
-        sampleMenu.copy(
+        sampleMainMenu,
+        sampleMainMenu.copy(
             menu = "당일방문고객",
             route = NavRoute.EXISTING_CUSTOMER
         ),
-        sampleMenu.copy(
+        sampleMainMenu.copy(
             menu = "예약 고객",
             route = NavRoute.RESERVATION_CUSTOMER
         ),
-        sampleMenu.copy(
+        sampleMainMenu.copy(
             menu = "이용 안내",
             route = NavRoute.SITE_INFORMATION
+        )
+    )
+
+    val sitesMenuList = listOf(
+        sampleSitesMenu,
+        sampleSitesMenu.copy(
+            menu = "예약 방법",
+            route = NavRoute.RESERVATION_METHOD
+        ),
+        sampleSitesMenu.copy(
+            menu = "주차 안내",
+            route = NavRoute.PARKING
         )
     )
 }
