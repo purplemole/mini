@@ -37,4 +37,7 @@ enum class NavRoute(val routeName: String, val description: String, val pageWait
 
     // 대기 화면
     STANDBY("standby", "대기"),
+
+    // 관리자 화면
+    ADMIN("admin", "관리자"),
 }

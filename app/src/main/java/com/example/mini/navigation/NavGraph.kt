@@ -46,5 +46,8 @@ fun NavigationGraph(startRoute: NavRoute = NavRoute.MAIN) {
         composable(NavRoute.RESERVATION_METHOD.routeName) { ReservationMethod(routeAction)}
         // 주차 안내
         composable(NavRoute.PARKING.routeName) { Parking(routeAction = routeAction)}
+
+        // 관리자 화면
+        composable(NavRoute.ADMIN.routeName) { AdminView(routeAction = routeAction) }
     }
 }

@@ -20,6 +20,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -122,7 +124,7 @@ fun HospitalTopBar(routeAction: RouteAction, canNavigate: Boolean = true) {
 //                style = TextStyle(textAlign = TextAlign.Center)
 //            )
             Row(modifier = Modifier.fillMaxWidth()) {
-                TopAppBarTitle()
+                TopAppBarTitle(routeAction)
             }
 
         },
@@ -198,7 +200,7 @@ fun OutlineTextBtn(onClick: () -> Unit, btnText: String) {
 }
 
 @Composable
-fun TopAppBarTitle() {
+fun TopAppBarTitle(routeAction: RouteAction) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -208,7 +210,7 @@ fun TopAppBarTitle() {
             modifier = Modifier
                 .background(Color(0xFFF7E9E9))
                 .width(100.dp)
-                .clickable { ccHelper.touch() },
+                .clickable { ccHelper.touch(routeAction) },
             content = {
                 Text(text = "click!!")
             }
@@ -232,10 +234,16 @@ fun TopAppBarTitle() {
 
 @Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 100)
 @Composable
-fun CommonItemPreview() {
+fun CommonItemPreview(
+    @PreviewParameter(AdminRouteActionProvider::class) routeAction: RouteAction
+) {
     MiniTheme {
         Column {
-            TopAppBarTitle()
+            TopAppBarTitle(routeAction)
         }
     }
+}
+class AdminRouteActionProvider : PreviewParameterProvider<RouteAction> {
+    override val values: Sequence<RouteAction>
+        get() = TODO("Not yet implemented")
 }
