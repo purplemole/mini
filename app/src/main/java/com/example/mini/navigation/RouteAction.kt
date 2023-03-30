@@ -1,29 +1,20 @@
 package com.example.mini.navigation
 
-import androidx.navigation.NavHostController
+import com.example.mini.viewModel.NavigationViewModel
 
-class RouteAction(navHostController: NavHostController) {
-
-    // 특정 라우트로 이동
-    val navTo: (NavRoute) -> Unit = { route ->
-        navHostController.navigate(route.routeName)
+class RouteAction(private val viewModel: NavigationViewModel) {
+    // 특정 라우트 이동
+    fun navTo(route: NavRoute) {
+        viewModel.navTo(route)
     }
 
-    // 뒤로가기 이동
-    val goBack: () -> Unit = {
-        navHostController.navigateUp()
+    // 뒤로 가기
+    fun goBack() {
+        viewModel.goBack()
     }
 
-    val twoStepBack : () -> Unit = {
-        navHostController.navigateUp()
-        navHostController.navigateUp()
-    }
-
-    // main 직전까지 clear
-    val goMain: () -> Unit = {
-        //navHostController.popBackStack(NavRoute.MAIN.routeName, false)
-        navHostController.navigate(NavRoute.MAIN.routeName){
-            popUpTo(NavRoute.MAIN.routeName)
-        }
+    // 메인 화면 이동
+    fun goMain() {
+        viewModel.goMain()
     }
 }

@@ -1,30 +1,41 @@
 package com.example.mini.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mini.viewModel.NavigationViewModel
 import com.example.mini.view.hospital.*
 
+/**
+ * TODO routeAction 을 viewModel 로 빼는 게 가능?
+ *
+ * @param startRoute
+ */
 @Composable
 fun NavigationGraph(startRoute: NavRoute = NavRoute.MAIN) {
+    /**
+     * 각각 다른 navController 와 routeAction 이 있으면 NavHost graph 를 다르게 사용 가능
+     * => 병원 여러 개? 그래프 따로..
+     * val navControllerVer2 = rememberNavController()
+     * NavHost(navControllerVer2, ..) {//..}
+     *
+     * NavHost 의 역할은 네비게이션 결정 => 인자 다르게 해서 여러 개 선언 가능
+     */
 
-    // 네비게이션 컨트롤러
     val navController = rememberNavController()
-    // 네비게이션 라우트 액션
-    val routeAction = remember(navController) { RouteAction(navController) }
 
-    // NavHost 로 네비게이션 결정
-    NavHost(navController, startRoute.routeName) {
-//        Log.i("navController", "startRoute is ${startRoute.routeName}")
-//        Log.i("navController", "navController is ${navController.graph.navigatorName}")
+    val route : NavigationViewModel = hiltViewModel()
+    route.setNavController(navController)
+    val routeAction = RouteAction(route)
 
+    NavHost(navController, startDestination = NavRoute.MAIN.routeName){
         // 메인
         composable(NavRoute.MAIN.routeName) { HospitalHome(routeAction) }
 
         // 신규 고객
-        composable(NavRoute.NEW_CUSTOMER.routeName) { NewCustomer(routeAction) }
+        composable(NavRoute.NEW_CUSTOMER.routeName, content = { NewCustomer(routeAction) })
         // 접수 방법 안내
         composable(NavRoute.NEW_INFORMATION.routeName) { NewInformation(routeAction) }
 
