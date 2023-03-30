@@ -5,6 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.mini.view.common.AdminView
 import com.example.mini.viewModel.NavigationViewModel
 import com.example.mini.view.hospital.*
 
