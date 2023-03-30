@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.mini'
+    namespace 'com.clobot.mini'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.mini"
+        applicationId "com.clobot.mini"
         minSdk 21
         targetSdk 28
         versionCode 1
