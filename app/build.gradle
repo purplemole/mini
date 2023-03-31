@@ -101,4 +101,6 @@ dependencies {
 
     implementation "androidx.hilt:hilt-navigation-compose:$navigation_hilt_version"
     kapt "androidx.hilt:hilt-compiler:$navigation_hilt_version"
+
+    implementation 'com.google.guava:guava:31.0.1-android'
 }
