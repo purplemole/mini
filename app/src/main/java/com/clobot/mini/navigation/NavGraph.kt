@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.clobot.mini.view.common.AdminView
-import com.clobot.mini.viewModel.NavigationViewModel
+import com.clobot.mini.model.NavigationViewModel
 import com.clobot.mini.view.hospital.*
 
 @Composable

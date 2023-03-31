@@ -1,4 +1,4 @@
-package com.clobot.mini.viewModel
+package com.clobot.mini.model
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

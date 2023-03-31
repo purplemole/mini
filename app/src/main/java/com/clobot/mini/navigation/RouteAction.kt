@@ -1,6 +1,6 @@
 package com.clobot.mini.navigation
 
-import com.clobot.mini.viewModel.NavigationViewModel
+import com.clobot.mini.model.NavigationViewModel
 
 class RouteAction(private val viewModel: NavigationViewModel) {
     // 특정 라우트 이동
