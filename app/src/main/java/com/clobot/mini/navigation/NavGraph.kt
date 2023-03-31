@@ -9,22 +9,8 @@ import com.clobot.mini.view.common.AdminView
 import com.clobot.mini.viewModel.NavigationViewModel
 import com.clobot.mini.view.hospital.*
 
-/**
- * TODO routeAction 을 viewModel 로 빼는 게 가능?
- *
- * @param startRoute
- */
 @Composable
-fun NavigationGraph(startRoute: NavRoute = NavRoute.MAIN) {
-    /**
-     * 각각 다른 navController 와 routeAction 이 있으면 NavHost graph 를 다르게 사용 가능
-     * => 병원 여러 개? 그래프 따로..
-     * val navControllerVer2 = rememberNavController()
-     * NavHost(navControllerVer2, ..) {//..}
-     *
-     * NavHost 의 역할은 네비게이션 결정 => 인자 다르게 해서 여러 개 선언 가능
-     */
-
+fun NavigationGraph() {
     val navController = rememberNavController()
 
     val route : NavigationViewModel = hiltViewModel()
