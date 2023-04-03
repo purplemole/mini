@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import com.clobot.mini.navigation.NavRoute
-import com.clobot.mini.navigation.RouteAction
+import com.clobot.mini.view.navigation.NavRoute
+import com.clobot.mini.view.navigation.RouteAction
 import com.clobot.mini.util.QrCodeAnalyzer
 import com.clobot.mini.view.common.OutlineTextBtn
 import com.clobot.mini.view.common.Template0
@@ -135,7 +135,7 @@ fun ReservationCustomerContent(routeAction: RouteAction) {
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                OutlineTextBtn({ routeAction.navTo(NavRoute.QR_RECOGNITION) }, "다음 단계 진행")
+                OutlineTextBtn({ routeAction.navTo(NavRoute.QrRecognition) }, "다음 단계 진행")
                 OutlineTextBtn({ }, "접수 장소로 이동")
             }
 

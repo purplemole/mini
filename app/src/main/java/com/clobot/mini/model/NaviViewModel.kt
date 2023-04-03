@@ -1,16 +1,19 @@
 package com.clobot.mini.model
 
+import android.util.Log
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner.current
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import com.clobot.mini.navigation.NavRoute
+import androidx.navigation.NavOptions
+import com.clobot.mini.view.navigation.NavRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class NavigationViewModel @Inject constructor() :
     ViewModel() {
-    //private lateinit var navController: NavHostController
     private val _navController = mutableStateOf<NavHostController?>(null)
     private val navController: NavHostController get() = _navController.value!!
 
@@ -27,8 +30,8 @@ class NavigationViewModel @Inject constructor() :
     }
 
     fun goMain() {
-        navController.navigate(NavRoute.MAIN.routeName) {
-            popUpTo(NavRoute.MAIN.routeName)
+        navController.navigate(NavRoute.Main.routeName) {
+            popUpTo(NavRoute.Main.routeName)
         }
     }
 }

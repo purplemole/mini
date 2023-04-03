@@ -1,7 +1,7 @@
 package com.clobot.mini.data
 
 import com.clobot.mini.R
-import com.clobot.mini.navigation.NavRoute
+import com.clobot.mini.view.navigation.NavRoute
 
 data class HospitalMenu(
     val picto: Int,
@@ -15,29 +15,29 @@ object HospitalMenuDummyData {
         picto = R.drawable.ic_launcher_foreground,
         menu = R.string.main_b1,
         page = "main",
-        route = NavRoute.NEW_CUSTOMER
+        route = NavRoute.NewCustomer
     )
 
     private val sampleSitesMenu = HospitalMenu(
         picto = R.drawable.ic_launcher_foreground,
         menu = R.string.sites_information_b1,
         page = "sites-information",
-        route = NavRoute.HOSPITAL_HOURS
+        route = NavRoute.HospitalHours
     )
 
     val mainMenuList = listOf(
         sampleMainMenu,
         sampleMainMenu.copy(
             menu = R.string.main_b2,
-            route = NavRoute.EXISTING_CUSTOMER
+            route = NavRoute.ExistingCustomer
         ),
         sampleMainMenu.copy(
             menu = R.string.main_b3,
-            route = NavRoute.RESERVATION_CUSTOMER
+            route = NavRoute.ReservationCustomer
         ),
         sampleMainMenu.copy(
             menu = R.string.main_b4,
-            route = NavRoute.SITES_INFORMATION
+            route = NavRoute.SitesInformation
         )
     )
 
@@ -45,11 +45,11 @@ object HospitalMenuDummyData {
         sampleSitesMenu,
         sampleSitesMenu.copy(
             menu = R.string.sites_information_b2,
-            route = NavRoute.RESERVATION_METHOD
+            route = NavRoute.ReservationMethod
         ),
         sampleSitesMenu.copy(
             menu = R.string.sites_information_b3,
-            route = NavRoute.PARKING
+            route = NavRoute.Parking
         )
     )
 }

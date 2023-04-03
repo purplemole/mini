@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.data.HospitalMenuDummyData
-import com.clobot.mini.navigation.RouteAction
+import com.clobot.mini.view.navigation.RouteAction
 import com.clobot.mini.view.common.ImgMenuBtn
 import com.clobot.mini.view.common.Template0
 

@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.clobot.mini.navigation.NavRoute
-import com.clobot.mini.navigation.RouteAction
+import com.clobot.mini.view.navigation.NavRoute
+import com.clobot.mini.view.navigation.RouteAction
 import com.clobot.mini.view.common.GlideImgView
 import com.clobot.mini.view.common.Template0
 
@@ -30,7 +30,7 @@ fun NewCustomerContent(routeAction: RouteAction) {
         "https://post-phinf.pstatic.net/MjAyMTAxMTFfMzUg/MDAxNjEwMzQ2NDM3MjU0.tzHNY9U11yeRQdbqR3WruRdGUdeYNb9eOmdq9gO7mTMg.tJvrPzH8ZNBAh5qlGmthoiP9uBpI5PPIOGB0YrQ4Nccg.PNG/4.png?type=w1200"
     GlideImgView(
         routeAction = routeAction,
-        nextRoute = NavRoute.NEW_INFORMATION,
+        nextRoute = NavRoute.NewInformation,
         imgModel = customerImg
     )
 }
@@ -64,7 +64,7 @@ fun NewInformationContent(routeAction: RouteAction) {
     val newInfoImg = "https://cdn.maily.so/7o7grtuc8937i1sd30x6ezf68b4g"
     GlideImgView(
         routeAction = routeAction,
-        nextRoute = NavRoute.STANDBY,
+        nextRoute = NavRoute.Standby,
         imgModel = newInfoImg
     )
 }

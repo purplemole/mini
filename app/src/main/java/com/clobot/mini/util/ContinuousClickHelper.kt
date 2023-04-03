@@ -2,8 +2,8 @@ package com.clobot.mini.util
 
 import android.os.SystemClock
 import android.util.Log
-import com.clobot.mini.navigation.NavRoute
-import com.clobot.mini.navigation.RouteAction
+import com.clobot.mini.view.navigation.NavRoute
+import com.clobot.mini.view.navigation.RouteAction
 
 /**
  * TODO touch 함수의 callback parameter 수정, routeAction 추가
@@ -29,7 +29,7 @@ class ContinuousClickHelper(
 
         if(clickTime == timesRequired){
                 // routeAction 수행
-            routeAction.navTo(NavRoute.ADMIN)
+            routeAction.navTo(NavRoute.Admin)
             Log.i("ContinuousClickHelper", "관리자 페이지 진입 가능")
         }
     }

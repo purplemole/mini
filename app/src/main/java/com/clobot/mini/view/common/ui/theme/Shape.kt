@@ -1,4 +1,4 @@
-package com.clobot.mini.ui.theme
+package com.clobot.mini.view.common.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

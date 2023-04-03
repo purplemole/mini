@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.clobot.mini.navigation.RouteAction
+import com.clobot.mini.view.navigation.RouteAction
 
 @Composable
 fun AdminView(routeAction: RouteAction) {

@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.clobot.mini.navigation.NavRoute
-import com.clobot.mini.navigation.RouteAction
+import com.clobot.mini.view.navigation.NavRoute
+import com.clobot.mini.view.navigation.RouteAction
 import com.clobot.mini.view.common.GlideImgView
 import com.clobot.mini.view.common.Template0
 
@@ -38,7 +38,7 @@ fun ExistingCustomerContent(routeAction: RouteAction) {
     ) {
         GlideImgView(
             routeAction = routeAction,
-            nextRoute = NavRoute.EXISTING_INFORMATION,
+            nextRoute = NavRoute.ExistingInformation,
             imgModel = existingCustomerImg
         )
         Text(text = contentText, style = TextStyle(textAlign = TextAlign.Center, fontSize = 30.sp))

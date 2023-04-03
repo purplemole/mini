@@ -2,6 +2,7 @@ package com.clobot.mini.view.common
 
 import android.annotation.SuppressLint
 import android.widget.TextClock
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -25,9 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.clobot.mini.data.HospitalMenu
-import com.clobot.mini.navigation.NavRoute
-import com.clobot.mini.navigation.RouteAction
-import com.clobot.mini.ui.theme.MiniTheme
+import com.clobot.mini.view.navigation.NavRoute
+import com.clobot.mini.view.navigation.RouteAction
+import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.util.ContinuousClickHelper
 import com.clobot.mini.view.hospital.HospitalBarIcon
 import com.guru.fontawesomecomposelib.FaIcons

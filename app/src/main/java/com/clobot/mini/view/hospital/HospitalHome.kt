@@ -15,9 +15,9 @@ import com.guru.fontawesomecomposelib.FaIconType
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import com.clobot.mini.navigation.NavigationGraph
-import com.clobot.mini.navigation.RouteAction
-import com.clobot.mini.ui.theme.MiniTheme
+import com.clobot.mini.view.navigation.NavigationGraph
+import com.clobot.mini.view.navigation.RouteAction
+import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.common.BottomTTSCaption
 import com.clobot.mini.view.common.ImgMenuBtn
 import com.clobot.mini.view.common.HospitalTopBar
