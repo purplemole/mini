@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
@@ -25,12 +26,25 @@ class NetworkChecker constructor(
         object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
-                _networkState.value = NetworkState.Connected
+                context.getSystemService(Context.CONNECTIVITY_SERVICE)?.let { service ->
+                    val connectivityManager = service as ConnectivityManager
+                    connectivityManager.getNetworkCapabilities(network)?.let { networkCapabilities ->
+                        if (validTransportTypes.any { networkCapabilities.hasTransport(it) }) {
+                            _networkState.value = NetworkState.Connected
+                        } else {
+                            _networkState.value = NetworkState.NotConnected
+                        }
+                    } ?: run {
+                        _networkState.value = NetworkState.NotConnected
+                    }
+                }
+                Log.d("NetworkChecker", "Network $network is now available")
             }
 
             override fun onLost(network: Network) {
                 super.onLost(network)
                 _networkState.value = NetworkState.NotConnected
+                Log.d("NetworkChecker", "Network $network is no longer available")
             }
         }
     }
@@ -59,5 +73,21 @@ class NetworkChecker constructor(
         }
 
         connectivityManager.registerNetworkCallback(builder.build(), networkCallback)
+    }
+
+    fun onAvailable(network: Network?) {
+        network?.let {
+            Log.d("NetworkChecker", "Network $network is now available")
+            networkCallback.onAvailable(it)
+        } ?: run {
+            Log.d("NetworkChecker", "Network is null")
+        }
+    }
+
+    fun onLost(network: Network?) {
+        if (network != null) {
+            Log.d("NetworkChecker", "Network $network is no longer available")
+            networkCallback.onLost(network)
+        }
     }
 }
