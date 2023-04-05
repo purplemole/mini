@@ -3,6 +3,7 @@ package com.clobot.mini.view.common
 import android.annotation.SuppressLint
 import android.widget.TextClock
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
@@ -10,8 +11,10 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -209,7 +212,7 @@ fun TopAppBarTitle(routeAction: RouteAction) {
             modifier = Modifier
                 .background(Color(0xFFF7E9E9))
                 .width(100.dp)
-                .clickable { ccHelper.touch(routeAction) },
+                .noRippleClickable { ccHelper.touch(routeAction) },
             content = {
                 Text(text = "click!!")
             }
@@ -246,4 +249,11 @@ fun CommonItemPreview(
 class AdminRouteActionProvider : PreviewParameterProvider<RouteAction> {
     override val values: Sequence<RouteAction>
         get() = TODO("Not yet implemented")
+}
+
+inline fun Modifier.noRippleClickable(crossinline onClick: ()->Unit): Modifier = composed {
+    clickable(indication = null,
+        interactionSource = remember { MutableInteractionSource() }) {
+        onClick()
+    }
 }
