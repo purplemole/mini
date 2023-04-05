@@ -1,12 +1,8 @@
 package com.clobot.mini.model
 
-import android.util.Log
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner.current
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
 import com.clobot.mini.view.navigation.NavRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
