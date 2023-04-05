@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     //NavigationGraph()
-                    BootCheck()
+                    BootCheck(networkState)
                 }
             }
         }

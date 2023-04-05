@@ -120,12 +120,14 @@
     <string name="move_name_t2">조심하세요. 제가 지나갈 수 있도록 옆으로 비켜주세요.</string>
     <string name="move_charge_t1">충전 장소로 이동합니다. 지나갈 수 있도록 도와 주세요.</string>
     <string name="move_charge_t2">조심하세요. 제가 지나갈 수 있도록 옆으로 비켜주세요.</string>
-    <string name="boot_check_t1">프로그램을 시작하는 중입니다. 잠시만 기다려 주세요.</string>
-    <string name="book_check_x1">도킹스테이션 연결 (성공 / 실패)</string>
-    <string name="book_check_x2">네트워크 접속 (성공 / 실패)</string>
-    <string name="book_check_x3">관련 프로세트 (성공 / 실패)</string>
+
+    <string name="boot_check_t1">프로그램을 시작하는 중입니다.\n잠시만 기다려 주세요.</string>
+    <string name="book_check_x1">도킹스테이션 연결</string>
+    <string name="book_check_x2">네트워크 접속</string>
+    <string name="book_check_x3">관련 프로세트</string>
     <string name="book_check_x4">디스크 용량</string>
-    <string name="book_check_x5">최종 부팅 (성공 / 실패)</string>
+    <string name="book_check_x5">최종 부팅</string>
+
     <string name="docking_t1">충전기에 들어가는 중입니다. 잠시만 뒤로 물러서 주세요.</string>
     <string name="undocking_t1">충전기에서 나오는 중입니다. 잠시만 뒤로 물러서 주세요.</string>
     <string name="emergency_t1">문제상황 발생으로 운영을 잠시 중단합니다.</string>
@@ -138,4 +140,7 @@
     <string name="alert_x4">네트워크 연결이 끊어졌습니다. \n잠시 후 다시 이용하시는 건 어떠세요?</string>
     <string name="alert_x5">서비스 점검 중</string>
     <string name="alert_x6">현재 서비스 점검 중으로 \n다른 서비스를 이용해 주세요.</string>
+
+    <string name="success">성공</string>
+    <string name="fail">실패</string>
 </resources>
