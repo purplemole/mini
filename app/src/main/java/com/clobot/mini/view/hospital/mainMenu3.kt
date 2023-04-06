@@ -2,6 +2,7 @@ package com.clobot.mini.view.hospital
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.util.Log
 import android.util.Size
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,6 +37,9 @@ import com.clobot.mini.view.common.Template0
 // 예약 고객 페이지
 @Composable
 fun ReservationCustomer(routeAction: RouteAction) {
+    LaunchedEffect(Unit) {
+        Log.i("Launched check", "ReservationCustomer Launched")
+    }
     Template0(
         routeAction = routeAction,
         needTopBar = true,
@@ -53,22 +57,6 @@ fun ReservationCustomerContent(routeAction: RouteAction) {
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(context)
     }
-    var hasCamPermission by remember {
-        mutableStateOf(
-            ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        )
-    }
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { granted ->
-            hasCamPermission = granted
-        })
-    LaunchedEffect(key1 = true) {
-        launcher.launch(Manifest.permission.CAMERA)
-    }
     Box(
         modifier = Modifier
             .background(Color.Yellow),
@@ -85,51 +73,51 @@ fun ReservationCustomerContent(routeAction: RouteAction) {
                     textAlign = TextAlign.Center
                 )
             )
-            if (hasCamPermission) {
-                AndroidView(
-                    factory = { context ->
-                        val previewView = PreviewView(context)
-                        val preview = Preview.Builder().build()
-                        val selector =
-                            CameraSelector.Builder()
-                                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                                .build()
-                        preview.setSurfaceProvider(previewView.surfaceProvider)
-                        val imageAnalysis = ImageAnalysis.Builder().setTargetResolution(
-                            Size(
-                                previewView.width,
-                                previewView.height
-                            )
-                        ).setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST).build()
-                        imageAnalysis.setAnalyzer(
-                            ContextCompat.getMainExecutor(context),
-                            QrCodeAnalyzer { result ->
-                                code = result
-                            }
+            
+            AndroidView(
+                factory = { context ->
+                    val previewView = PreviewView(context)
+                    val preview = Preview.Builder().build()
+                    val selector =
+                        CameraSelector.Builder()
+                            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                            .build()
+                    preview.setSurfaceProvider(previewView.surfaceProvider)
+                    val imageAnalysis = ImageAnalysis.Builder().setTargetResolution(
+                        Size(
+                            previewView.width,
+                            previewView.height
                         )
-                        try {
-                            cameraProviderFuture.get().bindToLifecycle(
-                                lifecycleOwner,
-                                selector,
-                                preview,
-                                imageAnalysis
-                            )
-                        } catch (e: Exception) {
-                            e.printStackTrace()
+                    ).setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST).build()
+                    imageAnalysis.setAnalyzer(
+                        ContextCompat.getMainExecutor(context),
+                        QrCodeAnalyzer { result ->
+                            code = result
                         }
-                        previewView
-                    },
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = code,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(32.dp)
-                )
-            }
+                    )
+                    try {
+                        cameraProviderFuture.get().bindToLifecycle(
+                            lifecycleOwner,
+                            selector,
+                            preview,
+                            imageAnalysis
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                    previewView
+                },
+                modifier = Modifier.weight(1f)
+            )
+            Text(
+                text = code,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(32.dp)
+            )
+
 
             Row(
                 horizontalArrangement = Arrangement.SpaceAround,

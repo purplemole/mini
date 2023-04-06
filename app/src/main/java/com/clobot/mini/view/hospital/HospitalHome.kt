@@ -1,5 +1,6 @@
 package com.clobot.mini.view.hospital
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -13,6 +14,7 @@ import com.clobot.mini.data.HospitalMenuDummyData
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIconType
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.clobot.mini.view.navigation.NavigationGraph
@@ -24,6 +26,14 @@ import com.clobot.mini.view.common.HospitalTopBar
 
 @Composable
 fun HospitalHome(routeAction: RouteAction) {
+    /**
+     * TODO : SEQUENCIAL 상황 동작 (TTS...) 추후에 아래 LaunchedEffect 에 추가 필요
+     * Composable launched tag name은 "Launched check"로 동일하게 (로그 보기 쉽게..)
+     */
+    LaunchedEffect(Unit) {
+        Log.i("Launched check", "Main Launched")
+    }
+
     Scaffold(
         topBar = { HospitalTopBar(routeAction, false) },
         bottomBar = {

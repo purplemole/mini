@@ -1,5 +1,6 @@
 package com.clobot.mini.model
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
@@ -18,6 +19,7 @@ class NavigationViewModel @Inject constructor() :
     }
 
     fun navTo(route: NavRoute) {
+        Log.i("navCheck", "navTo ${route.routeName} (${route.description})")
         navController.navigate(route.routeName)
     }
 

@@ -3,6 +3,7 @@ package com.clobot.mini
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.clobot.mini.util.network.NetworkChecker
 import com.clobot.mini.util.network.NetworkState
 import kotlinx.coroutines.flow.first
@@ -19,7 +20,8 @@ class NetworkCheckerTest {
 
     @Before
     fun setUp() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
+        // test 레벨에서 context 얻어오기
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
         networkChecker = NetworkChecker(context)
     }
 

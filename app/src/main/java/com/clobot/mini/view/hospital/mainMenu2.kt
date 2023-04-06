@@ -1,9 +1,11 @@
 package com.clobot.mini.view.hospital
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +22,9 @@ import com.clobot.mini.view.common.Template0
 // 당일 방문 고객 페이지
 @Composable
 fun ExistingCustomer(routeAction: RouteAction) {
+    LaunchedEffect(Unit) {
+        Log.i("Launched check", "ExistingCustomer Launched")
+    }
     Template0(
         routeAction = routeAction,
         needTopBar = true,
@@ -53,6 +58,9 @@ fun ExistingCustomerContent(routeAction: RouteAction) {
  */
 @Composable
 fun ExistingInformation(routeAction: RouteAction) {
+    LaunchedEffect(Unit) {
+        Log.i("Launched check", "ExistingInformation Launched")
+    }
     Template0(
         routeAction = routeAction,
         needTopBar = true,
