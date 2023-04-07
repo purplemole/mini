@@ -2,7 +2,7 @@ package com.clobot.mini
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.clobot.mini.repo.RobotRepository
-import com.clobot.mini.util.robot.DockingState
+import com.clobot.mini.data.robot.DockingState
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals

@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.clobot.mini.view.common.AdminView
 import com.clobot.mini.model.NavigationViewModel
 import com.clobot.mini.view.hospital.*
+import com.clobot.mini.view.move.Standby
 
 @Composable
 fun NavigationGraph() {
@@ -22,7 +23,7 @@ fun NavigationGraph() {
         composable(NavRoute.Main.routeName) { HospitalHome(routeAction) }
 
         // 신규 고객
-        composable(NavRoute.NewCustomer.routeName, content = { NewCustomer(routeAction) })
+        composable(NavRoute.NewCustomer.routeName) { NewCustomer(routeAction) }
         // 접수 방법 안내
         composable(NavRoute.NewInformation.routeName) { NewInformation(routeAction) }
 
@@ -32,20 +33,23 @@ fun NavigationGraph() {
         composable(NavRoute.ExistingInformation.routeName) { ExistingInformation(routeAction) }
 
         // 예약 고객
-        composable(NavRoute.ReservationCustomer.routeName) { ReservationCustomer(routeAction = routeAction) }
+        composable(NavRoute.ReservationCustomer.routeName) { ReservationCustomer(routeAction) }
         // 예약 확인
-        composable(NavRoute.QrRecognition.routeName) { QrRecognition(routeAction = routeAction) }
+        composable(NavRoute.QrRecognition.routeName) { QrRecognition(routeAction) }
 
         // 이용 안내
-        composable(NavRoute.SitesInformation.routeName) { SitesInformation(routeAction = routeAction) }
+        composable(NavRoute.SitesInformation.routeName) { SitesInformation(routeAction) }
         // 진료 시간
         composable(NavRoute.HospitalHours.routeName) { HospitalHours(routeAction) }
         // 예약 방법
         composable(NavRoute.ReservationMethod.routeName) { ReservationMethod(routeAction) }
         // 주차 안내
-        composable(NavRoute.Parking.routeName) { Parking(routeAction = routeAction) }
+        composable(NavRoute.Parking.routeName) { Parking(routeAction) }
 
         // 관리자 화면
-        composable(NavRoute.Admin.routeName) { AdminView(routeAction = routeAction) }
+        composable(NavRoute.Admin.routeName) { AdminView(routeAction) }
+
+        // 스탠바이
+        composable(NavRoute.Standby.routeName) { Standby(routeAction) }
     }
 }

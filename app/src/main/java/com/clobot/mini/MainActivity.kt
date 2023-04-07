@@ -18,8 +18,8 @@ import com.clobot.mini.model.MainViewModel
 import com.clobot.mini.model.RobotViewModel
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.util.network.NetworkOfflineDialog
-import com.clobot.mini.util.network.NetworkState
-import com.clobot.mini.util.robot.DockingState
+import com.clobot.mini.data.network.NetworkState
+import com.clobot.mini.data.robot.DockingState
 import com.clobot.mini.view.common.BootCheck
 import dagger.hilt.android.AndroidEntryPoint
 

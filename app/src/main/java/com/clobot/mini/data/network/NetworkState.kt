@@ -1,4 +1,4 @@
-package com.clobot.mini.util.network
+package com.clobot.mini.data.network
 
 /**
  * None 최초 상태

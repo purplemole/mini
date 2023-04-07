@@ -46,7 +46,7 @@ fun NewCustomer(routeAction: RouteAction) {
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose {
             lifecycleOwner.lifecycle.removeObserver(observer)
-            Log.i("lifecycle check", "onDispose")
+            Log.i("lifecycle check", "NewCustomer onDispose")
         }
     }
     // .. test code end

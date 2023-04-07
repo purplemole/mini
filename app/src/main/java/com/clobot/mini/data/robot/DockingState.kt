@@ -1,4 +1,4 @@
-package com.clobot.mini.util.robot
+package com.clobot.mini.data.robot
 
 sealed class DockingState {
     object None: DockingState()

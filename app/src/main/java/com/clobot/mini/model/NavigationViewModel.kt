@@ -24,12 +24,18 @@ class NavigationViewModel @Inject constructor() :
     }
 
     fun goBack() {
-        navController.navigateUp()
+        val curNode = navController.currentDestination?.navigatorName
+        if (curNode != "main")
+            navController.navigateUp()
     }
 
     fun goMain() {
         navController.navigate(NavRoute.Main.routeName) {
             popUpTo(NavRoute.Main.routeName)
         }
+    }
+
+    fun popToPos(pos : Int){
+        navController.popBackStack(navController.backQueue[pos].destination.id, false)
     }
 }

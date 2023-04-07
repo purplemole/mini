@@ -1,13 +1,6 @@
 package com.clobot.mini.view.common
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
-import android.os.Build
-import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,13 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import com.clobot.mini.R
 import com.clobot.mini.util.DeviceStorage
 //import com.clobot.mini.util.DeviceStorage2
 import com.clobot.mini.util.getCurTimeInfo
-import com.clobot.mini.util.network.NetworkState
-import com.clobot.mini.util.robot.DockingState
+import com.clobot.mini.data.network.NetworkState
+import com.clobot.mini.data.robot.DockingState
 import com.clobot.mini.view.common.ui.theme.testColor
 import com.clobot.mini.view.navigation.NavigationGraph
 

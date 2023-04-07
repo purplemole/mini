@@ -4,6 +4,7 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import com.clobot.mini.data.network.NetworkState
 
 @Composable
 fun NetworkOfflineDialog(

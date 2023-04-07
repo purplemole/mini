@@ -4,7 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import com.ainirobot.coreservice.client.RobotApi
 import com.clobot.mini.repo.RobotRepository
-import com.clobot.mini.util.robot.DockingState
+import com.clobot.mini.data.robot.DockingState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

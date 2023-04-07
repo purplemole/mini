@@ -1,11 +1,9 @@
 package com.clobot.mini
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.clobot.mini.util.network.NetworkChecker
-import com.clobot.mini.util.network.NetworkState
+import com.clobot.mini.data.network.NetworkState
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
