@@ -15,15 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.clobot.mini.model.MainViewModel
+import com.clobot.mini.model.RobotViewModel
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.util.network.NetworkOfflineDialog
 import com.clobot.mini.util.network.NetworkState
+import com.clobot.mini.util.robot.DockingState
 import com.clobot.mini.view.common.BootCheck
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
+    private val viewRModel by viewModels<RobotViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -43,6 +47,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             //val navController = rememberNavController()
+            val dockingState by viewRModel.dockingState.collectAsState(initial = DockingState.None)
             val networkState by viewModel.networkState.collectAsState(initial = NetworkState.None)
             MiniTheme {
                 NetworkOfflineDialog(networkState = networkState) {
@@ -54,7 +59,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     //NavigationGraph()
-                    BootCheck(networkState)
+                    BootCheck(dockingState, networkState)
                 }
             }
         }

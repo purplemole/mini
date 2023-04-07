@@ -25,12 +25,16 @@ import com.clobot.mini.util.DeviceStorage
 //import com.clobot.mini.util.DeviceStorage2
 import com.clobot.mini.util.getCurTimeInfo
 import com.clobot.mini.util.network.NetworkState
+import com.clobot.mini.util.robot.DockingState
 import com.clobot.mini.view.common.ui.theme.testColor
 import com.clobot.mini.view.navigation.NavigationGraph
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun BootCheck(networkState: NetworkState) {
+fun BootCheck(
+    dockingState: DockingState,
+    networkState: NetworkState
+) {
     val shouldShowNavigationGraph = remember { mutableStateOf(false) }
 
     val context = LocalContext.current
@@ -45,6 +49,23 @@ fun BootCheck(networkState: NetworkState) {
                 .clickable {
                     shouldShowNavigationGraph.value = true
                 })
+        // Docking Station
+        Row(
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            Text(
+                stringResource(R.string.book_check_x1),
+                modifier = Modifier.background(Color(0xFFE0C2F8))
+            )
+            val dockStateStr = if (dockingState == DockingState.Connected)
+                stringResource(id = R.string.success)
+            else stringResource(id = R.string.fail)
+            Text(text = dockStateStr, modifier = Modifier.background(Color(0xFFE0C2F8)))
+            Text(text = getCurTimeInfo(4))
+        }
         // Network
         Row(
             modifier = Modifier
