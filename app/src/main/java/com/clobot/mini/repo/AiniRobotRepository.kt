@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 
 class AiniRobotRepository @Inject constructor() : RobotRepository {
-    override fun getVersion() {
-        val version = RobotApi.getInstance().version
+    override fun getVersion(): String {
+        return RobotApi.getInstance().version
     }
 }
