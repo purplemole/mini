@@ -4,17 +4,14 @@ import android.os.Handler
 import android.os.Looper
 import com.ainirobot.coreservice.client.RobotApi
 import com.clobot.mini.repo.RobotRepository
-import com.clobot.mini.data.robot.DockingState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class AiniRobotRepository @Inject constructor() : RobotRepository {
-//    val isApiConnectedService = RobotApi.getInstance().isApiConnectedService
-//    val isActive = RobotApi.getInstance().isActive
-//    val test = RobotApi.getInstance().chargeStatus
-    private val _dockingState = MutableStateFlow<DockingState>(DockingState.None)
-    override val dockingState: StateFlow<DockingState> = _dockingState
+//    val chargeStatus = RobotApi.getInstance().chargeStatus
+    private val _dockingState = MutableStateFlow(false)
+    override val dockingState: StateFlow<Boolean> = _dockingState
 
     private var checkTimes: Int = 0
 
@@ -22,7 +19,7 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         checkTimes++
         return if (checkTimes > 10) {
             // Temporary code
-            _dockingState.value = DockingState.Connected
+            _dockingState.value = true
             false
         } else if (RobotApi.getInstance().isApiConnectedService
             && RobotApi.getInstance().isActive
@@ -34,11 +31,7 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
     }
 
     override fun checkDockingStation() {
-        if (RobotApi.getInstance().isChargePileExits) {
-            _dockingState.value = DockingState.Connected
-        } else {
-            _dockingState.value = DockingState.NotConnected
-        }
+        _dockingState.value = RobotApi.getInstance().isChargePileExits
     }
 
     override fun getVersion(): String {

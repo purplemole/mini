@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
-    private val viewRModel by viewModels<RobotViewModel>()
+    private val robotViewModel: RobotViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             //val navController = rememberNavController()
-            val dockingState by viewRModel.dockingState.collectAsState(initial = DockingState.None)
+            val dockingState by robotViewModel.dockingState.collectAsState(initial = false)
             val networkState by viewModel.networkState.collectAsState(initial = NetworkState.None)
             MiniTheme {
                 NetworkOfflineDialog(networkState = networkState) {

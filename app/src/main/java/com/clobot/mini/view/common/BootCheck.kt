@@ -24,7 +24,7 @@ import com.clobot.mini.view.navigation.NavigationGraph
 @SuppressLint("SimpleDateFormat")
 @Composable
 fun BootCheck(
-    dockingState: DockingState,
+    dockingState: Boolean,
     networkState: NetworkState
 ) {
     val shouldShowNavigationGraph = remember { mutableStateOf(false) }
@@ -52,7 +52,7 @@ fun BootCheck(
                 stringResource(R.string.book_check_x1),
                 modifier = Modifier.background(Color(0xFFE0C2F8))
             )
-            val dockStateStr = if (dockingState == DockingState.Connected)
+            val dockStateStr = if (dockingState)
                 stringResource(id = R.string.success)
             else stringResource(id = R.string.fail)
             Text(text = dockStateStr, modifier = Modifier.background(Color(0xFFE0C2F8)))

@@ -22,8 +22,8 @@ class RobotViewModel @Inject constructor(
 ) : ViewModel() {
     private val tag = "RobotViewModel"
 
-    private val _dockingState = MutableSharedFlow<DockingState>(replay = 1)
-    val dockingState: SharedFlow<DockingState> = _dockingState
+    private val _dockingState = MutableSharedFlow<Boolean>(replay = 1)
+    val dockingState: SharedFlow<Boolean> = _dockingState
 
     private val robotVersion = repo.getVersion()
 
