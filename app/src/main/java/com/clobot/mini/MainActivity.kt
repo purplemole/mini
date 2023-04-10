@@ -19,7 +19,6 @@ import com.clobot.mini.model.RobotViewModel
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.util.network.NetworkOfflineDialog
 import com.clobot.mini.data.network.NetworkState
-import com.clobot.mini.data.robot.DockingState
 import com.clobot.mini.view.common.BootCheck
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -66,7 +65,6 @@ class MainActivity : ComponentActivity() {
 
     }
 }
-
 //@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 410)
 //@Composable
 //fun DefaultPreview() {
