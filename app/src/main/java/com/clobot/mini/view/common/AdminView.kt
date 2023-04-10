@@ -27,12 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clobot.mini.view.navigation.RouteAction
 import com.clobot.mini.view.common.ui.theme.MiniTheme
+import com.clobot.mini.view.navigation.LocalRouteAction
 import java.util.*
 
 @Composable
-fun AdminView(routeAction: RouteAction) {
+fun AdminView() {
+    val routeAction = LocalRouteAction.current
     Template0(
-        routeAction = routeAction,
         needTopBar = false,
         templateBody = { AdminContent(routeAction = routeAction) }
     )

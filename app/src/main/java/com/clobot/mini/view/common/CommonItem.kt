@@ -6,10 +6,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Card
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,13 +25,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.clobot.mini.data.HospitalMenu
+import com.clobot.mini.util.ContinuousClickHelper
+import com.clobot.mini.view.common.ui.theme.MiniTheme
+import com.clobot.mini.view.hospital.HospitalBarIcon
+import com.clobot.mini.view.navigation.LocalRouteAction
 import com.clobot.mini.view.navigation.NavRoute
 import com.clobot.mini.view.navigation.RouteAction
-import com.clobot.mini.view.common.ui.theme.MiniTheme
-import com.clobot.mini.util.ContinuousClickHelper
-import com.clobot.mini.view.hospital.HospitalBarIcon
 import com.guru.fontawesomecomposelib.FaIcons
+import com.skydoves.landscapist.ShimmerParams
+import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.glide.GlideImage
+
 
 /**
  * 하단 자막 영역
@@ -117,7 +118,8 @@ fun ImgMenuBtn(menu: HospitalMenu, routeAction: RouteAction) {
  */
 @SuppressLint("InvalidColorHexValue") // 투명 색 - 임시
 @Composable
-fun HospitalTopBar(routeAction: RouteAction, canNavigate: Boolean = true) {
+fun HospitalTopBar(canNavigate: Boolean = true) {
+    val routeAction = LocalRouteAction.current
     TopAppBar(
         title = {
 //            Text(
@@ -126,7 +128,7 @@ fun HospitalTopBar(routeAction: RouteAction, canNavigate: Boolean = true) {
 //                style = TextStyle(textAlign = TextAlign.Center)
 //            )
             Row(modifier = Modifier.fillMaxWidth()) {
-                TopAppBarTitle(routeAction)
+                TopAppBarTitle()
             }
 
         },
@@ -139,7 +141,7 @@ fun HospitalTopBar(routeAction: RouteAction, canNavigate: Boolean = true) {
                     .clip(CircleShape)
                     .background(Color.Yellow)
                     .clickable {
-                        if (canNavigate)
+                        if (canNavigate && routeAction.getCurPage() != "main")
                             routeAction.goMain()
                     },
                 FaIcons.Home,
@@ -151,7 +153,8 @@ fun HospitalTopBar(routeAction: RouteAction, canNavigate: Boolean = true) {
                     .clip(CircleShape)
                     .background(Color(0xFFC5E7E7))
                     .clickable {
-                        routeAction.goBack()
+                        if (routeAction.getCurPage() != "main")
+                            routeAction.goBack()
                     }, FaIcons.ArrowLeft
             )
         }
@@ -165,10 +168,10 @@ fun HospitalTopBar(routeAction: RouteAction, canNavigate: Boolean = true) {
  */
 @Composable
 fun GlideImgView(
-    routeAction: RouteAction,
     nextRoute: NavRoute,
     imgModel: String
 ) {
+    val routeAction = LocalRouteAction.current
     GlideImage(
         imageModel = imgModel,
         modifier = Modifier
@@ -189,6 +192,48 @@ fun GlideImgView(
     )
 }
 
+@Composable
+fun CoilImgView(
+    nextRoute: NavRoute,
+    imgModel: String
+) {
+    val routeAction = LocalRouteAction.current
+    CoilImage(
+        imageModel = imgModel,
+        shimmerParams = ShimmerParams(
+            baseColor = MaterialTheme.colors.background,
+            highlightColor = Color.LightGray,
+            durationMillis = 350,
+            dropOff = 0.65f,
+            tilt = 20f
+        ),
+        modifier = Modifier
+            .padding(start = 8.dp, end = 8.dp, top = 8.dp)
+            .height(250.dp)
+            .width(250.dp)
+            .clip(CircleShape)
+            .border(
+                shape = CircleShape,
+                border = BorderStroke(
+                    width = 3.dp,
+                    color = Color.LightGray
+                )
+            )
+            .clickable {
+                routeAction.navTo(nextRoute)
+            },
+        failure = {
+            Text(
+                "image request failed",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center),
+                textAlign = TextAlign.Center
+            )
+        },
+    )
+}
+
 /**
  * TODO button design
  *
@@ -202,7 +247,8 @@ fun OutlineTextBtn(onClick: () -> Unit, btnText: String) {
 }
 
 @Composable
-fun TopAppBarTitle(routeAction: RouteAction) {
+fun TopAppBarTitle() {
+    val routeAction = LocalRouteAction.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -241,7 +287,7 @@ fun CommonItemPreview(
 ) {
     MiniTheme {
         Column {
-            TopAppBarTitle(routeAction)
+            TopAppBarTitle()
         }
     }
 }
@@ -251,7 +297,7 @@ class AdminRouteActionProvider : PreviewParameterProvider<RouteAction> {
         get() = TODO("Not yet implemented")
 }
 
-inline fun Modifier.noRippleClickable(crossinline onClick: ()->Unit): Modifier = composed {
+inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit): Modifier = composed {
     clickable(indication = null,
         interactionSource = remember { MutableInteractionSource() }) {
         onClick()

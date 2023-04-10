@@ -14,14 +14,13 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.clobot.mini.view.common.CoilImgView
 import com.clobot.mini.view.navigation.NavRoute
-import com.clobot.mini.view.navigation.RouteAction
-import com.clobot.mini.view.common.GlideImgView
 import com.clobot.mini.view.common.Template0
 
 // 신규 고객 페이지
 @Composable
-fun NewCustomer(routeAction: RouteAction) {
+fun NewCustomer() {
     // 23.04.06 tk test code ..
     val lifecycleOwner = LocalLifecycleOwner.current
     val textState = remember { mutableStateOf("") }
@@ -56,19 +55,16 @@ fun NewCustomer(routeAction: RouteAction) {
     }
 
     Template0(
-        routeAction = routeAction,
         needTopBar = true,
-        templateBody = { NewCustomerContent(routeAction = routeAction) })
+        templateBody = { NewCustomerContent() })
 }
 
 // 신규 고객 페이지 컨텐츠
 @Composable
-fun NewCustomerContent(routeAction: RouteAction) {
-
+fun NewCustomerContent() {
     val customerImg =
         "https://post-phinf.pstatic.net/MjAyMTAxMTFfMzUg/MDAxNjEwMzQ2NDM3MjU0.tzHNY9U11yeRQdbqR3WruRdGUdeYNb9eOmdq9gO7mTMg.tJvrPzH8ZNBAh5qlGmthoiP9uBpI5PPIOGB0YrQ4Nccg.PNG/4.png?type=w1200"
-    GlideImgView(
-        routeAction = routeAction,
+    CoilImgView(
         nextRoute = NavRoute.NewInformation,
         imgModel = customerImg
     )
@@ -76,12 +72,11 @@ fun NewCustomerContent(routeAction: RouteAction) {
 
 // 접수 방법 안내 페이지
 @Composable
-fun NewInformation(routeAction: RouteAction) {
+fun NewInformation() {
     LaunchedEffect(Unit) {
         Log.i("Launched check", "NewInformation Launched")
     }
     Template0(
-        routeAction = routeAction,
         needTopBar = true,
         caption = "안내데스크에 있는 접수증에 이름, 주민등록번호, 전화번호, 주소를 작성 후 담당자에게 전달해 주세요.",
         modifier = Modifier
@@ -94,7 +89,7 @@ fun NewInformation(routeAction: RouteAction) {
                 verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                NewInformationContent(routeAction)
+                NewInformationContent()
             }
         }
     }
@@ -102,10 +97,9 @@ fun NewInformation(routeAction: RouteAction) {
 
 // 접수 방법 안내 페이지 컨텐츠
 @Composable
-fun NewInformationContent(routeAction: RouteAction) {
+fun NewInformationContent() {
     val newInfoImg = "https://cdn.maily.so/7o7grtuc8937i1sd30x6ezf68b4g"
-    GlideImgView(
-        routeAction = routeAction,
+    CoilImgView(
         nextRoute = NavRoute.Standby,
         imgModel = newInfoImg
     )

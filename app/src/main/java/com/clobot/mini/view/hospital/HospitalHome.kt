@@ -23,9 +23,10 @@ import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.common.BottomTTSCaption
 import com.clobot.mini.view.common.ImgMenuBtn
 import com.clobot.mini.view.common.HospitalTopBar
+import com.clobot.mini.view.navigation.LocalRouteAction
 
 @Composable
-fun HospitalHome(routeAction: RouteAction) {
+fun HospitalHome() {
     /**
      * TODO : SEQUENCIAL 상황 동작 (TTS...) 추후에 아래 LaunchedEffect 에 추가 필요
      * Composable launched tag name은 "Launched check"로 동일하게 (로그 보기 쉽게..)
@@ -35,19 +36,20 @@ fun HospitalHome(routeAction: RouteAction) {
     }
 
     Scaffold(
-        topBar = { HospitalTopBar(routeAction, false) },
+        topBar = { HospitalTopBar(false) },
         bottomBar = {
             BottomTTSCaption("test")
         },
         content = {
-            HomeContent(routeAction = routeAction)
+            HomeContent()
         },
         modifier = Modifier.padding(bottom = 15.dp)
     )
 }
 
 @Composable
-fun HomeContent(routeAction: RouteAction) {
+fun HomeContent() {
+    val routeAction = LocalRouteAction.current
     Box(
         modifier = Modifier
             .fillMaxSize()

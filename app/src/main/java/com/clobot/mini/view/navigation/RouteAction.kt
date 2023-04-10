@@ -18,4 +18,8 @@ class RouteAction(private val viewModel: NavigationViewModel) {
     fun goMain() {
         viewModel.goMain()
     }
+
+    fun getCurPage(): String? {
+        return viewModel.getCurPageInfo()
+    }
 }

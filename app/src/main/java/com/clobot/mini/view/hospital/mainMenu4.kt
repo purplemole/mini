@@ -11,13 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.data.HospitalMenuDummyData
-import com.clobot.mini.view.navigation.RouteAction
 import com.clobot.mini.view.common.ImgMenuBtn
 import com.clobot.mini.view.common.Template0
+import com.clobot.mini.view.navigation.LocalRouteAction
 
 @Composable
-fun SitesInformation(routeAction: RouteAction) {
-    Template0(routeAction = routeAction, needTopBar = true, templateBody = {
+fun SitesInformation() {
+    val routeAction = LocalRouteAction.current
+    Template0(needTopBar = true, templateBody = {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -44,8 +45,8 @@ fun SitesInformation(routeAction: RouteAction) {
 }
 
 @Composable
-fun HospitalHours(routeAction: RouteAction) {
-    Template0(routeAction = routeAction, needTopBar = true, templateBody = {
+fun HospitalHours() {
+    Template0(needTopBar = true, templateBody = {
         Column(modifier = Modifier.fillMaxSize()) {
             Text(text = "진료 시간 - 수정 필요")
         }
@@ -53,8 +54,8 @@ fun HospitalHours(routeAction: RouteAction) {
 }
 
 @Composable
-fun ReservationMethod(routeAction: RouteAction) {
-    Template0(routeAction = routeAction, needTopBar = true, templateBody = {
+fun ReservationMethod() {
+    Template0(needTopBar = true, templateBody = {
         Box(
             modifier = Modifier
                 .fillMaxHeight()
@@ -64,8 +65,8 @@ fun ReservationMethod(routeAction: RouteAction) {
 }
 
 @Composable
-fun Parking(routeAction: RouteAction) {
-    Template0(routeAction = routeAction, needTopBar = true, templateBody = {
+fun Parking() {
+    Template0(needTopBar = true, templateBody = {
         Box(
             modifier = Modifier
                 .fillMaxHeight()

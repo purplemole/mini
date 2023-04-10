@@ -19,13 +19,13 @@ class NavigationViewModel @Inject constructor() :
     }
 
     fun navTo(route: NavRoute) {
-        Log.i("navCheck", "navTo ${route.routeName} (${route.description})")
+        //Log.i("navCheck", "navTo ${route.routeName} (${route.description})")
         navController.navigate(route.routeName)
     }
 
     fun goBack() {
-        val curNode = navController.currentDestination?.navigatorName
-        if (curNode != "main")
+        val curNode = navController.backQueue.last().destination.route
+        if (curNode != "main" || getCurPageInfo() != "main")
             navController.navigateUp()
     }
 
@@ -35,7 +35,11 @@ class NavigationViewModel @Inject constructor() :
         }
     }
 
-    fun popToPos(pos : Int){
+    fun popToPos(pos: Int) {
         navController.popBackStack(navController.backQueue[pos].destination.id, false)
+    }
+
+    fun getCurPageInfo(): String? {
+        return navController.currentDestination?.route
     }
 }

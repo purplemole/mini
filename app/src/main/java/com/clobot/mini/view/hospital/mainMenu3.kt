@@ -1,11 +1,7 @@
 package com.clobot.mini.view.hospital
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.util.Log
 import android.util.Size
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
@@ -29,26 +25,26 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.clobot.mini.view.navigation.NavRoute
-import com.clobot.mini.view.navigation.RouteAction
 import com.clobot.mini.util.QrCodeAnalyzer
 import com.clobot.mini.view.common.OutlineTextBtn
 import com.clobot.mini.view.common.Template0
+import com.clobot.mini.view.navigation.LocalRouteAction
 
 // 예약 고객 페이지
 @Composable
-fun ReservationCustomer(routeAction: RouteAction) {
+fun ReservationCustomer() {
     LaunchedEffect(Unit) {
         Log.i("Launched check", "ReservationCustomer Launched")
     }
     Template0(
-        routeAction = routeAction,
         needTopBar = true,
-        templateBody = { ReservationCustomerContent(routeAction) })
+        templateBody = { ReservationCustomerContent() })
 }
 
 // 예약 고객 페이지에 띄울 내용
 @Composable
-fun ReservationCustomerContent(routeAction: RouteAction) {
+fun ReservationCustomerContent() {
+    val routeAction = LocalRouteAction.current
     var code by remember {
         mutableStateOf("")
     }
@@ -73,7 +69,6 @@ fun ReservationCustomerContent(routeAction: RouteAction) {
                     textAlign = TextAlign.Center
                 )
             )
-            
             AndroidView(
                 factory = { context ->
                     val previewView = PreviewView(context)
@@ -117,8 +112,6 @@ fun ReservationCustomerContent(routeAction: RouteAction) {
                     .fillMaxWidth()
                     .padding(32.dp)
             )
-
-
             Row(
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
@@ -130,14 +123,20 @@ fun ReservationCustomerContent(routeAction: RouteAction) {
         }
 
     }
+
+    DisposableEffect(Unit){
+        onDispose {
+            cameraProviderFuture.get().unbindAll()
+            Log.i("reservation-customer", "cameraProviderFuture is Done : ${cameraProviderFuture.isDone}")
+        }
+    }
 }
 
 // 3depth
 // 예약 확인 페이지
 @Composable
-fun QrRecognition(routeAction: RouteAction) {
+fun QrRecognition() {
     Template0(
-        routeAction = routeAction,
         needTopBar = true,
         templateBody = {}
     )

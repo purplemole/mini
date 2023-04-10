@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import com.clobot.mini.view.navigation.LocalRouteAction
 import com.clobot.mini.view.navigation.NavRoute
 import com.clobot.mini.view.navigation.RouteAction
 
@@ -23,7 +24,6 @@ import com.clobot.mini.view.navigation.RouteAction
 @Composable
 fun Template0(
     modifier: Modifier = Modifier,
-    routeAction: RouteAction,
     caption: String = "",
     needTopBar: Boolean,
     templateBody: @Composable () -> Unit,
@@ -31,7 +31,7 @@ fun Template0(
     Scaffold(
         topBar = {
             if (needTopBar)
-                HospitalTopBar(routeAction)
+                HospitalTopBar()
         },
         bottomBar = {
             if (caption.isNotBlank())
@@ -56,7 +56,6 @@ fun Template0(
 @Composable
 fun Template1(
     modifier: Modifier = Modifier,
-    routeAction: RouteAction,
     nextRoute: NavRoute,
     caption: String = "",
     imgContent: String = "https://cdn.maily.so/7o7grtuc8937i1sd30x6ezf68b4g",
@@ -66,7 +65,7 @@ fun Template1(
     Scaffold(
         topBar = {
             if (needTopBar)
-                HospitalTopBar(routeAction)
+                HospitalTopBar()
         },
         bottomBar = {
             if (caption.isNotBlank())
@@ -84,7 +83,6 @@ fun Template1(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 GlideImgView(
-                    routeAction = routeAction,
                     nextRoute = nextRoute,
                     imgModel = imgContent
                 )
@@ -107,7 +105,6 @@ fun Template1(
 @Composable
 fun Template2(
     modifier: Modifier = Modifier,
-    routeAction: RouteAction,
     textContent: String = "Template2번",
     customTextStyle: TextStyle,
     needTopBar: Boolean,
@@ -116,7 +113,7 @@ fun Template2(
     Scaffold(
         topBar = {
             if (needTopBar)
-                HospitalTopBar(routeAction)
+                HospitalTopBar()
         },
         bottomBar = {
             if (caption.isNotBlank())

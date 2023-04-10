@@ -5,11 +5,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.clobot.mini.view.common.Template0
+import com.clobot.mini.view.navigation.LocalRouteAction
 import com.clobot.mini.view.navigation.RouteAction
 import kotlinx.coroutines.delay
 
 @Composable
-fun Standby(routeAction: RouteAction) {
+fun Standby() {
+    val routeAction = LocalRouteAction.current
 
     LaunchedEffect(Unit){
         Log.i("Launched check", "Standby Launched")
@@ -17,7 +19,7 @@ fun Standby(routeAction: RouteAction) {
         routeAction.goMain()
     }
 
-    Template0(routeAction = routeAction, needTopBar = false, templateBody = {
+    Template0(needTopBar = false, templateBody = {
         Text("Standby 페이지")
     })
 }

@@ -14,26 +14,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.clobot.mini.view.common.CoilImgView
 import com.clobot.mini.view.navigation.NavRoute
-import com.clobot.mini.view.navigation.RouteAction
-import com.clobot.mini.view.common.GlideImgView
 import com.clobot.mini.view.common.Template0
 
 // 당일 방문 고객 페이지
 @Composable
-fun ExistingCustomer(routeAction: RouteAction) {
+fun ExistingCustomer() {
     LaunchedEffect(Unit) {
         Log.i("Launched check", "ExistingCustomer Launched")
     }
     Template0(
-        routeAction = routeAction,
         needTopBar = true,
-        templateBody = { ExistingCustomerContent(routeAction) })
+        templateBody = { ExistingCustomerContent() })
 }
 
 // 당일 방문 고객 페이지 컨텐츠
 @Composable
-fun ExistingCustomerContent(routeAction: RouteAction) {
+fun ExistingCustomerContent() {
     val existingCustomerImg = "https://cdn.maily.so/7o7grtuc8937i1sd30x6ezf68b4g"
     val contentText = "재 방문을 환영합니다.\n제가 접수 장소까지 안내해 드리겠습니다."
     Column(
@@ -41,8 +39,7 @@ fun ExistingCustomerContent(routeAction: RouteAction) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        GlideImgView(
-            routeAction = routeAction,
+        CoilImgView(
             nextRoute = NavRoute.ExistingInformation,
             imgModel = existingCustomerImg
         )
@@ -54,15 +51,13 @@ fun ExistingCustomerContent(routeAction: RouteAction) {
 /**
  * TODO routeAction 을 통해 다음 페이지 이동 시키기(STANDBY, 자동으로)
  *
- * @param routeAction
  */
 @Composable
-fun ExistingInformation(routeAction: RouteAction) {
+fun ExistingInformation() {
     LaunchedEffect(Unit) {
         Log.i("Launched check", "ExistingInformation Launched")
     }
     Template0(
-        routeAction = routeAction,
         needTopBar = true,
         templateBody = { ExistingInformationContent() }
     )
