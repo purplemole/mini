@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -30,6 +31,9 @@ import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.navigation.LocalRouteAction
 import java.util.*
 import com.clobot.mini.R
+import com.clobot.mini.data.admin.AdminCustomBow
+import com.clobot.mini.data.admin.AdminLeftItem
+import com.clobot.mini.data.admin.DataPair
 
 @Composable
 fun AdminView() {
@@ -40,9 +44,19 @@ fun AdminView() {
     )
 }
 
+/**
+ * TODO 볼륨 설정 변경 / 로봇 상태 값 / 저장 버튼 onClick 동작 / DataStore 작업 / 뷰 반복 수정 / 배터리 사용
+ *
+ * @param routeAction : 병원 별로 사용 중인 navRouteAction
+ */
 @Composable
 fun AdminContent(routeAction: RouteAction) {
-    //val context = LocalContext.current
+//    // DataStore - preferences 사용을 위한 context
+//    val context = LocalContext.current
+//    // scope 설정
+//    val scope = rememberCoroutineScope()
+//    // Datastore
+//    val dataStore = StoreAdminSetting(context)
 
     Column() {
         // 상단 영역
@@ -64,68 +78,14 @@ fun AdminContent(routeAction: RouteAction) {
         // 주 영역
         Row() {
             // 좌측 Column
-            LazyColumn(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(5.dp),
-            ) {
-                item {
-                    CustomBox(
-                        titleText = stringResource(id = R.string.admin_x2),
-                        contents = listOf(
-                            DataPair(
-                                subText = stringResource(id = R.string.admin_x3),
-                                cosUnit = @Composable {
-                                    CustomTextField(
-                                        text = stringResource(id = R.string.admin_x4),
-                                        enabled = true
-                                    )
-                                }
-                            )
-                        )
-                    )
-                    CustomBox(
-                        titleText = stringResource(id = R.string.admin_x5),
-                        contents = listOf(
-                            DataPair(
-                                subText = stringResource(id = R.string.admin_x6),
-                                cosUnit = @Composable {
-                                    CustomVolumeButton()
-                                }
-                            ),
-                            DataPair(
-                                subText = stringResource(id = R.string.admin_x7),
-                                cosUnit = @Composable {
-                                    CustomTextField(
-                                        text = "충전 중",
-                                        enabled = false
-                                    )
-                                }
-                            ),
-                            DataPair(
-                                subText = stringResource(id = R.string.admin_x9),
-                                cosUnit = @Composable {
-                                    CustomButton()
-                                }
-                            )
-                        )
-                    )
-                    CustomBox(
-                        titleText = "상태 정보",
-                        contents = listOf(
-                            DataPair(
-                                subText = "배터리",
-                                cosUnit = @Composable {
-                                    CustomTextField(
-                                        text = "000 %, 00시간 00분 사용 가능",
-                                        enabled = false
-                                    )
-                                }
-                            )
-                        )
-                    )
-                }
-            }
+            val leftModifier = Modifier
+                .weight(1f)
+                .padding(5.dp)
+            AdminLeftListView(
+                lefItems = AdminLeftItem.leftItemList,
+                modifier = leftModifier
+            )
+
             // 점선
             Canvas(
                 modifier = Modifier
@@ -146,10 +106,10 @@ fun AdminContent(routeAction: RouteAction) {
             ) {
                 item {
                     CustomBox(
-                        titleText = stringResource(id = R.string.admin_x14),
+                        titleText = R.string.admin_x14,
                         contents = listOf(
                             DataPair(
-                                subText = stringResource(id = R.string.admin_x15),
+                                subText = R.string.admin_x15,
                                 cosUnit = @Composable {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
@@ -163,7 +123,7 @@ fun AdminContent(routeAction: RouteAction) {
                                 },
                             ),
                             DataPair(
-                                subText = stringResource(id = R.string.admin_x16),
+                                subText = R.string.admin_x16,
                                 cosUnit = @Composable {
                                     CustomTimePicker()
                                 }
@@ -171,46 +131,46 @@ fun AdminContent(routeAction: RouteAction) {
                         ),
                     )
                     CustomBox(
-                        titleText = "로봇 운영 시간",
+                        titleText = R.string.admin_x17,
                         contents = listOf(
                             DataPair(
-                                subText = stringResource(id = R.string.admin_x20),
+                                subText = R.string.admin_x20,
                                 cosUnit = @Composable {
                                     CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = stringResource(id = R.string.admin_x21),
+                                subText = R.string.admin_x21,
                                 cosUnit = @Composable {
                                     CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = stringResource(id = R.string.admin_x22),
+                                subText = R.string.admin_x22,
                                 cosUnit = @Composable {
                                     CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = stringResource(id = R.string.admin_x23),
+                                subText = R.string.admin_x23,
                                 cosUnit = @Composable {
                                     CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = stringResource(id = R.string.admin_x24),
+                                subText = R.string.admin_x24,
                                 cosUnit = @Composable {
                                     CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = stringResource(id = R.string.admin_x25),
+                                subText = R.string.admin_x25,
                                 cosUnit = @Composable {
                                     CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = stringResource(id = R.string.admin_x26),
+                                subText = R.string.admin_x26,
                                 cosUnit = @Composable {
                                     CustomTimePicker()
                                 }
@@ -223,12 +183,24 @@ fun AdminContent(routeAction: RouteAction) {
     }
 }
 
+@Composable
+fun AdminLeftListView(lefItems: List<AdminCustomBow>, modifier: Modifier) {
+    LazyColumn(
+        modifier = modifier
+    ) {
+        items(lefItems) {
+            CustomBox(it.titleText, it.content)
+        }
+    }
+}
+
+// data\admin 으로 이동
 // 소단원
-data class DataPair(val subText: String, val cosUnit: @Composable () -> Unit)
+//data class DataPair(val subText: String, val cosUnit: @Composable () -> Unit)
 
 @Composable
 fun CustomBox(
-    titleText: String,
+    titleText: Int,
     contents: List<DataPair>,
 ) {
     Column(
@@ -236,7 +208,7 @@ fun CustomBox(
             .padding(5.dp),
     ) {
         Text(
-            text = "● $titleText",
+            text = "● ${stringResource(titleText)}",
             fontWeight = Bold
         )
         contents.forEach {
@@ -247,7 +219,7 @@ fun CustomBox(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = it.subText,
+                    text = stringResource(id = it.subText),
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
                 it.cosUnit()
@@ -260,11 +232,12 @@ fun CustomBox(
 @Composable
 fun CustomTextField(
     modifier: Modifier = Modifier,
-    text: String,
+    text: Int,
     enabled: Boolean
 ) {
     TextField(
-        value = text,
+        modifier = modifier,
+        value = stringResource(text),
         onValueChange = {},
         enabled = enabled,
         readOnly = true
@@ -337,9 +310,9 @@ fun CustomButton() {
         "5분",
         "10분",
     )
-    var selectedOption by remember { mutableStateOf("3분") }
+    val selectedOption = remember { mutableStateOf("3분") }
     val onSelectionChange = { text: String ->
-        selectedOption = text
+        selectedOption.value = text
     }
     Row(
         modifier = Modifier
@@ -355,7 +328,7 @@ fun CustomButton() {
                         onSelectionChange(it)
                     }
                     .background(
-                        if (it == selectedOption) {
+                        if (it == selectedOption.value) {
                             Color(0xFFF7BA7A)
                         } else {
                             Color.White
@@ -401,17 +374,15 @@ fun CustomTimePicker(
 
 @Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 410)
 @Composable
-fun AdminPreview(
-    @PreviewParameter(AdminProvider::class) routeAction: RouteAction
-) {
+fun AdminPreview() {
     MiniTheme {
         Column {
-            CustomTextField(text = "야탑 치과_001", enabled = true)
+            CustomTextField(text = R.string.admin_x4, enabled = true)
         }
     }
 }
 
-class AdminProvider : PreviewParameterProvider<RouteAction> {
-    override val values: Sequence<RouteAction>
-        get() = TODO("Not yet implemented")
-}
+//class AdminProvider : PreviewParameterProvider<RouteAction> {
+//    override val values: Sequence<RouteAction>
+//        get() = TODO("Not yet implemented")
+//}
