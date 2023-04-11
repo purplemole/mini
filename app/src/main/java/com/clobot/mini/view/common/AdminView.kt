@@ -31,9 +31,7 @@ import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.navigation.LocalRouteAction
 import java.util.*
 import com.clobot.mini.R
-import com.clobot.mini.data.admin.AdminCustomBow
-import com.clobot.mini.data.admin.AdminLeftItem
-import com.clobot.mini.data.admin.DataPair
+import com.clobot.mini.data.admin.*
 
 @Composable
 fun AdminView() {
@@ -77,19 +75,21 @@ fun AdminContent(routeAction: RouteAction) {
         }
         // 주 영역
         Row() {
-            // 좌측 Column
-            val leftModifier = Modifier
+            val columnModifier = Modifier
                 .weight(1f)
                 .padding(5.dp)
-            AdminLeftListView(
-                lefItems = AdminLeftItem.leftItemList,
-                modifier = leftModifier
-            )
+            // 좌측 Column
+            LazyColumn(
+                modifier = columnModifier
+            ) {
+                items(AdminColumnItem.leftItemList) {
+                    CustomBox(it.titleText, it.content)
+                }
+            }
 
             // 점선
             Canvas(
-                modifier = Modifier
-                    .fillMaxHeight()
+                modifier = Modifier.fillMaxHeight()
             ) {
                 drawLine(
                     color = Color.Red,
@@ -98,98 +98,15 @@ fun AdminContent(routeAction: RouteAction) {
                     pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
                 )
             }
+
             // 우측 Column
             LazyColumn(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(5.dp),
+                modifier = columnModifier
             ) {
-                item {
-                    CustomBox(
-                        titleText = R.string.admin_x14,
-                        contents = listOf(
-                            DataPair(
-                                subText = R.string.admin_x15,
-                                cosUnit = @Composable {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceEvenly,
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        CustomTimePicker()
-                                        Text("~")
-                                        CustomTimePicker()
-                                    }
-                                },
-                            ),
-                            DataPair(
-                                subText = R.string.admin_x16,
-                                cosUnit = @Composable {
-                                    CustomTimePicker()
-                                }
-                            ),
-                        ),
-                    )
-                    CustomBox(
-                        titleText = R.string.admin_x17,
-                        contents = listOf(
-                            DataPair(
-                                subText = R.string.admin_x20,
-                                cosUnit = @Composable {
-                                    CustomTimePicker()
-                                }
-                            ),
-                            DataPair(
-                                subText = R.string.admin_x21,
-                                cosUnit = @Composable {
-                                    CustomTimePicker()
-                                }
-                            ),
-                            DataPair(
-                                subText = R.string.admin_x22,
-                                cosUnit = @Composable {
-                                    CustomTimePicker()
-                                }
-                            ),
-                            DataPair(
-                                subText = R.string.admin_x23,
-                                cosUnit = @Composable {
-                                    CustomTimePicker()
-                                }
-                            ),
-                            DataPair(
-                                subText = R.string.admin_x24,
-                                cosUnit = @Composable {
-                                    CustomTimePicker()
-                                }
-                            ),
-                            DataPair(
-                                subText = R.string.admin_x25,
-                                cosUnit = @Composable {
-                                    CustomTimePicker()
-                                }
-                            ),
-                            DataPair(
-                                subText = R.string.admin_x26,
-                                cosUnit = @Composable {
-                                    CustomTimePicker()
-                                }
-                            ),
-                        ),
-                    )
+                items(AdminColumnItem.rightItemList) {
+                    CustomBox(it.titleText, it.content)
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun AdminLeftListView(lefItems: List<AdminCustomBow>, modifier: Modifier) {
-    LazyColumn(
-        modifier = modifier
-    ) {
-        items(lefItems) {
-            CustomBox(it.titleText, it.content)
         }
     }
 }
