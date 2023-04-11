@@ -1,9 +1,9 @@
 package com.clobot.mini.view.common
 
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Context.AUDIO_SERVICE
 import android.media.AudioManager
+import android.widget.TimePicker
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -146,13 +146,21 @@ fun AdminContent(routeAction: RouteAction) {
                             DataPair(
                                 subText = "이동 제한 시간",
                                 cosUnit = @Composable {
-                                    CustomTimePicker()
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceEvenly,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        CustomTimePicker(LocalContext.current)
+                                        Text("~")
+                                        CustomTimePicker(LocalContext.current)
+                                    }
                                 },
                             ),
                             DataPair(
                                 subText = "강제 충전 시작",
                                 cosUnit = @Composable {
-                                    CustomTimePicker()
+                                    CustomTimePicker(LocalContext.current)
                                 }
                             ),
                         ),
@@ -163,43 +171,43 @@ fun AdminContent(routeAction: RouteAction) {
                             DataPair(
                                 subText = "월요일",
                                 cosUnit = @Composable {
-                                    CustomTimePicker()
+                                    CustomTimePicker(LocalContext.current)
                                 }
                             ),
                             DataPair(
                                 subText = "화요일",
                                 cosUnit = @Composable {
-                                    CustomTimePicker()
+                                    CustomTimePicker(LocalContext.current)
                                 }
                             ),
                             DataPair(
                                 subText = "수요일",
                                 cosUnit = @Composable {
-                                    CustomTimePicker()
+                                    CustomTimePicker(LocalContext.current)
                                 }
                             ),
                             DataPair(
                                 subText = "목요일",
                                 cosUnit = @Composable {
-                                    CustomTimePicker()
+                                    CustomTimePicker(LocalContext.current)
                                 }
                             ),
                             DataPair(
                                 subText = "금요일",
                                 cosUnit = @Composable {
-                                    CustomTimePicker()
+                                    CustomTimePicker(LocalContext.current)
                                 }
                             ),
                             DataPair(
                                 subText = "토요일",
                                 cosUnit = @Composable {
-                                    CustomTimePicker()
+                                    CustomTimePicker(LocalContext.current)
                                 }
                             ),
                             DataPair(
                                 subText = "일요일",
                                 cosUnit = @Composable {
-                                    CustomTimePicker()
+                                    CustomTimePicker(LocalContext.current)
                                 }
                             ),
                         ),
@@ -348,28 +356,31 @@ fun CustomButton() {
 // 타임 피커
 @Composable
 fun CustomTimePicker(
+    context: Context,
     betweenText: String = "~"
 ) {
     val calendar = Calendar.getInstance()
-    var timeState by remember { mutableStateOf("") }
-    val context = LocalContext.current
-    val timePickerDialog = TimePickerDialog(
+    var timeState by remember { mutableStateOf("00:00") }
+    val timePickerDialog = CustomTimePickerDialog(
         context,
         {
-                view, hourOfDay, minute ->
-            timeState = "$hourOfDay : $minute"
+                _, hourOfDay, minute ->
+            timeState = String.format("%02d : %02d", hourOfDay, minute)
         },
         calendar[Calendar.HOUR_OF_DAY],
         calendar[Calendar.MINUTE],
         false
     )
 
-    Row() {
-        Button(onClick = {
-            timePickerDialog.show()
-        }) {
-            Text(text = "Pick time")
-        }
+    OutlinedButton(
+        onClick = { timePickerDialog.show() },
+        border = BorderStroke(1.dp, Color.White),
+        contentPadding = PaddingValues(0.dp),
+        modifier = Modifier.defaultMinSize(
+            minWidth = 25.dp,
+            minHeight = 30.dp
+        )
+    ) {
         Text(text = timeState)
     }
 }

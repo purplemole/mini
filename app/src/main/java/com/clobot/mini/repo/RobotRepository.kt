@@ -6,6 +6,7 @@ interface RobotRepository {
     val dockingState: StateFlow<Boolean>
 
     fun initialize(): Boolean
+
     fun checkDockingStation()
 
     fun getVersion(): String
