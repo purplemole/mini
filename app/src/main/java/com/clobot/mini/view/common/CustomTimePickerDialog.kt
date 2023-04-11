@@ -17,12 +17,8 @@ class CustomTimePickerDialog(
     is24HourView: Boolean
 ) :
     TimePickerDialog(
-        context,
-        TimePickerDialog.THEME_HOLO_LIGHT,
-//        android.R.style.Theme_Holo_Light_Dialog,
-        null,
-        hourOfDay,
-        minute / TIME_PICKER_INTERVAL, is24HourView
+        context, android.R.style.Theme_Holo_Light_Dialog, null,
+        hourOfDay, minute / TIME_PICKER_INTERVAL, is24HourView
     ) {
     private var mTimePicker: TimePicker? = null
     private val mTimeSetListener: OnTimeSetListener?

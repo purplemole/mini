@@ -1,6 +1,7 @@
 package com.clobot.mini.view.common
 
 import android.content.Context.AUDIO_SERVICE
+import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
@@ -382,6 +383,8 @@ fun CustomTimePicker(
         calendar[Calendar.MINUTE],
         false
     )
+    // 뒷배경 제거
+    timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
 
     OutlinedButton(
         onClick = { timePickerDialog.show() },
