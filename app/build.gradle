@@ -118,4 +118,7 @@ dependencies {
 
     // memory leak
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
+
+    // Data store
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 }

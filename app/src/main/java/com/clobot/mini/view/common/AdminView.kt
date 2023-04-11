@@ -1,9 +1,7 @@
 package com.clobot.mini.view.common
 
-import android.content.Context
 import android.content.Context.AUDIO_SERVICE
 import android.media.AudioManager
-import android.widget.TimePicker
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -17,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
@@ -29,6 +28,7 @@ import com.clobot.mini.view.navigation.RouteAction
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.navigation.LocalRouteAction
 import java.util.*
+import com.clobot.mini.R
 
 @Composable
 fun AdminView() {
@@ -41,6 +41,8 @@ fun AdminView() {
 
 @Composable
 fun AdminContent(routeAction: RouteAction) {
+    //val context = LocalContext.current
+
     Column() {
         // 상단 영역
         Row(
@@ -51,12 +53,12 @@ fun AdminContent(routeAction: RouteAction) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "로봇 환경 설정(관리자 화면)",
+                text = stringResource(id = R.string.admin_x1),
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center
             )
-            OutlineTextBtn({ routeAction.goBack() }, "취소")
-            OutlineTextBtn({ routeAction.goBack() }, "저장 후 닫기")
+            OutlineTextBtn({ routeAction.goBack() }, stringResource(id = R.string.admin_B5))
+            OutlineTextBtn({ routeAction.goBack() }, stringResource(id = R.string.admin_B6))
         }
         // 주 영역
         Row() {
@@ -68,13 +70,13 @@ fun AdminContent(routeAction: RouteAction) {
             ) {
                 item {
                     CustomBox(
-                        titleText = "로봇 이름",
-                        contents = listOf (
+                        titleText = stringResource(id = R.string.admin_x2),
+                        contents = listOf(
                             DataPair(
-                                subText = "설치장소 및 순번",
+                                subText = stringResource(id = R.string.admin_x3),
                                 cosUnit = @Composable {
                                     CustomTextField(
-                                        text = "야탑 치과_001",
+                                        text = stringResource(id = R.string.admin_x4),
                                         enabled = true
                                     )
                                 }
@@ -82,16 +84,16 @@ fun AdminContent(routeAction: RouteAction) {
                         )
                     )
                     CustomBox(
-                        titleText = "기본 설정",
-                        contents = listOf (
+                        titleText = stringResource(id = R.string.admin_x5),
+                        contents = listOf(
                             DataPair(
-                                subText = "로봇 볼륨",
+                                subText = stringResource(id = R.string.admin_x6),
                                 cosUnit = @Composable {
-                                    CustomVolumeButton(LocalContext.current)
+                                    CustomVolumeButton()
                                 }
                             ),
                             DataPair(
-                                subText = "로봇 상태",
+                                subText = stringResource(id = R.string.admin_x7),
                                 cosUnit = @Composable {
                                     CustomTextField(
                                         text = "충전 중",
@@ -100,7 +102,7 @@ fun AdminContent(routeAction: RouteAction) {
                                 }
                             ),
                             DataPair(
-                                subText = "로봇 이동 홍보 주기",
+                                subText = stringResource(id = R.string.admin_x9),
                                 cosUnit = @Composable {
                                     CustomButton()
                                 }
@@ -109,7 +111,7 @@ fun AdminContent(routeAction: RouteAction) {
                     )
                     CustomBox(
                         titleText = "상태 정보",
-                        contents = listOf (
+                        contents = listOf(
                             DataPair(
                                 subText = "배터리",
                                 cosUnit = @Composable {
@@ -124,8 +126,10 @@ fun AdminContent(routeAction: RouteAction) {
                 }
             }
             // 점선
-            Canvas(modifier = Modifier
-                .fillMaxHeight()) {
+            Canvas(
+                modifier = Modifier
+                    .fillMaxHeight()
+            ) {
                 drawLine(
                     color = Color.Red,
                     start = Offset(0f, 0f),
@@ -141,73 +145,73 @@ fun AdminContent(routeAction: RouteAction) {
             ) {
                 item {
                     CustomBox(
-                        titleText = "이동 제한 및 강제 충전 시간",
-                        contents = listOf (
+                        titleText = stringResource(id = R.string.admin_x14),
+                        contents = listOf(
                             DataPair(
-                                subText = "이동 제한 시간",
+                                subText = stringResource(id = R.string.admin_x15),
                                 cosUnit = @Composable {
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.SpaceEvenly,
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
-                                        CustomTimePicker(LocalContext.current)
+                                        CustomTimePicker()
                                         Text("~")
-                                        CustomTimePicker(LocalContext.current)
+                                        CustomTimePicker()
                                     }
                                 },
                             ),
                             DataPair(
-                                subText = "강제 충전 시작",
+                                subText = stringResource(id = R.string.admin_x16),
                                 cosUnit = @Composable {
-                                    CustomTimePicker(LocalContext.current)
+                                    CustomTimePicker()
                                 }
                             ),
                         ),
                     )
                     CustomBox(
                         titleText = "로봇 운영 시간",
-                        contents = listOf (
+                        contents = listOf(
                             DataPair(
-                                subText = "월요일",
+                                subText = stringResource(id = R.string.admin_x20),
                                 cosUnit = @Composable {
-                                    CustomTimePicker(LocalContext.current)
+                                    CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = "화요일",
+                                subText = stringResource(id = R.string.admin_x21),
                                 cosUnit = @Composable {
-                                    CustomTimePicker(LocalContext.current)
+                                    CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = "수요일",
+                                subText = stringResource(id = R.string.admin_x22),
                                 cosUnit = @Composable {
-                                    CustomTimePicker(LocalContext.current)
+                                    CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = "목요일",
+                                subText = stringResource(id = R.string.admin_x23),
                                 cosUnit = @Composable {
-                                    CustomTimePicker(LocalContext.current)
+                                    CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = "금요일",
+                                subText = stringResource(id = R.string.admin_x24),
                                 cosUnit = @Composable {
-                                    CustomTimePicker(LocalContext.current)
+                                    CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = "토요일",
+                                subText = stringResource(id = R.string.admin_x25),
                                 cosUnit = @Composable {
-                                    CustomTimePicker(LocalContext.current)
+                                    CustomTimePicker()
                                 }
                             ),
                             DataPair(
-                                subText = "일요일",
+                                subText = stringResource(id = R.string.admin_x26),
                                 cosUnit = @Composable {
-                                    CustomTimePicker(LocalContext.current)
+                                    CustomTimePicker()
                                 }
                             ),
                         ),
@@ -220,6 +224,7 @@ fun AdminContent(routeAction: RouteAction) {
 
 // 소단원
 data class DataPair(val subText: String, val cosUnit: @Composable () -> Unit)
+
 @Composable
 fun CustomBox(
     titleText: String,
@@ -267,8 +272,8 @@ fun CustomTextField(
 
 // 볼륨 조절
 @Composable
-fun CustomVolumeButton(context: Context) {
-    val audioManager = context.getSystemService(AUDIO_SERVICE) as AudioManager
+fun CustomVolumeButton() {
+    val audioManager = LocalContext.current.getSystemService(AUDIO_SERVICE) as AudioManager
     // 시스템 사양상 15가 최대(애뮬레이터 기준)
     val volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
 //    val maxVolumeLevel = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
@@ -278,7 +283,11 @@ fun CustomVolumeButton(context: Context) {
     Row {
         OutlinedButton(
             onClick = {
-                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0)
+                audioManager.adjustStreamVolume(
+                    AudioManager.STREAM_MUSIC,
+                    AudioManager.ADJUST_RAISE,
+                    0
+                )
                 val volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
                 currentVolume.value = volumeLevel
             },
@@ -298,7 +307,11 @@ fun CustomVolumeButton(context: Context) {
         )
         OutlinedButton(
             onClick = {
-                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0)
+                audioManager.adjustStreamVolume(
+                    AudioManager.STREAM_MUSIC,
+                    AudioManager.ADJUST_LOWER,
+                    0
+                )
                 val volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
                 currentVolume.value = volumeLevel
             },
@@ -356,15 +369,13 @@ fun CustomButton() {
 // 타임 피커
 @Composable
 fun CustomTimePicker(
-    context: Context,
     betweenText: String = "~"
 ) {
     val calendar = Calendar.getInstance()
     var timeState by remember { mutableStateOf("00:00") }
     val timePickerDialog = CustomTimePickerDialog(
-        context,
-        {
-                _, hourOfDay, minute ->
+        LocalContext.current,
+        { _, hourOfDay, minute ->
             timeState = String.format("%02d : %02d", hourOfDay, minute)
         },
         calendar[Calendar.HOUR_OF_DAY],
