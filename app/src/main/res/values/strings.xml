@@ -95,12 +95,12 @@
     <string name="admin_x9">이동 홍보 주기</string>
     <string name="admin_x10">상태 정보</string>
     <string name="admin_x11">배터리</string>
-    <string name="admin_x12">000 %, 00시간 00분 사용 가능</string>
+    <string name="admin_x12">%1$d%% , %2$d시간 %3$d분 사용 가능</string>
     <string name="admin_x13">로봇 관리</string>
     <string name="admin_x14">이동 제한 및 강제 충전 시간</string>
     <string name="admin_x15">이동 제한 시간</string>
     <string name="admin_x16">강제 충전 시작</string>
-    <string name="admin_x17">로봇 운영 시작</string>
+    <string name="admin_x17">로봇 운영 시간</string>
     <string name="admin_x18">※ 강제 충전 스케줄은 배터리 상태 값을 기준으로 동작 합니다.</string>
     <string name="admin_x19">로봇 운영 시간(운영시간 이외에는 충전 위치에서 충전 진행)</string>
     <string name="admin_x20">월요일</string>

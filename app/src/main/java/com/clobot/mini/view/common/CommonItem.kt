@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.clobot.mini.data.HospitalMenu
+import com.clobot.mini.data.page.HospitalMenu
 import com.clobot.mini.util.ContinuousClickHelper
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.hospital.HospitalBarIcon
