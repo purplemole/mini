@@ -10,10 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.clobot.mini.R
-import com.clobot.mini.view.common.CustomButton
-import com.clobot.mini.view.common.CustomTextField
-import com.clobot.mini.view.common.CustomTimePicker
-import com.clobot.mini.view.common.CustomVolumeButton
+import com.clobot.mini.data.admin.AdminData.*
+import com.clobot.mini.view.common.*
 
 object AdminColumnItem {
 
@@ -40,7 +38,7 @@ object AdminColumnItem {
             DataPair(
                 subText = R.string.admin_x6,
                 cosUnit = @Composable {
-                    CustomVolumeButton()
+                    VolumeStage()
                 }
             ),
             DataPair(
@@ -55,7 +53,7 @@ object AdminColumnItem {
             DataPair(
                 subText = R.string.admin_x9,
                 cosUnit = @Composable {
-                    CustomButton()
+                    CustomRadioButton()
                 }
             )
         )
