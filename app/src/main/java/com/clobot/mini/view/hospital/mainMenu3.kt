@@ -24,11 +24,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.navigation.NavRoute
 import com.clobot.mini.util.QrCodeAnalyzer
 import com.clobot.mini.view.common.OutlineTextBtn
 import com.clobot.mini.view.common.Template0
-import com.clobot.mini.view.navigation.LocalRouteAction
 
 // 예약 고객 페이지
 @Composable

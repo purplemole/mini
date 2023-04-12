@@ -17,12 +17,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.navigation.NavigationGraph
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.common.BottomTTSCaption
 import com.clobot.mini.view.common.ImgMenuBtn
 import com.clobot.mini.view.common.HospitalTopBar
-import com.clobot.mini.view.navigation.LocalRouteAction
 
 @Composable
 fun HospitalHome() {

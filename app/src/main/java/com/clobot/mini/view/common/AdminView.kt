@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clobot.mini.view.navigation.RouteAction
 import com.clobot.mini.view.common.ui.theme.MiniTheme
-import com.clobot.mini.view.navigation.LocalRouteAction
 import java.util.*
 import com.clobot.mini.R
 import com.clobot.mini.data.admin.*
+import com.clobot.mini.util.LocalRouteAction
 
 @Composable
 fun AdminView() {
@@ -110,10 +110,6 @@ fun AdminContent(routeAction: RouteAction) {
         }
     }
 }
-
-// data\admin 으로 이동
-// 소단원
-//data class DataPair(val subText: String, val cosUnit: @Composable () -> Unit)
 
 @Composable
 fun CustomBox(

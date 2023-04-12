@@ -16,6 +16,7 @@ import com.clobot.mini.view.common.CustomTimePicker
 import com.clobot.mini.view.common.CustomVolumeButton
 
 object AdminColumnItem {
+
     // 로봇 이름
     private val leftItem1 = AdminCustomBow(
         R.string.admin_x2,
@@ -60,6 +61,7 @@ object AdminColumnItem {
         )
     )
 
+    // 배터리 상태 정보
     private val leftItem3 = AdminCustomBow(
         R.string.admin_x10,
         listOf(
@@ -104,6 +106,7 @@ object AdminColumnItem {
         )
     )
 
+    // 요일 별 로봇 운영 시간
     private val rightItem2Data = DataPair(
         subText = R.string.admin_x20,
         cosUnit = @Composable {

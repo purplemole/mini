@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.clobot.mini.data.page.HospitalMenu
 import com.clobot.mini.util.ContinuousClickHelper
+import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.hospital.HospitalBarIcon
-import com.clobot.mini.view.navigation.LocalRouteAction
 import com.clobot.mini.view.navigation.NavRoute
 import com.clobot.mini.view.navigation.RouteAction
 import com.guru.fontawesomecomposelib.FaIcons

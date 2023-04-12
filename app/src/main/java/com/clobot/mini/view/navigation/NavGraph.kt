@@ -2,20 +2,16 @@ package com.clobot.mini.view.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.clobot.mini.view.common.AdminView
 import com.clobot.mini.model.NavigationViewModel
+import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.hospital.*
 import com.clobot.mini.view.move.Standby
 
-/*
-* Composition 계층 내의 모든 Composable 에 제공될 수 있는 로컬 값
-* */
-val LocalRouteAction = compositionLocalOf<RouteAction> {error("No RouteActionProvided")}
 @Composable
 fun NavigationGraph() {
     val navController = rememberNavController()

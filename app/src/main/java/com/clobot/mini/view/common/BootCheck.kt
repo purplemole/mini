@@ -9,15 +9,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.R
 import com.clobot.mini.util.DeviceStorage
-//import com.clobot.mini.util.DeviceStorage2
 import com.clobot.mini.util.getCurTimeInfo
 import com.clobot.mini.data.network.NetworkState
-import com.clobot.mini.data.robot.DockingState
 import com.clobot.mini.view.common.ui.theme.testColor
 import com.clobot.mini.view.navigation.NavigationGraph
 
@@ -28,8 +25,6 @@ fun BootCheck(
     networkState: NetworkState
 ) {
     val shouldShowNavigationGraph = remember { mutableStateOf(false) }
-
-    val context = LocalContext.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

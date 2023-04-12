@@ -1,6 +1,5 @@
 package com.clobot.mini.view.navigation
 
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import com.clobot.mini.model.NavigationViewModel
 
 class RouteAction(private val viewModel: NavigationViewModel) {

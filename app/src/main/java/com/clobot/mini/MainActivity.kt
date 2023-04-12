@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,6 +20,8 @@ import com.clobot.mini.model.RobotViewModel
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.util.network.NetworkOfflineDialog
 import com.clobot.mini.data.network.NetworkState
+import com.clobot.mini.util.LocalMainViewModel
+import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.view.common.BootCheck
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,16 +52,20 @@ class MainActivity : ComponentActivity() {
             val dockingState by robotViewModel.dockingState.collectAsState(initial = false)
             val networkState by viewModel.networkState.collectAsState(initial = NetworkState.None)
             MiniTheme {
-                NetworkOfflineDialog(networkState = networkState) {
-                    viewModel.onRetry()
-                }
-
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                CompositionLocalProvider(
+                    LocalMainViewModel provides viewModel,
+                    LocalRobotViewModel provides robotViewModel
                 ) {
-                    //NavigationGraph()
-                    BootCheck(dockingState, networkState)
+                    NetworkOfflineDialog(networkState = networkState) {
+                        viewModel.onRetry()
+                    }
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colors.background
+                    ) {
+                        //NavigationGraph()
+                        BootCheck(dockingState, networkState)
+                    }
                 }
             }
         }

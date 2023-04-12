@@ -11,9 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.data.page.HospitalMenuDummyData
+import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.common.ImgMenuBtn
 import com.clobot.mini.view.common.Template0
-import com.clobot.mini.view.navigation.LocalRouteAction
 
 @Composable
 fun SitesInformation() {

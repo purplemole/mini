@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.common.Template0
-import com.clobot.mini.view.navigation.LocalRouteAction
-import com.clobot.mini.view.navigation.RouteAction
 import kotlinx.coroutines.delay
 
 @Composable
