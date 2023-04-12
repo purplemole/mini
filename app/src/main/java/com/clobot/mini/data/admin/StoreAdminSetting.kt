@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -28,9 +29,9 @@ class StoreAdminSetting(private val context: Context) {
     // singleton
     companion object {
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
         //preferences를 접근할 때 사용하는 Preferences.Key
         val PROMOTE_CYCLE = intPreferencesKey("promote_cycle") //stringPreferencesKey
+        val TIME_CYCLE = stringPreferencesKey("time_cycle")
     }
 
     // 데이터 읽기
@@ -45,11 +46,21 @@ class StoreAdminSetting(private val context: Context) {
                 }
             }
 
+    val getTimeCycle: Flow<String?> =
+        context.dataStore.data.map { preferences -> preferences[TIME_CYCLE] ?: "" }
+
     // 데이터 쓰기
     // 이동 홍보 주기 값 저장하기
     suspend fun savePromoteCycle(cycle: Int) {
         context.dataStore.edit { preferences ->
             preferences[PROMOTE_CYCLE] = cycle
+        }
+    }
+
+    suspend fun saveTimeCycle(cycle : String){
+        context.dataStore.edit {
+            preference->
+            preference[TIME_CYCLE]= cycle
         }
     }
 }

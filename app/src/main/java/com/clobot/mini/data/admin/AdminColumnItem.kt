@@ -1,14 +1,22 @@
 package com.clobot.mini.data.admin
 
+import android.view.RoundedCorner
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.clobot.mini.R
 import com.clobot.mini.data.admin.AdminData.*
 import com.clobot.mini.view.common.*
@@ -22,9 +30,16 @@ object AdminColumnItem {
             DataPair(
                 subText = R.string.admin_x3,
                 cosUnit = @Composable {
-                    CustomTextField(
-                        text = R.string.admin_x4,
-                        enabled = true
+                    Text(
+                        text = stringResource(id = R.string.admin_x4),
+                        modifier = Modifier
+                            .background(Color.White, shape = RoundedCornerShape(12.dp))
+                            .border(
+                                width = 2.dp,
+                                color = Color.Gray,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(15.dp)
                     )
                 }
             )
@@ -44,9 +59,16 @@ object AdminColumnItem {
             DataPair(
                 subText = R.string.admin_x7,
                 cosUnit = @Composable {
-                    CustomTextField(
-                        text = R.string.admin_x8,
-                        enabled = false
+                    Text(
+                        text = String.format(stringResource(id = R.string.admin_x8), "on?off?"),
+                        modifier = Modifier
+                            .background(Color.LightGray, shape = RoundedCornerShape(12.dp))
+                            .border(
+                                width = 2.dp,
+                                color = Color.Gray,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(15.dp)
                     )
                 }
             ),
@@ -66,11 +88,16 @@ object AdminColumnItem {
             DataPair(
                 subText = R.string.admin_x11,
                 cosUnit = @Composable {
-                    TextField(
-                        value = String.format(stringResource(id = R.string.admin_x12), 7, 3, 3),
-                        onValueChange = {},
-                        enabled = false,
-                        readOnly = true
+                    Text(
+                        text = String.format(stringResource(id = R.string.admin_x12), 0, 0, 0),
+                        modifier = Modifier
+                            .background(Color.LightGray, shape = RoundedCornerShape(12.dp))
+                            .border(
+                                width = 2.dp,
+                                color = Color.Gray,
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(15.dp)
                     )
                 }
             )

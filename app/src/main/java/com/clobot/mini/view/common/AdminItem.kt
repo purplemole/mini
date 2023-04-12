@@ -15,8 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,15 +41,13 @@ fun CustomBox(
         modifier = Modifier
             .padding(5.dp),
     ) {
-        Text(
-            text = "● ${stringResource(titleText)}",
-            fontWeight = FontWeight.Bold
-        )
+        FieldName(titleText)
         contents.forEach {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFFC8C8C8)),
+                    .background(Color(0xFFE9E7E7))
+                    .padding(horizontal = 10.dp, vertical = 5.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
@@ -100,11 +101,13 @@ fun CustomVolumeButton(
         contentPadding = PaddingValues(0.dp),
         modifier = Modifier.defaultMinSize(25.dp, 30.dp)
     ) {
-        FaIcon(faIcon = when (state) {
-            AdminEnum.AudioState.UP -> FaIcons.CaretUp
-            AdminEnum.AudioState.DOWN -> FaIcons.CaretDown
-            AdminEnum.AudioState.MUTE -> FaIcons.VolumeMute
-        })
+        FaIcon(
+            faIcon = when (state) {
+                AdminEnum.AudioState.UP -> FaIcons.CaretUp
+                AdminEnum.AudioState.DOWN -> FaIcons.CaretDown
+                AdminEnum.AudioState.MUTE -> FaIcons.VolumeMute
+            },
+        )
     }
 }
 
@@ -185,6 +188,48 @@ fun CustomTimePicker() {
         )
     ) {
         Text(text = timeState)
+    }
+}
+
+//////////////////////23.04.12 tk
+@Composable
+fun FieldName(stringInt: Int) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        modifier = Modifier.padding(bottom = 5.dp)
+    ) {
+        FaIcon(faIcon = FaIcons.Circle, size = 12.dp)
+        Text(
+            text = stringResource(id = stringInt), style = TextStyle(
+                textAlign = TextAlign.Left,
+                fontWeight = FontWeight.Bold
+            )
+        )
+    }
+}
+
+@Composable
+fun FieldContent(contents: List<AdminData.DataPair>) {
+
+    if (contents.isNotEmpty()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+                .background(Color(0xFFE9E7E7))
+                .padding(horizontal = 20.dp, vertical = 10.dp),
+        ) {
+            contents.forEach {
+                Row() {
+                    Text(
+                        text = stringResource(id = it.subText),
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                    it.cosUnit
+                }
+            }
+        }
     }
 }
 

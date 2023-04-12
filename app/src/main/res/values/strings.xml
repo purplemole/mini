@@ -91,7 +91,7 @@
     <string name="admin_x5">기본 설정</string>
     <string name="admin_x6">로봇 볼륨</string>
     <string name="admin_x7">로봇 상태</string>
-    <string name="admin_x8">충전 ON / 충전 OFF</string>
+    <string name="admin_x8">충전 %s</string> <!--충전 ON / 충전 OFF-->
     <string name="admin_x9">이동 홍보 주기</string>
     <string name="admin_x10">상태 정보</string>
     <string name="admin_x11">배터리</string>
