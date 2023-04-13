@@ -71,7 +71,7 @@ fun BootCheck(
             Text(text = getCurTimeInfo(4))
         }
         // DeviceStorage
-        Row() {
+        Row {
             Text(
                 stringResource(id = R.string.book_check_x4)
             )

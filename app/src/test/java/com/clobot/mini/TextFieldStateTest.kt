@@ -1,6 +1,6 @@
 package com.clobot.mini
 
-import com.clobot.mini.util.TextFieldState
+import com.clobot.mini.util.state.TextFieldState
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

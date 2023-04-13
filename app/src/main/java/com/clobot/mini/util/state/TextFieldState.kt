@@ -1,4 +1,4 @@
-package com.clobot.mini.util
+package com.clobot.mini.util.state
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
