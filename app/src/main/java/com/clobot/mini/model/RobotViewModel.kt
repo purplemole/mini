@@ -1,13 +1,11 @@
 package com.clobot.mini.model
 
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.clobot.mini.repo.RobotRepository
-import com.clobot.mini.data.robot.DockingState
 import com.clobot.mini.data.robot.MoveReason
+import com.clobot.mini.repo.robot.AiniRobotRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -18,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RobotViewModel @Inject constructor(
-    private val repo: RobotRepository
+    private val repo: AiniRobotRepository
 ) : ViewModel() {
     private val tag = "RobotViewModel"
 
@@ -42,5 +40,9 @@ class RobotViewModel @Inject constructor(
 
     fun changeMoveReason(newReason: MoveReason) {
         _moveReason.value = newReason
+    }
+
+    fun moveAround() {
+
     }
 }
