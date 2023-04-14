@@ -8,3 +8,6 @@ val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
 val testColor = Color(0xFF9FE0A7)
+
+val AdminSelect = Color(0xFFF7EAC6)
+val AdminClicked = Color(0xFF24DEF1)

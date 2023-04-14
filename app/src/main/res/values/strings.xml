@@ -78,9 +78,9 @@
     <string name="charging_x3">배터리가 부족한 상태 입니다.</string>
     <string name="charging_x4">관리자 요청에 따라 충전 중 입니다.</string>
     <string name="admin_t1">로봇 환경 설정 화면 입니다. 변경 사항을 선택 후 저장 후 닫기 버튼을 클릭하면 로봇 환경 설정을 변경하실 수 있습니다.</string>
-    <string name="admin_B1">충전기로 이동</string>
-    <string name="admin_B2">로봇 운영 시작</string>
-    <string name="admin_B3">프로그램 재 시작</string>
+    <string name="admin_B1">충전기로\n이동</string>
+    <string name="admin_B2">로봇 운영\n시작</string>
+    <string name="admin_B3">프로그램\n재시작</string>
     <string name="admin_B4">로봇 종료</string>
     <string name="admin_B5">취소</string>
     <string name="admin_B6">저장</string>

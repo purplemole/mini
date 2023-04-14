@@ -2,13 +2,8 @@ package com.clobot.mini.data.admin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,24 +12,24 @@ import androidx.compose.ui.unit.dp
 import com.clobot.mini.R
 import com.clobot.mini.data.admin.AdminData.*
 import com.clobot.mini.view.common.*
+import com.clobot.mini.view.common.ui.theme.*
 
 object AdminColumnItem {
-
     // 로봇 이름
     private val leftItem1 = AdminCustomBow(
         R.string.admin_x2,
         listOf(
             DataPair(
                 subText = R.string.admin_x3,
-                cosUnit = @Composable {
+                cosUnit = {
                     Text(
                         text = stringResource(id = R.string.admin_x4),
                         modifier = Modifier
-                            .background(Color.White, shape = RoundedCornerShape(12.dp))
+                            .background(Color.White, shape = AdminRoundedBtn.medium)
                             .border(
                                 width = 2.dp,
                                 color = Color.Gray,
-                                shape = RoundedCornerShape(12.dp)
+                                shape = AdminRoundedBtn.medium
                             )
                             .padding(15.dp)
                     )
@@ -49,23 +44,23 @@ object AdminColumnItem {
         listOf(
             DataPair(
                 subText = R.string.admin_x6,
-                cosUnit = @Composable {
+                cosUnit = {
                     VolumeStage()
                 }
             ),
             DataPair(
                 subText = R.string.admin_x7,
-                cosUnit = @Composable {
+                cosUnit = {
                     val isCharging =
                         "on off"//if (RobotApi.getInstance().chargeStatus) "ON" else "OFF"
                     Text(
                         text = String.format(stringResource(id = R.string.admin_x8), isCharging),
                         modifier = Modifier
-                            .background(Color.LightGray, shape = RoundedCornerShape(12.dp))
+                            .background(Color.LightGray, shape = AdminRoundedBtn.medium)
                             .border(
                                 width = 2.dp,
                                 color = Color.Gray,
-                                shape = RoundedCornerShape(12.dp)
+                                shape = AdminRoundedBtn.medium
                             )
                             .padding(15.dp)
                     )
@@ -73,7 +68,7 @@ object AdminColumnItem {
             ),
             DataPair(
                 subText = R.string.admin_x9,
-                cosUnit = @Composable {
+                cosUnit = {
                     PromoteCycleBtn()
                 }
             )
@@ -86,18 +81,38 @@ object AdminColumnItem {
         listOf(
             DataPair(
                 subText = R.string.admin_x11,
-                cosUnit = @Composable {
+                cosUnit = {
                     Text(
                         text = String.format(stringResource(id = R.string.admin_x12), 0, 0, 0),
                         modifier = Modifier
-                            .background(Color.LightGray, shape = RoundedCornerShape(12.dp))
+                            .background(Color.LightGray, shape = AdminRoundedBtn.medium)
                             .border(
                                 width = 2.dp,
                                 color = Color.Gray,
-                                shape = RoundedCornerShape(12.dp)
+                                shape = AdminRoundedBtn.medium
                             )
                             .padding(15.dp)
                     )
+                }
+            )
+        )
+    )
+
+    // <Pair<Int, () -> Unit>>s
+    private val pairItem1 = Pair((R.string.admin_B1)) {/*TODO*/ }
+    private val pairItem2 = Pair((R.string.admin_B2)) {/*TODO*/ }
+    private val pairItem3 = Pair((R.string.admin_B3)) {/*TODO*/ }
+    private val pairItem4 = Pair((R.string.admin_B4)) {/*TODO*/ }
+
+    private val robotAction = listOf(pairItem1, pairItem2, pairItem3, pairItem4)
+
+    private val leftItem4 = AdminCustomBow(
+        titleText = R.string.admin_x13,
+        content = listOf(
+            DataPair(
+                subText = 0,
+                cosUnit = {
+                    RobotManagementBtn(robotAction)
                 }
             )
         )
@@ -109,7 +124,7 @@ object AdminColumnItem {
         listOf(
             DataPair(
                 subText = R.string.admin_x15,
-                cosUnit = @Composable {
+                cosUnit = {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -133,12 +148,12 @@ object AdminColumnItem {
     // 요일 별 로봇 운영 시간
     private val rightItem3Data = DataPair(
         subText = R.string.admin_x20,
-        cosUnit = @Composable {
+        cosUnit = {
             CustomTimePicker()
         }
     )
     private val rightItem3 = rightItem1.copy(
-        titleText = R.string.admin_x17,
+        titleText = R.string.admin_x19,
         content = listOf(
             rightItem3Data,
             rightItem3Data.copy(subText = R.string.admin_x21),
@@ -150,6 +165,6 @@ object AdminColumnItem {
         )
     )
 
-    val leftItemList = listOf(leftItem1, leftItem2, leftItem3)
+    val leftItemList = listOf(leftItem1, leftItem2, leftItem3, leftItem4)
     val rightItemList = listOf(rightItem1, rightItem3)
 }

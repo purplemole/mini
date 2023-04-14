@@ -43,10 +43,12 @@ fun CustomBox(
                     .padding(horizontal = 10.dp, vertical = 3.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Text(
-                    text = stringResource(id = it.subText),
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                )
+                if (it.subText != 0) {
+                    Text(
+                        text = stringResource(id = it.subText),
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                }
                 it.cosUnit()
             }
         }
@@ -56,7 +58,7 @@ fun CustomBox(
 // 텍스트 필드
 @Composable
 fun FieldName(stringInt: Int) {
-    if(stringInt != 0){
+    if (stringInt != 0) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(5.dp),
@@ -124,16 +126,5 @@ fun VolumeStage() {
         Text(text = currentVolume.value.toString())
         CustomVolumeButton(audioManager, currentVolume, AdminEnum.AudioState.DOWN)
         CustomVolumeButton(audioManager, currentVolume, AdminEnum.AudioState.MUTE)
-    }
-}
-
-
-
-@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 410)
-@Composable
-fun AdminItemPreview() {
-    MiniTheme {
-        Column {
-        }
     }
 }
