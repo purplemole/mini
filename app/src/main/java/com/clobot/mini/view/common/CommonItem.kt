@@ -280,26 +280,19 @@ fun TopAppBarTitle() {
     }
 }
 
-@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 100)
-@Composable
-fun CommonItemPreview(
-    @PreviewParameter(AdminRouteActionProvider::class) routeAction: RouteAction
-) {
-    MiniTheme {
-        Column {
-            TopAppBarTitle()
-        }
-    }
-}
-
-class AdminRouteActionProvider : PreviewParameterProvider<RouteAction> {
-    override val values: Sequence<RouteAction>
-        get() = TODO("Not yet implemented")
-}
-
 inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit): Modifier = composed {
     clickable(indication = null,
         interactionSource = remember { MutableInteractionSource() }) {
         onClick()
+    }
+}
+
+@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 100)
+@Composable
+fun CommonItemPreview() {
+    MiniTheme {
+        Column {
+            TopAppBarTitle()
+        }
     }
 }

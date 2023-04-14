@@ -5,8 +5,7 @@ import android.media.AudioManager
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +23,6 @@ import com.clobot.mini.data.admin.AdminEnum
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIcons
-import java.util.*
 
 // 소단원
 @Composable
@@ -34,7 +32,7 @@ fun CustomBox(
 ) {
     Column(
         modifier = Modifier
-            .padding(5.dp),
+            .padding(top = 5.dp, start = 5.dp, end = 5.dp),
     ) {
         FieldName(titleText)
         contents.forEach {
@@ -42,7 +40,7 @@ fun CustomBox(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color(0xFFE9E7E7))
-                    .padding(horizontal = 10.dp, vertical = 5.dp),
+                    .padding(horizontal = 10.dp, vertical = 3.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
@@ -58,18 +56,20 @@ fun CustomBox(
 // 텍스트 필드
 @Composable
 fun FieldName(stringInt: Int) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp),
-        modifier = Modifier.padding(bottom = 5.dp)
-    ) {
-        FaIcon(faIcon = FaIcons.Circle, size = 12.dp)
-        Text(
-            text = stringResource(id = stringInt), style = TextStyle(
-                textAlign = TextAlign.Left,
-                fontWeight = FontWeight.Bold
+    if(stringInt != 0){
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            modifier = Modifier.padding(bottom = 5.dp)
+        ) {
+            FaIcon(faIcon = FaIcons.Circle, size = 12.dp)
+            Text(
+                text = stringResource(id = stringInt), style = TextStyle(
+                    textAlign = TextAlign.Left,
+                    fontWeight = FontWeight.Bold
+                )
             )
-        )
+        }
     }
 }
 
@@ -104,7 +104,8 @@ fun CustomVolumeButton(
                 AdminEnum.AudioState.DOWN -> FaIcons.CaretDown
                 AdminEnum.AudioState.MUTE -> FaIcons.VolumeMute
             },
-        )
+
+            )
     }
 }
 
@@ -125,6 +126,8 @@ fun VolumeStage() {
         CustomVolumeButton(audioManager, currentVolume, AdminEnum.AudioState.MUTE)
     }
 }
+
+
 
 @Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 410)
 @Composable

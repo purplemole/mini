@@ -1,6 +1,5 @@
 package com.clobot.mini.data.admin
 
-import android.view.RoundedCorner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -8,9 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,8 +56,10 @@ object AdminColumnItem {
             DataPair(
                 subText = R.string.admin_x7,
                 cosUnit = @Composable {
+                    val isCharging =
+                        "on off"//if (RobotApi.getInstance().chargeStatus) "ON" else "OFF"
                     Text(
-                        text = String.format(stringResource(id = R.string.admin_x8), "on?off?"),
+                        text = String.format(stringResource(id = R.string.admin_x8), isCharging),
                         modifier = Modifier
                             .background(Color.LightGray, shape = RoundedCornerShape(12.dp))
                             .border(
@@ -75,7 +74,7 @@ object AdminColumnItem {
             DataPair(
                 subText = R.string.admin_x9,
                 cosUnit = @Composable {
-                    CustomRadioButton()
+                    PromoteCycleBtn()
                 }
             )
         )
@@ -122,35 +121,35 @@ object AdminColumnItem {
                     }
                 },
             ),
-            DataPair(
-                subText = R.string.admin_x16,
-                cosUnit = @Composable {
-                    CustomTimePicker()
-                }
-            ),
+//            DataPair(
+//                subText = R.string.admin_x16,
+//                cosUnit = @Composable {
+//                    CustomTimePicker()
+//                }
+//            ),
         )
     )
 
     // 요일 별 로봇 운영 시간
-    private val rightItem2Data = DataPair(
+    private val rightItem3Data = DataPair(
         subText = R.string.admin_x20,
         cosUnit = @Composable {
             CustomTimePicker()
         }
     )
-    private val rightItem2 = rightItem1.copy(
+    private val rightItem3 = rightItem1.copy(
         titleText = R.string.admin_x17,
         content = listOf(
-            rightItem2Data,
-            rightItem2Data.copy(subText = R.string.admin_x21),
-            rightItem2Data.copy(subText = R.string.admin_x22),
-            rightItem2Data.copy(subText = R.string.admin_x23),
-            rightItem2Data.copy(subText = R.string.admin_x24),
-            rightItem2Data.copy(subText = R.string.admin_x25),
-            rightItem2Data.copy(subText = R.string.admin_x26),
+            rightItem3Data,
+            rightItem3Data.copy(subText = R.string.admin_x21),
+            rightItem3Data.copy(subText = R.string.admin_x22),
+            rightItem3Data.copy(subText = R.string.admin_x23),
+            rightItem3Data.copy(subText = R.string.admin_x24),
+            rightItem3Data.copy(subText = R.string.admin_x25),
+            rightItem3Data.copy(subText = R.string.admin_x26),
         )
     )
 
     val leftItemList = listOf(leftItem1, leftItem2, leftItem3)
-    val rightItemList = listOf(rightItem1, rightItem2)
+    val rightItemList = listOf(rightItem1, rightItem3)
 }

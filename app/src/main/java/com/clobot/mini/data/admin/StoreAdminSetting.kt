@@ -5,7 +5,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -32,19 +31,17 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 @ActivityRetainedScoped
 class StoreAdminSetting @Inject constructor(@ApplicationContext private val context: Context) {
-
-    companion object {
-        //val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-    }
-
     // preferences를 접근할 때 사용하는 Preferences.Key
-    private val promoteCycle = intPreferencesKey("promote_cycle") //stringPreferencesKey
-    private val timeCycle = stringPreferencesKey("time_cycle")
+    private val promoteCycle = intPreferencesKey("promote_cycle") // 이동 홍보 주기
+    private val forceChargingPer = intPreferencesKey("force_charging") // 강제 충전 시작 퍼센트
+    private val operatingPer = intPreferencesKey("robot_operating") // 로봇 운영 시작
 
+    private val myDataStore = context.dataStore
+    
     // 데이터 읽기
     // 이동 홍보 주기 값 가져오기
     val getPromoteCycle: Flow<Int> =
-        context.dataStore.data.map { preferences -> preferences[promoteCycle] ?: 1 }
+        myDataStore.data.map { preferences -> preferences[promoteCycle] ?: 1 }
             .catch { exception ->
                 if (exception is IOException) {
                     emit(1) //emptyPreferences()
@@ -53,26 +50,39 @@ class StoreAdminSetting @Inject constructor(@ApplicationContext private val cont
                 }
             }
 
-    val getTimeCycle: Flow<String> =
-        context.dataStore.data.map { preferences -> preferences[timeCycle] ?: "" }
+    // 강제 충전 시작 퍼센트 값 가져 오기
+    val getForceCharging: Flow<Int> =
+        myDataStore.data.map { preferences -> preferences[forceChargingPer] ?: 10 }
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit(10)
+                } else {
+                    throw exception
+                }
+            }
 
+    val getOperatingPer: Flow<Int> =
+        myDataStore.data.map { preferences -> preferences[operatingPer] ?: 40 }
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit(40)
+                } else {
+                    throw exception
+                }
+            }
 
     // 데이터 쓰기
-    suspend fun saveTimeCycle(cycle: String) {
-        context.dataStore.edit { preference ->
-            preference[timeCycle] = cycle
-        }
-    }
-
-    // 전체 저장
     /**
      * TODO : 이동 제한 시간, 강제 충전 시작, 운영 시작, 운영 시간
      *
      * @param promote : 이동 홍보 주기 (int)
+     * @param forcePer : 강제 충전 시작 퍼센트 (int)
      */
-    suspend fun saveAllAdminSetting(promote: Int) {
-        context.dataStore.edit { preference ->
+    suspend fun saveAllAdminSetting(promote: Int, forcePer: Int, operating: Int) { // 전체 저장
+        myDataStore.edit { preference ->
             preference[promoteCycle] = promote
+            preference[forceChargingPer] = forcePer
+            preference[operatingPer] = operating
         }
     }
 }
