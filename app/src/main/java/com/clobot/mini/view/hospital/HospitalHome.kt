@@ -3,16 +3,12 @@ package com.clobot.mini.view.hospital
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.data.page.HospitalMenuDummyData
-import com.guru.fontawesomecomposelib.FaIcon
-import com.guru.fontawesomecomposelib.FaIconType
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.tooling.preview.Devices
@@ -47,7 +43,7 @@ fun HospitalHome() {
 }
 
 @Composable
-fun HomeContent() {
+private fun HomeContent() {
     val routeAction = LocalRouteAction.current
     Box(
         modifier = Modifier
@@ -71,21 +67,6 @@ fun HomeContent() {
                 }
             }
             //BottomTTSCaption("로봇이 발화하는 멘트를 텍스트로 표시...")
-        }
-    }
-}
-
-@Composable
-fun HospitalBarIcon(modifier: Modifier = Modifier, faIcon: FaIconType) {
-    Card(
-        elevation = 5.dp,
-        modifier = modifier
-            .clip(CircleShape)
-    ) {
-        Box(
-            modifier = modifier.padding(5.dp)
-        ) {
-            FaIcon(faIcon = faIcon)
         }
     }
 }

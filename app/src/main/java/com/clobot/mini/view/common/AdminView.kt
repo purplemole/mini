@@ -1,18 +1,12 @@
 package com.clobot.mini.view.common
 
-import android.graphics.drawable.ColorDrawable
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults.elevation
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -20,33 +14,16 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clobot.mini.R
 import com.clobot.mini.data.admin.*
-import com.clobot.mini.util.LocalRouteAction
+import com.clobot.mini.util.*
 import com.clobot.mini.util.state.IntFieldState
+import com.clobot.mini.util.state.TextFieldState
 import com.clobot.mini.view.common.ui.theme.*
 import kotlinx.coroutines.launch
-import java.util.*
 
-// Admin 에서만 사용할 Local 값.
-private val LocalDataStore =
-    staticCompositionLocalOf<StoreAdminSetting> { error("No dataStore File!") }
-private val LocalPromoteCycle =
-    compositionLocalOf<IntFieldState> { error("LocalPromoteCycleField Error") }
-private val LocalForceCharging =
-    compositionLocalOf<IntFieldState> { error("LocalForceCharging Error") }
-private val LocalRobotOperating =
-    compositionLocalOf<IntFieldState> { error("LocalRobotOperating Error") }
-
-/**
- * @see tae
- * TODO : DataStore 작업 (1. stringState / 2. composable 연결 / 3. 저장 버튼에 연결 / 4. 값 불러 오기)
- */
 @Composable
 fun AdminView() {
     val context = LocalContext.current
@@ -60,12 +37,60 @@ fun AdminView() {
     forceCharging.setInt(dataStore.getForceCharging.collectAsState(initial = 10).value)
     val robotOperating = remember { IntFieldState() } // 로봇 운영 시작 퍼센트
     robotOperating.setInt(dataStore.getOperatingPer.collectAsState(initial = 40).value)
+    val limitFrom = remember { TextFieldState() } // 이동 제한 시간
+    limitFrom.setText(dataStore.getLimitFrom.collectAsState(initial = "00:00").value)
+    val limitTo = remember { TextFieldState() }
+    limitTo.setText(dataStore.getLimitTo.collectAsState(initial = "00:00").value)
+    val monFrom = remember {TextFieldState()}
+    monFrom.setText(dataStore.getMonFrom.collectAsState(initial = "00:00").value)
+    val tueFrom = remember {TextFieldState()}
+    tueFrom.setText(dataStore.getTueFrom.collectAsState(initial = "00:00").value)
+    val wedFrom = remember {TextFieldState()}
+    wedFrom.setText(dataStore.getWedFrom.collectAsState(initial = "00:00").value)
+    val thuFrom = remember {TextFieldState()}
+    thuFrom.setText(dataStore.getThuFrom.collectAsState(initial = "00:00").value)
+    val friFrom = remember {TextFieldState()}
+    friFrom.setText(dataStore.getFriFrom.collectAsState(initial = "00:00").value)
+    val satFrom = remember {TextFieldState()}
+    satFrom.setText(dataStore.getSatFrom.collectAsState(initial = "00:00").value)
+    val sunFrom = remember {TextFieldState()}
+    sunFrom.setText(dataStore.getSunFrom.collectAsState(initial = "00:00").value)
+    val monTo = remember {TextFieldState()}
+    monTo.setText(dataStore.getMonTo.collectAsState(initial = "00:00").value)
+    val tueTo = remember {TextFieldState()}
+    tueTo.setText(dataStore.getTueTo.collectAsState(initial = "00:00").value)
+    val wedTo = remember {TextFieldState()}
+    wedTo.setText(dataStore.getWedTo.collectAsState(initial = "00:00").value)
+    val thuTo = remember {TextFieldState()}
+    thuTo.setText(dataStore.getThuTo.collectAsState(initial = "00:00").value)
+    val friTo = remember {TextFieldState()}
+    friTo.setText(dataStore.getFriTo.collectAsState(initial = "00:00").value)
+    val satTo = remember {TextFieldState()}
+    satTo.setText(dataStore.getSatTo.collectAsState(initial = "00:00").value)
+    val sunTo = remember {TextFieldState()}
+    sunTo.setText(dataStore.getSunTo.collectAsState(initial = "00:00").value)
 
     CompositionLocalProvider(
         LocalDataStore provides dataStore,
         LocalPromoteCycle provides promoteState,
         LocalForceCharging provides forceCharging,
         LocalRobotOperating provides robotOperating,
+        LocalMoveLimitTo provides limitTo,
+        LocalMoveLimitFrom provides limitFrom,
+        LocalMonFrom provides monFrom,
+        LocalTueFrom provides tueFrom,
+        LocalWedFrom provides wedFrom,
+        LocalThuFrom provides thuFrom,
+        LocalFriFrom provides friFrom,
+        LocalSatFrom provides satFrom,
+        LocalSunFrom provides sunFrom,
+        LocalMonTo provides monTo,
+        LocalTueTo provides tueTo,
+        LocalWedTo provides wedTo,
+        LocalThuTo provides thuTo,
+        LocalFriTo provides friTo,
+        LocalSatTo provides satTo,
+        LocalSunTo provides sunTo,
     ) {
         Scaffold {
             Column {
@@ -90,6 +115,22 @@ fun AdminTopArea() {
     val promoteT = LocalPromoteCycle.current
     val forcePer = LocalForceCharging.current
     val operating = LocalRobotOperating.current
+    val limitFrom = LocalMoveLimitFrom.current
+    val limitTo = LocalMoveLimitTo.current
+    val monFrom = LocalMonFrom.current
+    val tueFrom = LocalTueFrom.current
+    val wedFrom = LocalWedFrom.current
+    val thuFrom = LocalThuFrom.current
+    val friFrom = LocalFriFrom.current
+    val satFrom = LocalSatFrom.current
+    val sunFrom = LocalSunFrom.current
+    val monTo = LocalMonTo.current
+    val tueTo = LocalTueTo.current
+    val wedTo = LocalWedTo.current
+    val thuTo = LocalThuTo.current
+    val friTo = LocalFriTo.current
+    val satTo = LocalSatTo.current
+    val sunTo = LocalSunTo.current
 
     // 저장할 곳 (dataStore)
     val dataStore = LocalDataStore.current
@@ -99,27 +140,86 @@ fun AdminTopArea() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp),
-        horizontalArrangement = Arrangement.Center,
+            .height(50.dp)
+            .padding(horizontal = 10.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = stringResource(id = R.string.admin_x1),
-            modifier = Modifier.weight(1f),
-            textAlign = TextAlign.Center
-        )
-        OutlineTextBtn({ routeAction.goBack() }, stringResource(id = R.string.admin_B5))
-        OutlineTextBtn({
-            // 저장 버튼
-            scope.launch {
-                dataStore.saveAllAdminSetting(
-                    promote = promoteT.getInt(),
-                    forcePer = forcePer.getInt(),
-                    operating = operating.getInt(),
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(2f),
+            contentAlignment = Alignment.Center,
+            content = {
+                Text(
+                    text = stringResource(id = R.string.admin_x1),
+//                    textAlign = TextAlign.Center
                 )
             }
-            routeAction.goBack()
-        }, stringResource(id = R.string.admin_B6))
+        )
+        Row(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            content = {
+                OutlinedButton(onClick = { routeAction.goBack() },
+                    shape = AdminRoundedBtn.large,
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        backgroundColor = AdminSelect,
+                        contentColor = AdminClicked
+                    ),
+                    border = adminBorder,
+                    elevation = elevation(2.dp),
+                    modifier = Modifier.width(115.dp),
+                    content = {
+                        Text(
+                            text = stringResource(id = R.string.admin_B5),
+                            color = Color.Black
+                        )
+                    })
+                OutlinedButton(
+                    onClick = {// 저장 버튼
+                        scope.launch {
+                            dataStore.saveAllAdminSetting(
+                                promote = promoteT.getInt(),
+                                forcePer = forcePer.getInt(),
+                                operating = operating.getInt(),
+                                limitFrom = limitFrom.getText(),
+                                limitTo = limitTo.getText(),
+                                monOpeFrom = monFrom.getText(),
+                                tueOpeFrom = tueFrom.getText(),
+                                wedOpeFrom = wedFrom.getText(),
+                                thuOpeFrom = thuFrom.getText(),
+                                friOpeFrom = friFrom.getText(),
+                                satOpeFrom = satFrom.getText(),
+                                sunOpeFrom = sunFrom.getText(),
+                                monOpeTo = monTo.getText(),
+                                tueOpeTo = tueTo.getText(),
+                                wedOpeTo = wedTo.getText(),
+                                thuOpeTo = thuTo.getText(),
+                                friOpeTo = friTo.getText(),
+                                satOpeTo = satTo.getText(),
+                                sunOpeTo = sunTo.getText(),
+                            )
+                        }
+                        routeAction.goBack()
+                    },
+                    shape = AdminRoundedBtn.large,
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        backgroundColor = AdminSelect,
+                        contentColor = AdminClicked
+                    ),
+                    border = adminBorder,
+                    elevation = elevation(2.dp),
+                    modifier = Modifier.width(115.dp),
+                    content = {
+                        Text(
+                            text = stringResource(id = R.string.admin_B6),
+                            color = Color.Black
+                        )
+                    })
+            }
+        )
+
     }
 }
 
@@ -165,36 +265,37 @@ fun RightArea(modifier: Modifier) {
                 Column(
                     modifier = Modifier
                         .padding(horizontal = 5.dp)
-                        .background(Color(0xFFE9E7E7))
-                ) {
-                    val spinMod = Modifier
-                        .weight(1f)
-                        .padding(vertical = 3.dp)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    ) {
-                        RightPerSpinner(
-                            modifier = spinMod,
-                            spinName = R.string.admin_x16,
-                            tmpPer = LocalForceCharging.current,
-                            perList = listOf(10, 20, 30)
-                        )
-                        RightPerSpinner(
-                            modifier = spinMod,
-                            spinName = R.string.admin_x17,
-                            tmpPer = LocalRobotOperating.current,
-                            perList = listOf(40, 30, 20)
+                        .background(Color(0xFFE9E7E7)),
+                    content = {
+                        val spinMod = Modifier
+                            .weight(1f)
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            RightPerSpinner(
+                                modifier = spinMod,
+                                spinName = R.string.admin_x16,
+                                tmpPer = LocalForceCharging.current,
+                                perList = listOf(10, 20, 30)
+                            )
+                            RightPerSpinner(
+                                modifier = spinMod,
+                                spinName = R.string.admin_x17,
+                                tmpPer = LocalRobotOperating.current,
+                                perList = listOf(40, 30, 20)
+                            )
+                        }
+                        Text(
+                            stringResource(id = R.string.admin_x18),
+                            modifier = Modifier
+                                .padding(start = 30.dp)
+                                .padding(vertical = 5.dp),
+                            style = TextStyle(fontSize = 10.sp)
                         )
                     }
-                    Text(
-                        stringResource(id = R.string.admin_x18),
-                        modifier = Modifier
-                            .padding(start = 30.dp)
-                            .padding(vertical = 5.dp),
-                        style = TextStyle(fontSize = 10.sp)
-                    )
-                }
+                )
             }
             item {
                 CustomBox(
@@ -204,150 +305,4 @@ fun RightArea(modifier: Modifier) {
             }
         }
     )
-}
-
-@Composable // 이동 홍보 주기 버튼 composable
-fun PromoteCycleBtn() {
-    val tmpCycle = LocalPromoteCycle.current
-    val selectOptionList = listOf(1, 3, 5, 10)
-    val selectedOption = tmpCycle.getInt()
-    val onSelectionChange = { choose: Int -> tmpCycle.setInt(choose) }
-    Row(modifier = Modifier.padding(8.dp), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-        selectOptionList.forEach {
-            OutlinedButton(
-                onClick = { onSelectionChange(it) },
-                content = {
-                    Text(
-                        text = "${it}분",
-                        style = TextStyle(textAlign = TextAlign.Center, color = Color.Black)
-                    )
-                },
-                shape = AdminRoundedBtn.small,
-                colors = ButtonDefaults.outlinedButtonColors(
-                    backgroundColor = if (it == selectedOption) AdminSelect else Color.White,
-                    contentColor = AdminClicked
-                ),
-                modifier = Modifier
-                    .padding(4.dp),
-                border = adminBorder,
-                elevation = elevation(1.dp)
-            )
-        }
-    }
-}
-
-@Composable // 로봇 관리 항목 버튼 composable
-fun RobotManagementBtn(btnContent : List<Pair<Int, () -> Unit>>){
-    LazyRow(
-        horizontalArrangement = Arrangement.SpaceAround,
-        content = {
-            itemsIndexed(btnContent) { _, item ->
-                OutlinedButton(
-                    onClick = { item.second },
-                    content = {
-                        Text(
-                            text = stringResource(id = item.first),
-                            style = AdminTypography.button,
-                        )
-                    },
-                    shape = AdminRoundedBtn.medium,
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        backgroundColor = AdminSelect,
-                        contentColor = AdminClicked
-                    ),
-                    border = adminBorder,
-                    modifier = Modifier.height(50.dp),
-                    elevation = elevation(2.dp)
-                )
-            }
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 3.dp)
-    )
-}
-
-@Composable // 강제 충전 시작, 로봇 운영 시작
-fun RightPerSpinner(modifier: Modifier, spinName: Int, tmpPer: IntFieldState, perList: List<Int>) {
-    val selectedItem = tmpPer.getInt()
-    val onItemSelected = { select: Int -> tmpPer.setInt(select) }
-    val expanded = rememberSaveable { mutableStateOf(false) }
-
-    Row(modifier = modifier,
-        content = {
-            Text(
-                text = stringResource(spinName),
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(start = 10.dp)
-            )
-            Spacer(modifier = Modifier.size(10.dp))
-//, enabled = percentageList.isNotEmpty()
-            OutlinedButton(
-                onClick = { expanded.value = true },
-                modifier = Modifier
-                    .width(90.dp)
-                    .height(35.dp),
-                shape = AdminRoundedBtn.medium,
-                border = adminBorder,
-            ) {
-                Text(
-                    text = "${selectedItem}%",
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                    modifier = Modifier.weight(1f),
-                    color = Color.Black
-                )
-                Icon(
-                    Icons.Default.ArrowDropDown,
-                    contentDescription = null,
-                    tint = Color.DarkGray
-                )
-            }
-
-            DropdownMenu(
-                expanded = expanded.value,
-                onDismissRequest = { expanded.value = false },
-                offset = DpOffset(x = (120).dp, y = (-2).dp)
-            ) {
-                perList.forEach {
-                    DropdownMenuItem(onClick = {
-                        expanded.value = false
-                        onItemSelected(it)
-                    }) {
-                        Text(text = "${it}%")
-                    }
-                }
-            }
-        })
-}
-
-// 타임 피커
-@Composable
-fun CustomTimePicker() {
-    val calendar = Calendar.getInstance()
-    var timeState by remember { mutableStateOf("00:00") }
-    val timePickerDialog = CustomTimePickerDialog(
-        LocalContext.current,
-        { _, hourOfDay, minute ->
-            timeState = String.format("%02d : %02d", hourOfDay, minute)
-        },
-        calendar[Calendar.HOUR_OF_DAY],
-        calendar[Calendar.MINUTE],
-        false
-    )
-    // 뒷배경 제거
-    timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
-
-    OutlinedButton(
-        onClick = { timePickerDialog.show() },
-        border = BorderStroke(1.dp, Color.White),
-        contentPadding = PaddingValues(0.dp),
-        modifier = Modifier.defaultMinSize(
-            minWidth = 25.dp,
-            minHeight = 30.dp
-        )
-    ) {
-        Text(text = timeState)
-    }
 }

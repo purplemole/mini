@@ -10,6 +10,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,7 +28,6 @@ import androidx.core.content.ContextCompat
 import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.navigation.NavRoute
 import com.clobot.mini.util.QrCodeAnalyzer
-import com.clobot.mini.view.common.OutlineTextBtn
 import com.clobot.mini.view.common.Template0
 
 // 예약 고객 페이지
@@ -116,18 +116,23 @@ fun ReservationCustomerContent() {
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                OutlineTextBtn({ routeAction.navTo(NavRoute.QrRecognition) }, "다음 단계 진행")
-                OutlineTextBtn({ }, "접수 장소로 이동")
+                OutlinedButton(
+                    content = { Text(text = "다음 단계 진행") },
+                    onClick = { routeAction.navTo(NavRoute.QrRecognition) })
+                OutlinedButton(
+                    content = { Text(text = "접수 장소로 이동") },
+                    onClick = {  })
             }
-
         }
-
     }
 
-    DisposableEffect(Unit){
+    DisposableEffect(Unit) {
         onDispose {
             cameraProviderFuture.get().unbindAll()
-            Log.i("reservation-customer", "cameraProviderFuture is Done : ${cameraProviderFuture.isDone}")
+            Log.i(
+                "reservation-customer",
+                "cameraProviderFuture is Done : ${cameraProviderFuture.isDone}"
+            )
         }
     }
 }

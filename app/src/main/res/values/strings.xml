@@ -83,7 +83,7 @@
     <string name="admin_B3">프로그램\n재시작</string>
     <string name="admin_B4">로봇 종료</string>
     <string name="admin_B5">취소</string>
-    <string name="admin_B6">저장</string>
+    <string name="admin_B6">저장 후 닫기</string>
     <string name="admin_x1">로봇 환경 설정 (관리자 화면)</string>
     <string name="admin_x2">로봇 이름</string>
     <string name="admin_x3">설치 장소 및 순번</string>

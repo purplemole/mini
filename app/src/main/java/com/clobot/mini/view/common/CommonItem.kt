@@ -17,20 +17,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.clobot.mini.data.page.HospitalMenu
 import com.clobot.mini.util.ContinuousClickHelper
 import com.clobot.mini.util.LocalRouteAction
-import com.clobot.mini.view.common.ui.theme.MiniTheme
-import com.clobot.mini.view.hospital.HospitalBarIcon
 import com.clobot.mini.view.navigation.NavRoute
 import com.clobot.mini.view.navigation.RouteAction
+import com.guru.fontawesomecomposelib.FaIcon
+import com.guru.fontawesomecomposelib.FaIconType
 import com.guru.fontawesomecomposelib.FaIcons
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
@@ -234,18 +230,6 @@ fun CoilImgView(
     )
 }
 
-/**
- * TODO button design
- *
- * @param onClick onClick : () -> Unit
- */
-@Composable
-fun OutlineTextBtn(onClick: () -> Unit, btnText: String) {
-    OutlinedButton(onClick = { onClick() }, modifier = Modifier.wrapContentSize()) {
-        Text(text = btnText)
-    }
-}
-
 @Composable
 fun TopAppBarTitle() {
     val routeAction = LocalRouteAction.current
@@ -280,19 +264,24 @@ fun TopAppBarTitle() {
     }
 }
 
+@Composable
+fun HospitalBarIcon(modifier: Modifier = Modifier, faIcon: FaIconType) {
+    Card(
+        elevation = 5.dp,
+        modifier = modifier
+            .clip(CircleShape)
+    ) {
+        Box(
+            modifier = modifier.padding(5.dp)
+        ) {
+            FaIcon(faIcon = faIcon)
+        }
+    }
+}
+
 inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit): Modifier = composed {
     clickable(indication = null,
         interactionSource = remember { MutableInteractionSource() }) {
         onClick()
-    }
-}
-
-@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 100)
-@Composable
-fun CommonItemPreview() {
-    MiniTheme {
-        Column {
-            TopAppBarTitle()
-        }
     }
 }

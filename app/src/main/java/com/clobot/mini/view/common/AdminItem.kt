@@ -1,12 +1,18 @@
 package com.clobot.mini.view.common
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,14 +21,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.data.admin.AdminData
 import com.clobot.mini.data.admin.AdminEnum
-import com.clobot.mini.view.common.ui.theme.MiniTheme
+import com.clobot.mini.util.LocalPromoteCycle
+import com.clobot.mini.util.state.IntFieldState
+import com.clobot.mini.util.state.TextFieldState
+import com.clobot.mini.view.common.ui.theme.*
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIcons
+import java.util.*
 
 // 소단원
 @Composable
@@ -72,6 +82,169 @@ fun FieldName(stringInt: Int) {
                 )
             )
         }
+    }
+}
+
+@Composable // 이동 홍보 주기 버튼 composable
+fun PromoteCycleBtn() {
+    val tmpCycle = LocalPromoteCycle.current
+    val selectOptionList = listOf(1, 3, 5, 10)
+    val selectedOption = tmpCycle.getInt()
+    val onSelectionChange = { choose: Int -> tmpCycle.setInt(choose) }
+    Row(modifier = Modifier.padding(8.dp), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+        selectOptionList.forEach {
+            OutlinedButton(
+                onClick = { onSelectionChange(it) },
+                content = {
+                    Text(
+                        text = "${it}분",
+                        style = TextStyle(textAlign = TextAlign.Center, color = Color.Black)
+                    )
+                },
+                shape = AdminRoundedBtn.small,
+                colors = ButtonDefaults.outlinedButtonColors(
+                    backgroundColor = if (it == selectedOption) AdminSelect else Color.White,
+                    contentColor = AdminClicked
+                ),
+                modifier = Modifier
+                    .padding(4.dp),
+                border = adminBorder,
+                elevation = ButtonDefaults.elevation(1.dp)
+            )
+        }
+    }
+}
+
+@Composable // 로봇 관리 항목 버튼 composable
+fun RobotManagementBtn(btnContent: List<Pair<Int, () -> Unit>>) {
+    LazyRow(
+        horizontalArrangement = Arrangement.SpaceAround,
+        content = {
+            itemsIndexed(btnContent) { _, item ->
+                OutlinedButton(
+                    onClick = { item.second },
+                    content = {
+                        Text(
+                            text = stringResource(id = item.first),
+                            style = AdminTypography.button,
+                        )
+                    },
+                    shape = AdminRoundedBtn.medium,
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        backgroundColor = AdminSelect,
+                        contentColor = AdminClicked
+                    ),
+                    border = adminBorder,
+                    modifier = Modifier.height(50.dp),
+                    elevation = ButtonDefaults.elevation(2.dp)
+                )
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 3.dp)
+    )
+}
+
+@Composable // 강제 충전 시작, 로봇 운영 시작
+fun RightPerSpinner(modifier: Modifier, spinName: Int, tmpPer: IntFieldState, perList: List<Int>) {
+    val selectedItem = tmpPer.getInt()
+    val onItemSelected = { select: Int -> tmpPer.setInt(select) }
+    val expanded = rememberSaveable { mutableStateOf(false) }
+
+    Row(modifier = modifier,
+        content = {
+            Text(
+                text = stringResource(spinName),
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(start = 10.dp)
+            )
+            Spacer(modifier = Modifier.size(10.dp))
+//, enabled = percentageList.isNotEmpty()
+            OutlinedButton(
+                onClick = { expanded.value = true },
+                modifier = Modifier
+                    .width(90.dp)
+                    .height(35.dp),
+                shape = AdminRoundedBtn.medium,
+                border = adminBorder,
+            ) {
+                Text(
+                    text = "${selectedItem}%",
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    modifier = Modifier.weight(1f),
+                    color = Color.Black
+                )
+                Icon(
+                    Icons.Default.ArrowDropDown,
+                    contentDescription = null,
+                    tint = Color.DarkGray
+                )
+            }
+
+            DropdownMenu(
+                expanded = expanded.value,
+                onDismissRequest = { expanded.value = false },
+                offset = DpOffset(x = (120).dp, y = (-2).dp)
+            ) {
+                perList.forEach {
+                    DropdownMenuItem(onClick = {
+                        expanded.value = false
+                        onItemSelected(it)
+                    }) {
+                        Text(text = "${it}%")
+                    }
+                }
+            }
+        })
+}
+
+@Composable
+fun FromToPicker(from: TextFieldState, to: TextFieldState) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        CustomTimePicker(from)
+        Text("~")
+        CustomTimePicker(to)
+    }
+}
+
+// 타임 피커
+@Composable
+fun CustomTimePicker(storeT: TextFieldState) {
+    val calendar = Calendar.getInstance()
+    val timeState = storeT.getText()//remember { mutableStateOf(storeT.getText()) }
+    val timePickerDialog = CustomTimePickerDialog(
+        LocalContext.current,
+        { _, hourOfDay, minute ->
+            storeT.setText(String.format("%02d : %02d", hourOfDay, minute))
+        },
+        calendar[Calendar.HOUR_OF_DAY],
+        calendar[Calendar.MINUTE],
+        false
+    )
+    // 뒷배경 제거
+    timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+
+    OutlinedButton(
+        onClick = { timePickerDialog.show() },
+        modifier = Modifier.defaultMinSize(
+            minWidth = 30.dp,
+            minHeight = 30.dp
+        ),
+        shape = AdminRoundedBtn.medium,
+        border = adminBorder,
+    ) {
+        Text(text = timeState, color = Color.Black)
+        FaIcon(
+            FaIcons.CaretDown,
+            tint = Color.DarkGray,
+        )
     }
 }
 

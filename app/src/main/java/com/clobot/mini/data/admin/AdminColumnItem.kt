@@ -4,13 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.R
 import com.clobot.mini.data.admin.AdminData.*
+import com.clobot.mini.util.*
 import com.clobot.mini.view.common.*
 import com.clobot.mini.view.common.ui.theme.*
 
@@ -125,23 +125,9 @@ object AdminColumnItem {
             DataPair(
                 subText = R.string.admin_x15,
                 cosUnit = {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        CustomTimePicker()
-                        Text("~")
-                        CustomTimePicker()
-                    }
+                    FromToPicker(LocalMoveLimitFrom.current, LocalMoveLimitTo.current)
                 },
             ),
-//            DataPair(
-//                subText = R.string.admin_x16,
-//                cosUnit = @Composable {
-//                    CustomTimePicker()
-//                }
-//            ),
         )
     )
 
@@ -149,19 +135,46 @@ object AdminColumnItem {
     private val rightItem3Data = DataPair(
         subText = R.string.admin_x20,
         cosUnit = {
-            CustomTimePicker()
+            FromToPicker(from = LocalMonFrom.current, to = LocalMonTo.current)
         }
     )
     private val rightItem3 = rightItem1.copy(
         titleText = R.string.admin_x19,
         content = listOf(
             rightItem3Data,
-            rightItem3Data.copy(subText = R.string.admin_x21),
-            rightItem3Data.copy(subText = R.string.admin_x22),
-            rightItem3Data.copy(subText = R.string.admin_x23),
-            rightItem3Data.copy(subText = R.string.admin_x24),
-            rightItem3Data.copy(subText = R.string.admin_x25),
-            rightItem3Data.copy(subText = R.string.admin_x26),
+            rightItem3Data.copy(
+                subText = R.string.admin_x21,
+                cosUnit = { FromToPicker(from = LocalTueFrom.current, to = LocalTueTo.current) }),
+            rightItem3Data.copy(subText = R.string.admin_x22, cosUnit = {
+                FromToPicker(
+                    from = LocalWedFrom.current,
+                    to = LocalWedTo.current
+                )
+            }),
+            rightItem3Data.copy(subText = R.string.admin_x23, cosUnit = {
+                FromToPicker(
+                    from = LocalThuFrom.current,
+                    to = LocalThuTo.current
+                )
+            }),
+            rightItem3Data.copy(subText = R.string.admin_x24, cosUnit = {
+                FromToPicker(
+                    from = LocalFriFrom.current,
+                    to = LocalFriTo.current
+                )
+            }),
+            rightItem3Data.copy(subText = R.string.admin_x25, cosUnit = {
+                FromToPicker(
+                    from = LocalSatFrom.current,
+                    to = LocalSatTo.current
+                )
+            }),
+            rightItem3Data.copy(subText = R.string.admin_x26, cosUnit = {
+                FromToPicker(
+                    from = LocalSunFrom.current,
+                    to = LocalSunTo.current
+                )
+            }),
         )
     )
 
