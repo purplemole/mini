@@ -71,6 +71,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
     api 'com.google.code.gson:gson:2.7'
 
+
     // Img
     implementation "com.github.skydoves:landscapist-glide:1.4.7"
     implementation "com.github.skydoves:landscapist-coil:1.4.7"
@@ -115,7 +116,8 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
     testImplementation "org.mockito:mockito-core:4.2.0"
     testImplementation "androidx.arch.core:core-testing:2.1.0" // liveData 테스트가 필요한 경우
-
+    androidTestImplementation 'androidx.test:core:1.4.0'
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
     // memory leak
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.8.1'
 

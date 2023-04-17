@@ -286,4 +286,12 @@ class StoreAdminSetting @Inject constructor(@ApplicationContext private val cont
             preference[sunTo] = sunOpeTo
         }
     }
+
+    suspend fun forTestCode(promote: Int,
+                            forcePer: Int){
+        myDataStore.edit { preference ->
+            preference[promoteCycle] = promote
+            preference[forceChargingPer] = forcePer
+        }
+    }
 }
