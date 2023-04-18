@@ -70,6 +70,23 @@ fun BootCheck(
             Text(text = netStateStr, modifier = Modifier.background(Color(0xFFE0C2F8)))
             Text(text = getCurTimeInfo(4))
         }
+        // Process
+        Row(
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            Text(
+                stringResource(R.string.book_check_x3),
+                modifier = Modifier.background(Color(0xFFE0C2F8))
+            )
+            val processStateStr = if (MainApplication.getInstance() != null)
+                stringResource(id = R.string.success)
+            else stringResource(id = R.string.fail)
+            Text(text = processStateStr, modifier = Modifier.background(Color(0xFFE0C2F8)))
+            Text(text = getCurTimeInfo(4))
+        }
         // DeviceStorage
         Row {
             Text(

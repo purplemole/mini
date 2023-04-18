@@ -54,3 +54,9 @@ sealed class ChargeMode {
     object Standby: ChargeMode()
     object Wake: ChargeMode()
 }
+
+sealed class TtsMode {
+    object Play: TtsMode()
+    object Stop: TtsMode()
+    object Query: TtsMode()
+}

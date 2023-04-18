@@ -1,4 +1,4 @@
-package com.clobot.mini.view.common
+package com.clobot.mini.util.robot
 
 import android.app.Application
 import android.content.Context
@@ -8,12 +8,8 @@ import com.ainirobot.coreservice.client.ApiListener
 import com.ainirobot.coreservice.client.RobotApi
 import com.ainirobot.coreservice.client.module.ModuleCallbackApi
 import com.ainirobot.coreservice.client.speech.SkillApi
-import com.clobot.mini.util.robot.ModuleCallback
-import com.clobot.mini.util.robot.SpeechCallback
-import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
-class MainApplication : Application() {
+class RobotOSApplication: Application() {
     private var mSkillApi: SkillApi? = null
 
     private var mSkillCallback: SpeechCallback? = null
@@ -88,10 +84,10 @@ class MainApplication : Application() {
     }
 
     companion object {
-        private var mApplication: MainApplication? = null
+        private var mApplication: RobotOSApplication? = null
         private var mContext: Context? = null
 
-        fun getInstance(): MainApplication? {
+        fun getInstance(): RobotOSApplication? {
             return mApplication
         }
 

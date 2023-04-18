@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.clobot.mini.data.robot.*
 import com.clobot.mini.repo.robot.AiniRobotRepository
+import com.clobot.mini.repo.robot.AiniTtsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RobotViewModel @Inject constructor(
-    private val repo: AiniRobotRepository
+    private val repo: AiniRobotRepository,
+    private val ttsRepo: AiniTtsRepository
 ) : ViewModel() {
     private val tag = "RobotViewModel"
 
@@ -68,5 +70,12 @@ class RobotViewModel @Inject constructor(
         mode: ChargeMode,
     ) {
         repo.charge(mode)
+    }
+
+    fun ttsController(
+        mode: TtsMode,
+        text: String = ""
+    ) {
+        ttsRepo.tts(mode, text)
     }
 }
