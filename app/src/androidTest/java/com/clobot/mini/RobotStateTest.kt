@@ -3,6 +3,7 @@ package com.clobot.mini
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.clobot.mini.repo.RobotRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -20,6 +21,6 @@ class RobotStateTest {
     @Test
     fun testRobotConnect() = runBlocking {
         robot.checkDockingStation()
-        assertEquals(true, robot.dockingState.first())
+        assertEquals(true, robot.dockingState.last())
     }
 }

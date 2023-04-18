@@ -5,9 +5,12 @@ import android.os.Looper
 import android.util.Log
 import com.ainirobot.coreservice.client.Definition
 import com.ainirobot.coreservice.client.RobotApi
+import com.ainirobot.coreservice.client.actionbean.LeadingParams
+import com.ainirobot.coreservice.client.actionbean.Pose
 import com.ainirobot.coreservice.client.listener.ActionListener
 import com.ainirobot.coreservice.client.listener.CommandListener
 import com.ainirobot.coreservice.client.robotsetting.RobotSettingApi
+import com.clobot.mini.data.robot.*
 import com.clobot.mini.repo.RobotRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +18,6 @@ import javax.inject.Inject
 
 class AiniRobotRepository @Inject constructor() : RobotRepository {
     private val robotApi = RobotApi.getInstance()
-//    val chargeStatus = robotApi.chargeStatus
     private val _dockingState = MutableStateFlow(false)
     override val dockingState: StateFlow<Boolean> = _dockingState
 
@@ -40,10 +42,12 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         _dockingState.value = robotApi.isChargePileExits
     }
 
+    // system 으로 구분 예정
     override fun getVersion(): String {
         return robotApi.version
     }
 
+    // system or charge 로 구분 예정
     fun getBattery(): String {
         return "Battery level:" +
                 RobotSettingApi.getInstance()
@@ -51,109 +55,140 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
     }
 
     // 기본 동작
-    fun basicMove(
+    fun basicMotion(
         // reqId = 0, speed = 0.0f, distance = Float.MAX_VALUE, avoid = false, angle = Float.MAX_VALUE
-        direction: String,
+        direction: MoveDirection,
         reqId: Int = 0,
-        speed: Float = 0.0f,
+        speed: Float = 0.2f,
         distance: Float = Float.MAX_VALUE,
         avoid: Boolean = false,
         angle: Float = Float.MAX_VALUE,
     ) {
         when (direction) {
-            "forward" -> robotApi.goForward(reqId, speed, distance, avoid, mMotionListener)
-            "backward" -> robotApi.goBackward(reqId, speed, distance, mMotionListener)
-            "turn_left" -> robotApi.turnLeft(reqId, speed, angle, mMotionListener)
-            "turn_right" -> robotApi.turnRight(reqId, speed, angle, mMotionListener)
-            "stop" -> robotApi.stopMove(reqId, mMotionListener)
+            MoveDirection.Forward -> robotApi.goForward(reqId, speed, distance, avoid, mMotionListener)
+            MoveDirection.Backward -> robotApi.goBackward(reqId, speed, distance, mMotionListener)
+            MoveDirection.TurnLeft -> robotApi.turnLeft(reqId, speed, angle, mMotionListener)
+            MoveDirection.TurnRight -> robotApi.turnRight(reqId, speed, angle, mMotionListener)
+            MoveDirection.Stop -> robotApi.stopMove(reqId, mMotionListener)
         }
-        Log.i(TAG, "[MOVE] Basic $direction")
+        Log.i(TAG, "[$MTN] Basic $direction")
     }
 
     // 호 운동 - 설명 불명확 기능, 테스트 필요
     fun arcMotion(
-        mode: String,
+        mode: ArcMode,
         reqId: Int = 0,
         lineSpeed: Float = 0.5f,
         angularSpeed: Float = 0f,
     ) {
         // motionArcWithObstacles: 장애물 감지?
         when (mode) {
-            "non" -> robotApi.motionArc(reqId, lineSpeed, angularSpeed, mMotionListener)
-            "obstacle" -> robotApi.motionArcWithObstacles(reqId, lineSpeed, angularSpeed, mMotionListener)
+            ArcMode.None -> robotApi.motionArc(reqId, lineSpeed, angularSpeed, mMotionListener)
+            ArcMode.Obstacle -> robotApi.motionArcWithObstacles(reqId, lineSpeed, angularSpeed, mMotionListener)
         }
-        Log.i(TAG, "[MOVE] Arc $mode")
+        Log.i(TAG, "[$MTN] Arc $mode")
     }
 
-    // 위치 관련
-    fun location(
-        mode: String,
+    // 위치
+    fun position(
+        mode: PosMode,
         reqId: Int = 0,
-        placeName: String,
+        placeName: String = "",
     ) {
         // estimate point: receoption point(접수처)
         when (mode) {
-            "set" -> robotApi.setLocation(reqId, placeName, mMotionListener)
-            "get" -> robotApi.getLocation(reqId, placeName, mMotionListener)
-            "remove" -> robotApi.removeLocation(reqId, placeName, mMotionListener)
-            "init" -> robotApi.setPoseEstimate(reqId, placeName, mMotionListener)
-            "isInit" -> robotApi.isRobotEstimate(reqId, mMotionListener)
-            "current" -> robotApi.getPosition(reqId, mMotionListener)
-            "map" -> robotApi.mapName
-            "switch" -> robotApi.switchMap(reqId, placeName, mMotionListener)
-            "isPos" -> robotApi.isRobotInlocations(reqId, placeName, mMotionListener)
+            PosMode.Set -> robotApi.setLocation(reqId, placeName, mMotionListener)
+            PosMode.Get -> robotApi.getLocation(reqId, placeName, mMotionListener)
+            PosMode.Pos -> robotApi.getPosition(reqId, mMotionListener)
+            PosMode.Remove -> robotApi.removeLocation(reqId, placeName, mMotionListener)
+            PosMode.Init -> robotApi.setPoseEstimate(reqId, placeName, mMotionListener)
+            PosMode.IsInit -> robotApi.isRobotEstimate(reqId, mMotionListener)
+            PosMode.Switch -> robotApi.switchMap(reqId, placeName, mMotionListener)
+            PosMode.IsPos -> robotApi.isRobotInlocations(reqId, placeName, mMotionListener)
+            PosMode.MapName -> robotApi.getMapName(reqId, mMotionListener)
+            PosMode.List -> robotApi.placeList
         }
-        Log.i(TAG, "[POS] Location $mode")
+        Log.i(TAG, "[$POS] Location $mode")
     }
 
     // 탐색
     fun navigation(
-        mode: String,
+        mode: NavMode,
         reqId: Int = 0,
         destination: String = "",
         coordinate: String = "",
+        route: List<Pose> = emptyList(),
+        dockingPoints: List<Int> = emptyList(),
     ) {
         when (mode) {
-            "start" -> robotApi.startNavigation(reqId, destination, 1.5, 10 * 1000, mNavigationListener)
-            "stop" -> robotApi.stopNavigation(reqId)
-            "goPos" -> robotApi.goPosition(reqId, coordinate, mMotionListener)
-            "stopPos" -> robotApi.stopGoPosition(reqId)
-            "toPos" -> robotApi.resumeSpecialPlaceTheta(reqId, destination, mMotionListener)
+            NavMode.Start -> robotApi.startNavigation(reqId, destination, 1.5, 10 * 1000, mNavigationListener)
+            NavMode.Stop -> robotApi.stopNavigation(reqId)
+            NavMode.GoPos -> robotApi.goPosition(reqId, coordinate, mMotionListener)
+            NavMode.StopPos -> robotApi.stopGoPosition(reqId)
+            NavMode.ToPos -> robotApi.resumeSpecialPlaceTheta(reqId, destination, mMotionListener)
+            NavMode.Cruise -> robotApi.startCruise(reqId, route, 0, dockingPoints, mNavigationListener)
+            NavMode.Lead -> robotApi.startLead(reqId, LeadingParams(), mNavigationListener)
+            NavMode.StopLead -> robotApi.stopLead(reqId, true)
 //            "calc" -> robotApi.getNaviPathInfo(reqId, start, destination, mMotionListener)
         }
-        Log.i(TAG, "[NAV] Navigate $mode")
+        Log.i(TAG, "[$NAV] Navigate $mode")
     }
 
+    // 충전
     fun charge(
-        mode: String,
+        mode: ChargeMode,
         reqId: Int = 0,
         timeout: Long = 3 * Definition.MINUTE,
         isReset: Boolean = false,
     ) {
         when (mode) {
-            "start" -> robotApi.startNaviToAutoChargeAction(reqId, timeout, mNavigationListener)
-            "stop" -> robotApi.stopAutoChargeAction(reqId, isReset)
-            "leave" -> robotApi.stopChargingByApp()
-            "standBy" -> robotApi.robotStandby(reqId, mMotionListener)
-            "wake" -> robotApi.robotStandbyEnd(reqId)
+            ChargeMode.Start -> robotApi.startNaviToAutoChargeAction(reqId, timeout, mNavigationListener)
+            ChargeMode.Stop -> robotApi.stopAutoChargeAction(reqId, isReset)
+            ChargeMode.Leave -> robotApi.leaveChargingPile(reqId, 0.5f, 0.5f, mMotionListener)
+            ChargeMode.StopLeave -> robotApi.stopChargingByApp()
+            ChargeMode.Standby -> robotApi.robotStandby(reqId, mMotionListener)
+            ChargeMode.Wake -> robotApi.robotStandbyEnd(reqId)
         }
-        Log.i(TAG, "[CAG] Charge $mode")
+        Log.i(TAG, "[$CHG] Charge $mode")
     }
 
-    // TODO: 리스너 분리
+    // 동작 리스너
     private val mMotionListener: CommandListener = object : CommandListener() {
-        @Deprecated("Deprecated in Java")
-        override fun onResult(result: Int, message: String) {
+        override fun onResult(result: Int, message: String, extraData: String) {
             Log.i("AiniRepo", "result: $result message:$message")
             if ("succeed" == message) {
             } else {
             }
         }
+
+        override fun onStatusUpdate(status: Int, data: String, extraData: String) {
+            Log.i("AiniRepo", "status: $status data:$data")
+        }
     }
 
-    private val mNavigationListener: ActionListener = object : ActionListener() {}
+    // 탐색 리스너
+    private val mNavigationListener: ActionListener = object : ActionListener() {
+        override fun onResult(status: Int, response: String, extraData: String) {
+            Log.i("AiniRepo", "status: $status response:$response")
+        }
+
+        override fun onError(code: Int, message: String, extraData: String) {
+            Log.i("AiniRepo", "code: $code message:$message")
+        }
+
+        override fun onStatusUpdate(status: Int, data: String, extraData: String) {
+            Log.i("AiniRepo", "status: $status data:$data")
+        }
+    }
 
     companion object {
         private const val TAG = "RobotRepo"
+
+        private const val MTN = "Motion"
+        private const val POS = "Position"
+        private const val NAV = "Navigation"
+        private const val CHG = "Charge"
+        private const val QR = "QR"
+        private const val SYS = "System"
     }
 }
