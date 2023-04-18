@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RobotViewModel @Inject constructor(
     private val repo: AiniRobotRepository,
-    private val ttsRepo: AiniTtsRepository
+//    private val ttsRepo: AiniTtsRepository
 ) : ViewModel() {
     private val tag = "RobotViewModel"
 
@@ -76,6 +76,6 @@ class RobotViewModel @Inject constructor(
         mode: TtsMode,
         text: String = ""
     ) {
-        ttsRepo.tts(mode, text)
+//        ttsRepo.tts(mode, text)
     }
 }
