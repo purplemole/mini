@@ -39,4 +39,8 @@ sealed class NavRoute(val routeName: String, val description: String, val pageWa
 
     // 관리자 화면
     object Admin : NavRoute("admin", "관리자")
+
+    object Charging : NavRoute("charging", "충전 중")
+
+    object Developer : NavRoute("developer", "개발자 페이지", 0)
 }

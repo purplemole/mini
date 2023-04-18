@@ -2,14 +2,19 @@ package com.clobot.mini.view.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.clobot.mini.view.common.AdminView
 import com.clobot.mini.model.NavigationViewModel
+import com.clobot.mini.model.RobotViewModel
+import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.util.LocalRouteAction
+import com.clobot.mini.view.common.Developer
 import com.clobot.mini.view.hospital.*
+import com.clobot.mini.view.move.Charging
 import com.clobot.mini.view.move.Standby
 
 @Composable
@@ -55,6 +60,18 @@ fun NavigationGraph() {
 
             // 스탠바이
             composable(NavRoute.Standby.routeName) { Standby() }
+
+            // 충전 중
+            composable(NavRoute.Charging.routeName) {
+//                if (LocalRobotViewModel.current.dockingState.collectAsState(
+//                        initial = false
+//                    ).value
+//                )
+                    Charging()
+            }
+
+            // 개발자용 테스트 화면
+            composable(NavRoute.Developer.routeName) { Developer() }
         }
     }
 

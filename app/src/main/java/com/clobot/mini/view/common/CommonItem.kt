@@ -247,6 +247,15 @@ fun TopAppBarTitle() {
                 Text(text = "click!!")
             }
         )
+        Box(
+            modifier = Modifier
+                .background(Color(0xFFAD8484))
+                .width(100.dp)
+                .noRippleClickable { routeAction.navTo(NavRoute.Developer) },
+            content = {
+                Text(text = "테스트")
+            }
+        )
         Text(
             "로고",
             modifier = Modifier
