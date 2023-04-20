@@ -1,6 +1,7 @@
 package com.clobot.mini.view.common
 
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import androidx.compose.foundation.BorderStroke
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
+import androidx.compose.material.ButtonDefaults.elevation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
@@ -24,9 +26,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import com.clobot.mini.R
 import com.clobot.mini.data.admin.AdminData
 import com.clobot.mini.data.admin.AdminEnum
+import com.clobot.mini.data.robot.ChargeMode
 import com.clobot.mini.util.LocalPromoteCycle
+import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.util.state.IntFieldState
 import com.clobot.mini.util.state.TextFieldState
 import com.clobot.mini.view.common.ui.theme.*
@@ -116,13 +121,22 @@ fun PromoteCycleBtn() {
 }
 
 @Composable // 로봇 관리 항목 버튼 composable
-fun RobotManagementBtn(btnContent: List<Pair<Int, () -> Unit>>) {
+fun RobotManagementBtn() {
+    val robotViewModel = LocalRobotViewModel.current
+    val pairItem1 = Pair((R.string.admin_B1)) { robotViewModel.chargeController(ChargeMode.Start) }
+    val pairItem2 = Pair((R.string.admin_B2)) {/*TODO*/ }
+    val pairItem3 = Pair((R.string.admin_B3)) {/*TODO*/ }
+    val pairItem4 = Pair((R.string.admin_B4)) {/*TODO*/ }
+
+    val robotAction = listOf(pairItem1, pairItem2, pairItem3, pairItem4)
+
     LazyRow(
         horizontalArrangement = Arrangement.SpaceAround,
         content = {
-            itemsIndexed(btnContent) { _, item ->
+
+            itemsIndexed(robotAction) { _, item ->
                 OutlinedButton(
-                    onClick = { item.second },
+                    onClick = item.second,
                     content = {
                         Text(
                             text = stringResource(id = item.first),
@@ -136,7 +150,7 @@ fun RobotManagementBtn(btnContent: List<Pair<Int, () -> Unit>>) {
                     ),
                     border = adminBorder,
                     modifier = Modifier.height(50.dp),
-                    elevation = ButtonDefaults.elevation(2.dp)
+                    elevation = elevation(2.dp)
                 )
             }
         },
@@ -230,6 +244,17 @@ fun CustomTimePicker(storeT: TextFieldState) {
     )
     // 뒷배경 제거
     timePickerDialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+    timePickerDialog.setButton(
+        DialogInterface.BUTTON_POSITIVE,
+        stringResource(id = R.string.confirm),
+        timePickerDialog
+    )
+    timePickerDialog.setButton(
+        DialogInterface.BUTTON_NEGATIVE,
+        stringResource(id = R.string.cancel),
+        timePickerDialog
+    )
+    timePickerDialog.setTitle("test")
 
     OutlinedButton(
         onClick = { timePickerDialog.show() },
@@ -269,9 +294,10 @@ fun CustomVolumeButton(
             val volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
             currentVolume.value = volumeLevel
         },
-        border = BorderStroke(1.dp, Color.White),
-        contentPadding = PaddingValues(0.dp),
-        modifier = Modifier.defaultMinSize(25.dp, 30.dp)
+        border = BorderStroke(1.dp, Color.Black),
+        contentPadding = PaddingValues(5.dp),
+        modifier = Modifier.defaultMinSize(25.dp, 30.dp),
+        elevation = elevation(1.dp)
     ) {
         FaIcon(
             faIcon = when (state) {
@@ -279,8 +305,17 @@ fun CustomVolumeButton(
                 AdminEnum.AudioState.DOWN -> FaIcons.CaretDown
                 AdminEnum.AudioState.MUTE -> FaIcons.VolumeMute
             },
-
-            )
+            tint = if (currentVolume.value == 0) {
+                if (state == AdminEnum.AudioState.DOWN) Color.LightGray
+                else Color.Black
+            } else if (currentVolume.value == audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)) {
+                if (state == AdminEnum.AudioState.UP) Color.Black
+                else Color.LightGray
+            } else {
+                if (state == AdminEnum.AudioState.MUTE) Color.LightGray
+                else Color.Black
+            }
+        )
     }
 }
 

@@ -32,7 +32,7 @@ fun MiniTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable (
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
-        LightColorPalette
+        DarkColorPalette
     }
 
     MaterialTheme(

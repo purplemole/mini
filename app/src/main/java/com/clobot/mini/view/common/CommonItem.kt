@@ -264,7 +264,7 @@ fun TopAppBarTitle() {
         AndroidView(
             factory = { context ->
                 TextClock(context).apply {
-                    format12Hour?.let { this.format12Hour = "yyyy-MM-dd hh:mm" }
+                    format12Hour?.let { this.format12Hour = "hh:mm a" }
                     timeZone?.let { this.timeZone = "Asia/Seoul" }
                 }
             },

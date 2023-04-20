@@ -1,7 +1,7 @@
 package com.clobot.mini.util
 
-import android.os.StatFs
 import android.os.Environment
+import android.os.StatFs
 import android.util.Log
 
 class DeviceStorage() {

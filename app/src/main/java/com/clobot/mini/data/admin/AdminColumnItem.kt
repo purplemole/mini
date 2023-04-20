@@ -98,21 +98,13 @@ object AdminColumnItem {
         )
     )
 
-    // <Pair<Int, () -> Unit>>s
-    private val pairItem1 = Pair((R.string.admin_B1)) {/*TODO*/ }
-    private val pairItem2 = Pair((R.string.admin_B2)) {/*TODO*/ }
-    private val pairItem3 = Pair((R.string.admin_B3)) {/*TODO*/ }
-    private val pairItem4 = Pair((R.string.admin_B4)) {/*TODO*/ }
-
-    private val robotAction = listOf(pairItem1, pairItem2, pairItem3, pairItem4)
-
     private val leftItem4 = AdminCustomBow(
         titleText = R.string.admin_x13,
         content = listOf(
             DataPair(
                 subText = 0,
                 cosUnit = {
-                    RobotManagementBtn(robotAction)
+                    RobotManagementBtn()
                 }
             )
         )

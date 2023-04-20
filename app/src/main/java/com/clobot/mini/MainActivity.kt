@@ -23,6 +23,7 @@ import com.clobot.mini.data.network.NetworkState
 import com.clobot.mini.util.LocalMainViewModel
 import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.view.common.BootCheck
+import com.clobot.mini.view.move.Charging
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

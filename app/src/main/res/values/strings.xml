@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">mini</string>
-    <!--    <string name="gnb_x1">{YYYY_MM_DD hh:mm}</string>-->
-    <!--    <string name="gnb_x2">{%}</string>-->
+    
     <string name="standby_t1">초기 위치로 이동합니다. 잠시 후 이용해 주세요.</string>
     <string name="promote_normal_t1">주행을 시작합니다.</string>
     <string name="promote_normal_t2">조심하세요. 제가 지나갈 수 있도록 옆으로 비켜주세요.</string>
@@ -143,4 +142,7 @@
 
     <string name="success">성공</string>
     <string name="fail">실패</string>
+
+    <string name="confirm">확인</string>
+    <string name="cancel">취소</string>
 </resources>
