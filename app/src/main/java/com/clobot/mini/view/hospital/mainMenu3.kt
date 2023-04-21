@@ -75,7 +75,7 @@ fun ReservationCustomerContent() {
                     val preview = Preview.Builder().build()
                     val selector =
                         CameraSelector.Builder()
-                            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                            .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
                             .build()
                     preview.setSurfaceProvider(previewView.surfaceProvider)
                     val imageAnalysis = ImageAnalysis.Builder().setTargetResolution(

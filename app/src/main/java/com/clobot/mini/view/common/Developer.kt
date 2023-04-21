@@ -42,12 +42,25 @@ private fun AndroidSetting() {
 }
 
 @Composable
-private fun ChargeTest(){
+private fun ChargeTest() {
     val robotViewModel = LocalRobotViewModel.current
-    Row(horizontalArrangement = Arrangement.SpaceEvenly){
-        Button(onClick = { robotViewModel.chargeController(ChargeMode.Start) }, content = {Text("GO CHARGE")})
-        Button(onClick = { robotViewModel.chargeController(ChargeMode.StopLeave) }, content = {Text("STOP GO\nCHARGE")})
-        Button(onClick = { robotViewModel.chargeController(ChargeMode.Stop) }, content = {Text("STOP CHARGE")})
-        Button(onClick = { robotViewModel.chargeController(ChargeMode.StopLeave) }, content = {Text("LEAVING\nCHARGE DOCK")})
-    }
+    Row(horizontalArrangement = Arrangement.SpaceEvenly, content = {
+        val modifier = Modifier.weight(1f)
+        Button(
+            modifier = modifier,
+            onClick = { robotViewModel.chargeController(ChargeMode.Start) },
+            content = { Text("GO CHARGE") })
+        Button(
+            modifier = modifier,
+            onClick = { robotViewModel.chargeController(ChargeMode.StopLeave) },
+            content = { Text("STOP GO\nCHARGE") })
+        Button(
+            modifier = modifier,
+            onClick = { robotViewModel.chargeController(ChargeMode.Stop) },
+            content = { Text("STOP CHARGE") })
+        Button(
+            modifier = modifier,
+            onClick = { robotViewModel.chargeController(ChargeMode.StopLeave) },
+            content = { Text("LEAVING\nCHARGE DOCK") })
+    })
 }
