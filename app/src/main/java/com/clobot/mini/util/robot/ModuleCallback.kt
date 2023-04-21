@@ -63,6 +63,6 @@ class ModuleCallback : ModuleCallbackApi() {
     }
 
     companion object {
-        private val TAG = ModuleCallback::class.java.name
+        private val TAG = ModuleCallback::class.java.simpleName
     }
 }

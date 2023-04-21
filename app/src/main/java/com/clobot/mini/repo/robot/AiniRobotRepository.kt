@@ -26,12 +26,12 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
     override fun initialize(): Boolean {
         checkTimes++
         return if (checkTimes > 10) {
-            // Temporary code
-            _dockingState.value = true
             false
         } else if (robotApi.isApiConnectedService
             && robotApi.isActive
         ) {
+            // 도킹스테이션 확인
+            _dockingState.value = robotApi.isChargePileExits
             true
         } else {
             Handler(Looper.getMainLooper()).postDelayed(Runnable { initialize() }, 300)
@@ -127,6 +127,7 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
             NavMode.StopPos -> robotApi.stopGoPosition(reqId)
             NavMode.ToPos -> robotApi.resumeSpecialPlaceTheta(reqId, destination, mMotionListener)
             NavMode.Cruise -> robotApi.startCruise(reqId, route, 0, dockingPoints, mNavigationListener)
+            NavMode.StopCruise -> robotApi.stopCruise(reqId)
             NavMode.Lead -> robotApi.startLead(reqId, LeadingParams(), mNavigationListener)
             NavMode.StopLead -> robotApi.stopLead(reqId, true)
 //            "calc" -> robotApi.getNaviPathInfo(reqId, start, destination, mMotionListener)

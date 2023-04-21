@@ -29,11 +29,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="action.orionstar.default.app" />
+<!--            로봇 부팅시 기본 실행 앱으로 설정-->
+<!--            <intent-filter>-->
+<!--                <action android:name="action.orionstar.default.app" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--            </intent-filter>-->
 
             <meta-data
                 android:name="android.app.lib_name"

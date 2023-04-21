@@ -42,6 +42,7 @@ sealed class NavMode {
     object StopPos: NavMode()
     object ToPos: NavMode()
     object Cruise: NavMode()
+    object StopCruise: NavMode()
     object Lead: NavMode()
     object StopLead: NavMode()
 }

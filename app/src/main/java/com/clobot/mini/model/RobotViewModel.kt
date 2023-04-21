@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.clobot.mini.data.robot.*
 import com.clobot.mini.repo.robot.AiniRobotRepository
-import com.clobot.mini.repo.robot.AiniTtsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -30,10 +29,10 @@ class RobotViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repo.initialize()
-//            repo.checkDockingStation()
-            repo.dockingState.collectLatest {
-                _dockingState.emit(it)
+            repo.initialize().let {
+                repo.dockingState.collectLatest {
+                    _dockingState.emit(it)
+                }
             }
         }
     }

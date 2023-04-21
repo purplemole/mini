@@ -36,6 +36,6 @@ class SpeechCallback : SkillCallback() {
     }
 
     companion object {
-        private val TAG = SpeechCallback::class.java.name
+        private val TAG = SpeechCallback::class.java.simpleName
     }
 }

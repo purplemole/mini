@@ -46,9 +46,9 @@ class MainApplication : Application() {
              * Start connect RobotOS, init and make it ready to use
              */
             override fun handleApiConnected() {
-                Log.i(TAG, "handleApiConnected")
                 addApiCallBack()
                 initSkillApi()
+                Log.i(TAG, "handleApiConnected")
             }
 
             // Disconnect RobotOS
@@ -59,9 +59,9 @@ class MainApplication : Application() {
     }
 
     private fun addApiCallBack() {
-        Log.d(TAG, "CoreService connected ")
         RobotApi.getInstance().setCallback(mModuleCallback)
         RobotApi.getInstance().setResponseThread(mApiCallbackThread)
+        Log.d(TAG, "CoreService connected ")
     }
 
     private fun initSkillApi() {
