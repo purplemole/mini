@@ -44,9 +44,7 @@ object AdminColumnItem {
         listOf(
             DataPair(
                 subText = R.string.admin_x6,
-                cosUnit = {
-                    VolumeStage()
-                }
+                cosUnit = { VolumeStage() }
             ),
             DataPair(
                 subText = R.string.admin_x7,
@@ -68,9 +66,7 @@ object AdminColumnItem {
             ),
             DataPair(
                 subText = R.string.admin_x9,
-                cosUnit = {
-                    PromoteCycleBtn()
-                }
+                cosUnit = { PromoteCycleBtn() }
             )
         )
     )
@@ -103,9 +99,7 @@ object AdminColumnItem {
         content = listOf(
             DataPair(
                 subText = 0,
-                cosUnit = {
-                    RobotManagementBtn()
-                }
+                cosUnit = { RobotManagementBtn() }
             )
         )
     )
@@ -116,9 +110,7 @@ object AdminColumnItem {
         listOf(
             DataPair(
                 subText = R.string.admin_x15,
-                cosUnit = {
-                    FromToPicker(LocalMoveLimitFrom.current, LocalMoveLimitTo.current)
-                },
+                cosUnit = { FromToPicker(LocalRestrictFromTo.current) },
             ),
         )
     )
@@ -126,47 +118,26 @@ object AdminColumnItem {
     // 요일 별 로봇 운영 시간
     private val rightItem3Data = DataPair(
         subText = R.string.admin_x20,
-        cosUnit = {
-            FromToPicker(from = LocalMonFrom.current, to = LocalMonTo.current)
-        }
-    )
+        cosUnit = { FromToPicker(LocalMonFromTo.current) })
+
     private val rightItem3 = rightItem1.copy(
         titleText = R.string.admin_x19,
         content = listOf(
             rightItem3Data,
             rightItem3Data.copy(
                 subText = R.string.admin_x21,
-                cosUnit = { FromToPicker(from = LocalTueFrom.current, to = LocalTueTo.current) }),
-            rightItem3Data.copy(subText = R.string.admin_x22, cosUnit = {
-                FromToPicker(
-                    from = LocalWedFrom.current,
-                    to = LocalWedTo.current
-                )
-            }),
-            rightItem3Data.copy(subText = R.string.admin_x23, cosUnit = {
-                FromToPicker(
-                    from = LocalThuFrom.current,
-                    to = LocalThuTo.current
-                )
-            }),
-            rightItem3Data.copy(subText = R.string.admin_x24, cosUnit = {
-                FromToPicker(
-                    from = LocalFriFrom.current,
-                    to = LocalFriTo.current
-                )
-            }),
-            rightItem3Data.copy(subText = R.string.admin_x25, cosUnit = {
-                FromToPicker(
-                    from = LocalSatFrom.current,
-                    to = LocalSatTo.current
-                )
-            }),
-            rightItem3Data.copy(subText = R.string.admin_x26, cosUnit = {
-                FromToPicker(
-                    from = LocalSunFrom.current,
-                    to = LocalSunTo.current
-                )
-            }),
+                cosUnit = { FromToPicker(LocalTueFromTo.current) }),
+            rightItem3Data.copy(
+                subText = R.string.admin_x22,
+                cosUnit = { FromToPicker(LocalWedFromTo.current) }),
+            rightItem3Data.copy(subText = R.string.admin_x23,
+                cosUnit = { FromToPicker(LocalThuFromTo.current) }),
+            rightItem3Data.copy(subText = R.string.admin_x24,
+                cosUnit = { FromToPicker(LocalFriFromTo.current) }),
+            rightItem3Data.copy(subText = R.string.admin_x25,
+                cosUnit = { FromToPicker(LocalSatFromTo.current) }),
+            rightItem3Data.copy(subText = R.string.admin_x26,
+                cosUnit = { FromToPicker(LocalSunFromTo.current) }),
         )
     )
 

@@ -114,7 +114,7 @@ fun PromoteCycleBtn() {
                 modifier = Modifier
                     .padding(4.dp),
                 border = adminBorder,
-                elevation = ButtonDefaults.elevation(1.dp)
+                elevation = elevation(1.dp)
             )
         }
     }
@@ -216,27 +216,32 @@ fun RightPerSpinner(modifier: Modifier, spinName: Int, tmpPer: IntFieldState, pe
 }
 
 @Composable
-fun FromToPicker(from: TextFieldState, to: TextFieldState) {
+fun FromToPicker(fromTo: TextFieldState) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CustomTimePicker(from)
+        CustomTimePicker(fromTo, true)
         Text("~")
-        CustomTimePicker(to)
+        CustomTimePicker(fromTo, false)
     }
 }
 
 // 타임 피커
 @Composable
-fun CustomTimePicker(storeT: TextFieldState) {
+fun CustomTimePicker(storeT: TextFieldState, isFrom: Boolean) {
+    val originT = storeT.getText().split("~")
     val calendar = Calendar.getInstance()
-    val timeState = storeT.getText()//remember { mutableStateOf(storeT.getText()) }
+    val timeState =
+        if (isFrom) originT[0] else originT[1]//remember { mutableStateOf(storeT.getText()) }
     val timePickerDialog = CustomTimePickerDialog(
         LocalContext.current,
         { _, hourOfDay, minute ->
-            storeT.setText(String.format("%02d : %02d", hourOfDay, minute))
+            if (isFrom)
+                storeT.setText("${String.format("%02d : %02d", hourOfDay, minute)}~${originT[1]}")
+            else
+                storeT.setText("${originT[0]}~${String.format("%02d : %02d", hourOfDay, minute)}")
         },
         calendar[Calendar.HOUR_OF_DAY],
         calendar[Calendar.MINUTE],

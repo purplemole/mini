@@ -31,35 +31,18 @@ val LocalForceCharging =
     compositionLocalOf<IntFieldState> { error("LocalForceCharging Error") }
 val LocalRobotOperating =
     compositionLocalOf<IntFieldState> { error("LocalRobotOperating Error") }
-val LocalMoveLimitFrom =
-    compositionLocalOf<TextFieldState> { error("LocalMoveLimitFrom Error") }
-val LocalMoveLimitTo =
-    compositionLocalOf<TextFieldState> { error("LocalMoveLimitTo Error") }
-val LocalMonTo =
-    compositionLocalOf<TextFieldState> { error("LocalMonTo Error") }
-val LocalMonFrom =
-    compositionLocalOf<TextFieldState> { error("LocalMonFrom Error") }
-val LocalTueTo =
-    compositionLocalOf<TextFieldState> { error("LocalTueTo Error") }
-val LocalTueFrom =
-    compositionLocalOf<TextFieldState> { error("LocalTueFrom Error") }
-val LocalWedTo =
-    compositionLocalOf<TextFieldState> { error("LocalWedTo Error") }
-val LocalWedFrom =
-    compositionLocalOf<TextFieldState> { error("LocalWedFrom Error") }
-val LocalThuTo =
-    compositionLocalOf<TextFieldState> { error("LocalThuTo Error") }
-val LocalThuFrom =
-    compositionLocalOf<TextFieldState> { error("LocalThuFrom Error") }
-val LocalFriTo =
-    compositionLocalOf<TextFieldState> { error("LocalFriTo Error") }
-val LocalFriFrom =
-    compositionLocalOf<TextFieldState> { error("LocalFriFrom Error") }
-val LocalSatTo =
-    compositionLocalOf<TextFieldState> { error("LocalSatTo Error") }
-val LocalSatFrom =
-    compositionLocalOf<TextFieldState> { error("LocalSatFrom Error") }
-val LocalSunTo =
-    compositionLocalOf<TextFieldState> { error("LocalSunTo Error") }
-val LocalSunFrom =
-    compositionLocalOf<TextFieldState> { error("LocalSunFrom Error") }
+val LocalRestrictFromTo = compositionLocalOf<TextFieldState> { error("LocalRestrictFromTo Error") }
+val LocalMonFromTo =
+    compositionLocalOf<TextFieldState> { error("LocalMonFromTo Error") }
+val LocalTueFromTo =
+    compositionLocalOf<TextFieldState> { error("LocalTueFromTo Error") }
+val LocalWedFromTo =
+    compositionLocalOf<TextFieldState> { error("LocalWedFromTo Error") }
+val LocalThuFromTo =
+    compositionLocalOf<TextFieldState> { error("LocalThuFromTo Error") }
+val LocalFriFromTo =
+    compositionLocalOf<TextFieldState> { error("LocalFriFromTo Error") }
+val LocalSatFromTo =
+    compositionLocalOf<TextFieldState> { error("LocalSatFromTo Error") }
+val LocalSunFromTo =
+    compositionLocalOf<TextFieldState> { error("LocalSunFromTo Error") }

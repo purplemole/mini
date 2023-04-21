@@ -36,22 +36,14 @@ class StoreAdminSetting @Inject constructor(@ApplicationContext private val cont
     private val promoteCycle = intPreferencesKey("promote_cycle") // 이동 홍보 주기
     private val forceChargingPer = intPreferencesKey("force_charging") // 강제 충전 시작 퍼센트
     private val operatingPer = intPreferencesKey("robot_operating") // 로봇 운영 시작
-    private val moveLimitFrom = stringPreferencesKey("limit_from") // 이동 제한 시간
-    private val moveLimitTo = stringPreferencesKey("limit_to")
-    private val monFrom = stringPreferencesKey("monFrom")
-    private val tueFrom = stringPreferencesKey("tueFrom")
-    private val wedFrom = stringPreferencesKey("wedFrom")
-    private val thuFrom = stringPreferencesKey("thuFrom")
-    private val friFrom = stringPreferencesKey("friFrom")
-    private val satFrom = stringPreferencesKey("satFrom")
-    private val sunFrom = stringPreferencesKey("sunFrom")
-    private val monTo = stringPreferencesKey("monTo")
-    private val tueTo = stringPreferencesKey("tueTo")
-    private val wedTo = stringPreferencesKey("wedTo")
-    private val thuTo = stringPreferencesKey("thuTo")
-    private val friTo = stringPreferencesKey("friTo")
-    private val satTo = stringPreferencesKey("satTo")
-    private val sunTo = stringPreferencesKey("sunTo")
+    private val movementRestrict = stringPreferencesKey("movement_restrict") //00:00~00:00
+    private val monFromTo = stringPreferencesKey("mon_operating")
+    private val tueFromTo = stringPreferencesKey("tue_operating")
+    private val wedFromTo = stringPreferencesKey("wed_operating")
+    private val thuFromTo = stringPreferencesKey("thu_operating")
+    private val friFromTo = stringPreferencesKey("fri_operating")
+    private val satFromTo = stringPreferencesKey("sat_operating")
+    private val sunFromTo = stringPreferencesKey("sun_operating")
 
     private val myDataStore = context.dataStore
 
@@ -88,153 +80,80 @@ class StoreAdminSetting @Inject constructor(@ApplicationContext private val cont
                 }
             }
 
-    val getLimitFrom: Flow<String> =
-        myDataStore.data.map { preferences -> preferences[moveLimitFrom] ?: "00:00" }
+    val getMoveRestrict: Flow<String> =
+        myDataStore.data.map { preferences -> preferences[movementRestrict] ?: "00:00~00:00" }
             .catch { exception ->
                 if (exception is IOException) {
-                    emit("00:00")
+                    emit("00:00~00:00")
                 } else {
                     throw exception
                 }
             }
 
-    val getLimitTo: Flow<String> =
-        myDataStore.data.map { preferences -> preferences[moveLimitTo] ?: "00:00" }
+    val getMonFromTo : Flow<String> =
+        myDataStore.data.map { preferences -> preferences[monFromTo] ?: "00:00~00:00" }
             .catch { exception ->
                 if (exception is IOException) {
-                    emit("00:00")
+                    emit("00:00~00:00")
+                } else {
+                    throw exception
+                }
+            }
+    val getTueFromTo : Flow<String> =
+        myDataStore.data.map { preferences -> preferences[tueFromTo] ?: "00:00~00:00" }
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit("00:00~00:00")
+                } else {
+                    throw exception
+                }
+            }
+    val getWedFromTo : Flow<String> =
+        myDataStore.data.map { preferences -> preferences[wedFromTo] ?: "00:00~00:00" }
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit("00:00~00:00")
+                } else {
+                    throw exception
+                }
+            }
+    val getThuFromTo : Flow<String> =
+        myDataStore.data.map { preferences -> preferences[thuFromTo] ?: "00:00~00:00" }
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit("00:00~00:00")
+                } else {
+                    throw exception
+                }
+            }
+    val getFriFromTo : Flow<String> =
+        myDataStore.data.map { preferences -> preferences[friFromTo] ?: "00:00~00:00" }
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit("00:00~00:00")
+                } else {
+                    throw exception
+                }
+            }
+    val getSatFromTo : Flow<String> =
+        myDataStore.data.map { preferences -> preferences[satFromTo] ?: "00:00~00:00" }
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit("00:00~00:00")
+                } else {
+                    throw exception
+                }
+            }
+    val getSunFromTo : Flow<String> =
+        myDataStore.data.map { preferences -> preferences[sunFromTo] ?: "00:00~00:00" }
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit("00:00~00:00")
                 } else {
                     throw exception
                 }
             }
 
-    val getMonFrom : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[monFrom] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getTueFrom : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[tueFrom] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getWedFrom : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[wedFrom] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getThuFrom : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[thuFrom] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getFriFrom : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[friFrom] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getSatFrom : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[satFrom] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getSunFrom : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[sunFrom] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-
-    val getMonTo : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[monTo] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getTueTo : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[tueTo] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getWedTo : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[wedTo] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getThuTo : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[thuTo] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getFriTo : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[friTo] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getSatTo : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[satTo] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
-    val getSunTo : Flow<String> =
-        myDataStore.data.map { preferences -> preferences[sunTo] ?: "00:00" }
-            .catch { exception ->
-                if (exception is IOException) {
-                    emit("00:00")
-                } else {
-                    throw exception
-                }
-            }
 
     // 데이터 쓰기
     /**
@@ -247,43 +166,27 @@ class StoreAdminSetting @Inject constructor(@ApplicationContext private val cont
         promote: Int,
         forcePer: Int,
         operating: Int,
-        limitFrom: String,
-        limitTo: String,
-        monOpeFrom : String,
-        tueOpeFrom : String,
-        wedOpeFrom : String,
-        thuOpeFrom : String,
-        friOpeFrom : String,
-        satOpeFrom : String,
-        sunOpeFrom : String,
-        monOpeTo : String,
-        tueOpeTo : String,
-        wedOpeTo : String,
-        thuOpeTo : String,
-        friOpeTo : String,
-        satOpeTo : String,
-        sunOpeTo : String,
+        restrictT : String,
+        monT : String,
+        tueT : String,
+        wedT : String,
+        thuT : String,
+        friT : String,
+        satT : String,
+        sunT : String,
     ) { // 전체 저장
         myDataStore.edit { preference ->
             preference[promoteCycle] = promote
             preference[forceChargingPer] = forcePer
             preference[operatingPer] = operating
-            preference[moveLimitFrom] = limitFrom
-            preference[moveLimitTo] = limitTo
-            preference[monFrom] = monOpeFrom
-            preference[tueFrom] = tueOpeFrom
-            preference[wedFrom] = wedOpeFrom
-            preference[thuFrom] = thuOpeFrom
-            preference[friFrom] = friOpeFrom
-            preference[satFrom] = satOpeFrom
-            preference[sunFrom] = sunOpeFrom
-            preference[monTo] = monOpeTo
-            preference[tueTo] = tueOpeTo
-            preference[wedTo] = wedOpeTo
-            preference[thuTo] = thuOpeTo
-            preference[friTo] = friOpeTo
-            preference[satTo] = satOpeTo
-            preference[sunTo] = sunOpeTo
+            preference[movementRestrict] = restrictT
+            preference[monFromTo] = monT
+            preference[tueFromTo] = tueT
+            preference[wedFromTo] = wedT
+            preference[thuFromTo] = thuT
+            preference[friFromTo] = friT
+            preference[satFromTo] = satT
+            preference[sunFromTo] = sunT
         }
     }
 

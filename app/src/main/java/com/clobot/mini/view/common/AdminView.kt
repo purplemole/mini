@@ -37,60 +37,38 @@ fun AdminView() {
     forceCharging.setInt(dataStore.getForceCharging.collectAsState(initial = 10).value)
     val robotOperating = remember { IntFieldState() } // 로봇 운영 시작 퍼센트
     robotOperating.setInt(dataStore.getOperatingPer.collectAsState(initial = 40).value)
-    val limitFrom = remember { TextFieldState() } // 이동 제한 시간
-    limitFrom.setText(dataStore.getLimitFrom.collectAsState(initial = "00:00").value)
-    val limitTo = remember { TextFieldState() }
-    limitTo.setText(dataStore.getLimitTo.collectAsState(initial = "00:00").value)
-    val monFrom = remember {TextFieldState()}
-    monFrom.setText(dataStore.getMonFrom.collectAsState(initial = "00:00").value)
-    val tueFrom = remember {TextFieldState()}
-    tueFrom.setText(dataStore.getTueFrom.collectAsState(initial = "00:00").value)
-    val wedFrom = remember {TextFieldState()}
-    wedFrom.setText(dataStore.getWedFrom.collectAsState(initial = "00:00").value)
-    val thuFrom = remember {TextFieldState()}
-    thuFrom.setText(dataStore.getThuFrom.collectAsState(initial = "00:00").value)
-    val friFrom = remember {TextFieldState()}
-    friFrom.setText(dataStore.getFriFrom.collectAsState(initial = "00:00").value)
-    val satFrom = remember {TextFieldState()}
-    satFrom.setText(dataStore.getSatFrom.collectAsState(initial = "00:00").value)
-    val sunFrom = remember {TextFieldState()}
-    sunFrom.setText(dataStore.getSunFrom.collectAsState(initial = "00:00").value)
-    val monTo = remember {TextFieldState()}
-    monTo.setText(dataStore.getMonTo.collectAsState(initial = "00:00").value)
-    val tueTo = remember {TextFieldState()}
-    tueTo.setText(dataStore.getTueTo.collectAsState(initial = "00:00").value)
-    val wedTo = remember {TextFieldState()}
-    wedTo.setText(dataStore.getWedTo.collectAsState(initial = "00:00").value)
-    val thuTo = remember {TextFieldState()}
-    thuTo.setText(dataStore.getThuTo.collectAsState(initial = "00:00").value)
-    val friTo = remember {TextFieldState()}
-    friTo.setText(dataStore.getFriTo.collectAsState(initial = "00:00").value)
-    val satTo = remember {TextFieldState()}
-    satTo.setText(dataStore.getSatTo.collectAsState(initial = "00:00").value)
-    val sunTo = remember {TextFieldState()}
-    sunTo.setText(dataStore.getSunTo.collectAsState(initial = "00:00").value)
+    val restrictFromTo = remember {TextFieldState()}
+    restrictFromTo.setText(dataStore.getMoveRestrict.collectAsState(initial = "00:00~00:00").value)
+    val monFromTo = remember {TextFieldState()}
+    monFromTo.setText(dataStore.getMonFromTo.collectAsState(initial = "00:00~00:00").value)
+    val tueFromTo = remember {TextFieldState()}
+    tueFromTo.setText(dataStore.getTueFromTo.collectAsState(initial = "00:00~00:00").value)
+    val wedFromTo = remember {TextFieldState()}
+    wedFromTo.setText(dataStore.getWedFromTo.collectAsState(initial = "00:00~00:00").value)
+    val thuFromTo = remember {TextFieldState()}
+    thuFromTo.setText(dataStore.getThuFromTo.collectAsState(initial = "00:00~00:00").value)
+    val friFromTo = remember {TextFieldState()}
+    friFromTo.setText(dataStore.getFriFromTo.collectAsState(initial = "00:00~00:00").value)
+    val satFromTo = remember {TextFieldState()}
+    satFromTo.setText(dataStore.getSatFromTo.collectAsState(initial = "00:00~00:00").value)
+    val sunFromTo = remember {TextFieldState()}
+    sunFromTo.setText(dataStore.getSunFromTo.collectAsState(initial = "00:00~00:00").value)
 
     CompositionLocalProvider(
         LocalDataStore provides dataStore,
         LocalPromoteCycle provides promoteState,
         LocalForceCharging provides forceCharging,
         LocalRobotOperating provides robotOperating,
-        LocalMoveLimitTo provides limitTo,
-        LocalMoveLimitFrom provides limitFrom,
-        LocalMonFrom provides monFrom,
-        LocalTueFrom provides tueFrom,
-        LocalWedFrom provides wedFrom,
-        LocalThuFrom provides thuFrom,
-        LocalFriFrom provides friFrom,
-        LocalSatFrom provides satFrom,
-        LocalSunFrom provides sunFrom,
-        LocalMonTo provides monTo,
-        LocalTueTo provides tueTo,
-        LocalWedTo provides wedTo,
-        LocalThuTo provides thuTo,
-        LocalFriTo provides friTo,
-        LocalSatTo provides satTo,
-        LocalSunTo provides sunTo,
+
+        LocalRestrictFromTo provides restrictFromTo,
+
+        LocalMonFromTo provides monFromTo,
+        LocalTueFromTo provides tueFromTo,
+        LocalWedFromTo provides wedFromTo,
+        LocalThuFromTo provides thuFromTo,
+        LocalFriFromTo provides friFromTo,
+        LocalSatFromTo provides satFromTo,
+        LocalSunFromTo provides sunFromTo,
     ) {
         Scaffold {
             Column {
@@ -115,22 +93,14 @@ fun AdminTopArea() {
     val promoteT = LocalPromoteCycle.current
     val forcePer = LocalForceCharging.current
     val operating = LocalRobotOperating.current
-    val limitFrom = LocalMoveLimitFrom.current
-    val limitTo = LocalMoveLimitTo.current
-    val monFrom = LocalMonFrom.current
-    val tueFrom = LocalTueFrom.current
-    val wedFrom = LocalWedFrom.current
-    val thuFrom = LocalThuFrom.current
-    val friFrom = LocalFriFrom.current
-    val satFrom = LocalSatFrom.current
-    val sunFrom = LocalSunFrom.current
-    val monTo = LocalMonTo.current
-    val tueTo = LocalTueTo.current
-    val wedTo = LocalWedTo.current
-    val thuTo = LocalThuTo.current
-    val friTo = LocalFriTo.current
-    val satTo = LocalSatTo.current
-    val sunTo = LocalSunTo.current
+    val restrictT = LocalRestrictFromTo.current
+    val monFromTo = LocalMonFromTo.current
+    val tueFromTo = LocalTueFromTo.current
+    val wedFromTo = LocalWedFromTo.current
+    val thuFromTo = LocalThuFromTo.current
+    val friFromTo = LocalFriFromTo.current
+    val satFromTo = LocalSatFromTo.current
+    val sunFromTo = LocalSunFromTo.current
 
     // 저장할 곳 (dataStore)
     val dataStore = LocalDataStore.current
@@ -183,22 +153,14 @@ fun AdminTopArea() {
                                 promote = promoteT.getInt(),
                                 forcePer = forcePer.getInt(),
                                 operating = operating.getInt(),
-                                limitFrom = limitFrom.getText(),
-                                limitTo = limitTo.getText(),
-                                monOpeFrom = monFrom.getText(),
-                                tueOpeFrom = tueFrom.getText(),
-                                wedOpeFrom = wedFrom.getText(),
-                                thuOpeFrom = thuFrom.getText(),
-                                friOpeFrom = friFrom.getText(),
-                                satOpeFrom = satFrom.getText(),
-                                sunOpeFrom = sunFrom.getText(),
-                                monOpeTo = monTo.getText(),
-                                tueOpeTo = tueTo.getText(),
-                                wedOpeTo = wedTo.getText(),
-                                thuOpeTo = thuTo.getText(),
-                                friOpeTo = friTo.getText(),
-                                satOpeTo = satTo.getText(),
-                                sunOpeTo = sunTo.getText(),
+                                restrictT = restrictT.getText(),
+                                monT = monFromTo.getText(),
+                                tueT = tueFromTo.getText(),
+                                wedT = wedFromTo.getText(),
+                                thuT = thuFromTo.getText(),
+                                friT = friFromTo.getText(),
+                                satT = satFromTo.getText(),
+                                sunT = sunFromTo.getText(),
                             )
                         }
                         routeAction.goBack()
