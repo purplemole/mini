@@ -43,4 +43,6 @@ sealed class NavRoute(val routeName: String, val description: String, val pageWa
     object Charging : NavRoute("charging", "충전 중")
 
     object Developer : NavRoute("developer", "개발자 페이지", 0)
+
+    object BootCheck : NavRoute("boot-check", "부팅 체크", 0)
 }

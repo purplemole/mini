@@ -15,16 +15,18 @@ import com.clobot.mini.R
 import com.clobot.mini.util.DeviceStorage
 import com.clobot.mini.util.getCurTimeInfo
 import com.clobot.mini.data.network.NetworkState
+import com.clobot.mini.util.LocalRobotViewModel
+import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.common.ui.theme.testColor
+import com.clobot.mini.view.navigation.NavRoute
 import com.clobot.mini.view.navigation.NavigationGraph
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun BootCheck(
-    dockingState: Boolean,
-    networkState: NetworkState
-) {
+fun BootCheck() {
     val shouldShowNavigationGraph = remember { mutableStateOf(false) }
+    val robotViewModel = LocalRobotViewModel.current
+    val routeAction = LocalRouteAction.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -47,9 +49,9 @@ fun BootCheck(
                 stringResource(R.string.book_check_x1),
                 modifier = Modifier.background(Color(0xFFE0C2F8))
             )
-            val dockStateStr = if (dockingState)
-                stringResource(id = R.string.success)
-            else stringResource(id = R.string.fail)
+            val dock = robotViewModel.dockingState.collectAsState(initial = false)
+            val dockStateStr = if (dock.value)
+                stringResource(id = R.string.success) else stringResource(id = R.string.fail)
             Text(text = dockStateStr, modifier = Modifier.background(Color(0xFFE0C2F8)))
             Text(text = getCurTimeInfo(4))
         }
@@ -64,10 +66,10 @@ fun BootCheck(
                 stringResource(R.string.book_check_x2),
                 modifier = Modifier.background(Color(0xFFE0C2F8))
             )
-            val netStateStr = if (networkState == NetworkState.Connected)
-                stringResource(id = R.string.success)
-            else stringResource(id = R.string.fail)
-            Text(text = netStateStr, modifier = Modifier.background(Color(0xFFE0C2F8)))
+            val netStateStr = //if (networkState == NetworkState.Connected)
+//                stringResource(id = R.string.success)
+//            else stringResource(id = R.string.fail)
+                Text(text = "수정 필요", modifier = Modifier.background(Color(0xFFE0C2F8)))
             Text(text = getCurTimeInfo(4))
         }
         // Process
@@ -100,6 +102,9 @@ fun BootCheck(
 //        val deviceStorage2 = DeviceStorage2(LocalContext.current).showVolumeStates()
 //        Text(text = "1: ${deviceStorage2.first}, 2: ${deviceStorage2.second}, 3: ${deviceStorage2.third}")
     }
-    if (shouldShowNavigationGraph.value)
-        NavigationGraph()
+    if (shouldShowNavigationGraph.value) {
+        routeAction.navTo(NavRoute.Main)
+        routeAction.leftPop()
+    }
+
 }

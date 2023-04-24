@@ -22,7 +22,7 @@ import com.clobot.mini.util.network.NetworkOfflineDialog
 import com.clobot.mini.data.network.NetworkState
 import com.clobot.mini.util.LocalMainViewModel
 import com.clobot.mini.util.LocalRobotViewModel
-import com.clobot.mini.view.common.BootCheck
+import com.clobot.mini.view.navigation.NavigationGraph
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,8 +48,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            //val navController = rememberNavController()
-            val dockingState by robotViewModel.dockingState.collectAsState(initial = false)
+            //val dockingState by robotViewModel.dockingState.collectAsState(initial = false)
             val networkState by viewModel.networkState.collectAsState(initial = NetworkState.None)
             MiniTheme {
                 CompositionLocalProvider(
@@ -63,8 +62,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colors.background
                     ) {
-                        //NavigationGraph()
-                        BootCheck(dockingState, networkState)
+                        NavigationGraph()
                     }
                 }
             }
