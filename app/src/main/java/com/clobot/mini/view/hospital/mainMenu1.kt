@@ -78,7 +78,6 @@ fun NewInformation() {
     }
     Template0(
         needTopBar = true,
-        caption = "안내데스크에 있는 접수증에 이름, 주민등록번호, 전화번호, 주소를 작성 후 담당자에게 전달해 주세요.",
         modifier = Modifier
     ) {
         Box(modifier = Modifier.fillMaxSize()) {

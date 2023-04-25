@@ -11,10 +11,6 @@
 
     <string name="main_t1">안녕하세요 방문해 주셔서 감사합니다. 저는 접수를 담당하고 있는 코디봇 입니다.</string>
     <string name="main_t2">방문목적에 맞는 메뉴를 선택해주세요</string>
-    <string name="main_b1">신규 고객</string>
-    <string name="main_b2">당일방문고객</string>
-    <string name="main_b3">예약 고객</string>
-    <string name="main_b4">이용 안내</string>
 
     <string name="new_customer_t1">첫번째 방문을 환영합니다. 제가 접수 장소까지 안내해 드리겠습니다.</string>
     <string name="new_information_t1">안내데스크에 있는 접수증에 이름, 주민등록번호, 전화번호, 주소를 작성 후 담당자에게 전달해 주세요.</string>

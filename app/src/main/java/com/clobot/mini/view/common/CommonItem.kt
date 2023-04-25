@@ -1,63 +1,41 @@
 package com.clobot.mini.view.common
 
-import android.annotation.SuppressLint
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.TypedValue
 import android.widget.TextClock
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.res.ResourcesCompat
+import com.clobot.mini.R
 import com.clobot.mini.data.page.HospitalMenu
 import com.clobot.mini.util.ContinuousClickHelper
 import com.clobot.mini.util.LocalRouteAction
+import com.clobot.mini.view.common.ui.theme.prc_white100
 import com.clobot.mini.view.navigation.NavRoute
 import com.clobot.mini.view.navigation.RouteAction
-import com.guru.fontawesomecomposelib.FaIcon
-import com.guru.fontawesomecomposelib.FaIconType
-import com.guru.fontawesomecomposelib.FaIcons
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
-import com.skydoves.landscapist.glide.GlideImage
+import java.util.*
 
-
-/**
- * 하단 자막 영역
- * @param tts
- */
-@Composable
-fun BottomTTSCaption(tts: String) {
-    val scrollState = rememberScrollState()
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .padding(horizontal = 20.dp)
-            .background(Color(0x27353838))
-    ) {
-        Text(
-            text = tts,
-            style = TextStyle(
-                textAlign = TextAlign.Center,
-                fontSize = 17.sp
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(scrollState)
-        )
-    }
-}
 
 /**
  * 직사각형 버튼 (Column (이미지, text))
@@ -66,44 +44,12 @@ fun BottomTTSCaption(tts: String) {
  */
 @Composable
 fun ImgMenuBtn(menu: HospitalMenu, routeAction: RouteAction) {
-    Card(
-        modifier = Modifier
-            .size(width = 150.dp, height = 200.dp)
-            .padding(horizontal = 20.dp)
-            .clickable {
-                routeAction.navTo(menu.route)
-            },
-    ) {
-        BoxWithConstraints(
-            modifier = Modifier
-                .background(Color.DarkGray)
-                .padding(10.dp)//,
-                .size(110.dp, 150.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .background(Color.LightGray)
-                        .fillMaxWidth()
-                        .height(100.dp)
-                ) {
-//                    GlideImage(imageModel = )
-                }
-                Spacer(modifier = Modifier.size(10.dp))
-                Text(
-                    text = stringResource(id = menu.menu),
-                    style = TextStyle(
-                        textAlign = TextAlign.Center,
-                        fontSize = 10.sp
-                    )
-                )
-            }
-        }
-    }
+    Image(
+        painter = painterResource(menu.picto),
+        contentDescription = menu.menu,
+        modifier = Modifier.clickable {
+            routeAction.navTo(menu.route)
+        })
 }
 
 /**
@@ -112,79 +58,21 @@ fun ImgMenuBtn(menu: HospitalMenu, routeAction: RouteAction) {
  * @param routeAction
  * @param canNavigate
  */
-@SuppressLint("InvalidColorHexValue") // 투명 색 - 임시
 @Composable
-fun HospitalTopBar(canNavigate: Boolean = true) {
-    val routeAction = LocalRouteAction.current
+fun HospitalTopBar() {
     TopAppBar(
-        title = {
-//            Text(
-//                text = "Logo",
-//                modifier = Modifier.fillMaxWidth(),
-//                style = TextStyle(textAlign = TextAlign.Center)
-//            )
-            Row(modifier = Modifier.fillMaxWidth()) {
-                TopAppBarTitle()
-            }
-
-        },
-        backgroundColor = Color(0xff00000000),
-        elevation = 0.dp,
-        contentColor = Color.DarkGray,
-        navigationIcon = {
-            HospitalBarIcon(
-                Modifier
-                    .clip(CircleShape)
-                    .background(Color.Yellow)
-                    .clickable {
-                        if (canNavigate && routeAction.getCurPage() != "main")
-                            routeAction.goMain()
-                    },
-                FaIcons.Home,
-            )
-        },
-        actions = {
-            HospitalBarIcon(
-                Modifier
-                    .clip(CircleShape)
-                    .background(Color(0xFFC5E7E7))
-                    .clickable {
-                        if (routeAction.getCurPage() != "main")
-                            routeAction.goBack()
-                    }, FaIcons.ArrowLeft
-            )
-        }
-    )
-}
-
-/**
- * TODO 분기 /
- *
- * @param
- */
-@Composable
-fun GlideImgView(
-    nextRoute: NavRoute,
-    imgModel: String
-) {
-    val routeAction = LocalRouteAction.current
-    GlideImage(
-        imageModel = imgModel,
         modifier = Modifier
-            .padding(start = 8.dp, end = 8.dp, top = 8.dp)
-            .height(250.dp)
-            .width(250.dp)
-            .clip(CircleShape)
-            .border(
-                shape = CircleShape,
-                border = BorderStroke(
-                    width = 3.dp,
-                    color = Color.LightGray
-                )
+            .fillMaxWidth()
+            .height(27.dp),
+        backgroundColor = Color.Black,
+        content = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                content = { TopAppBarTitle() }
             )
-            .clickable {
-                routeAction.navTo(nextRoute)
-            },
+        },
+        elevation = 0.dp,
     )
 }
 
@@ -233,59 +121,92 @@ fun CoilImgView(
 @Composable
 fun TopAppBarTitle() {
     val routeAction = LocalRouteAction.current
+    val backModifier = if (routeAction.getCurPage() == "main") Modifier.alpha(0f)
+    else Modifier
+        .noRippleClickable { routeAction.goBack() }
+        .alpha(1f)
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(start = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         val ccHelper = ContinuousClickHelper()
+        val arrowIcon = Icons.Default.ArrowBack
+        Icon(
+            imageVector = arrowIcon,
+            contentDescription = "back",
+            modifier = backModifier.size(14.dp),
+            tint = prc_white100
+        )
+        Spacer(modifier = Modifier.width(167.dp))
         Box(
             modifier = Modifier
-                .background(Color(0xFFF7E9E9))
-                .width(100.dp)
-                .noRippleClickable { ccHelper.touch(routeAction) },
-            content = {
-                Text(text = "click!!")
-            }
+                .noRippleClickable { ccHelper.touch(routeAction) }
+                .size(50.dp),
+        )
+        CoilImage(
+            imageModel = R.drawable.clobot_logo,
+            modifier = Modifier.size(width = 63.dp, height = 14.dp)
         )
         Box(
             modifier = Modifier
-                .background(Color(0xFFAD8484))
-                .width(100.dp)
+                .size(50.dp)
                 .noRippleClickable { routeAction.navTo(NavRoute.Developer) },
+        )
+        Spacer(modifier = Modifier.width(98.dp)) //148.dp
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             content = {
-                Text(text = "테스트")
-            }
-        )
-        Text(
-            "로고",
-            modifier = Modifier
-                .background(Color(0xFFFDE1B6))
-        )
-        AndroidView(
-            factory = { context ->
-                TextClock(context).apply {
-                    format12Hour?.let { this.format12Hour = "hh:mm a" }
-                    timeZone?.let { this.timeZone = "Asia/Seoul" }
-                }
-            },
-            modifier = Modifier.background(Color(0xF1DBAFFF))
-        )
+                GnBClock()
+            })
     }
 }
 
 @Composable
-fun HospitalBarIcon(modifier: Modifier = Modifier, faIcon: FaIconType) {
-    Card(
-        elevation = 5.dp,
-        modifier = modifier
-            .clip(CircleShape)
-    ) {
-        Box(
-            modifier = modifier.padding(5.dp)
-        ) {
-            FaIcon(faIcon = faIcon)
-        }
-    }
+fun GnBClock() {
+    AndroidView(
+        factory = { context ->
+            val mTypeface = ResourcesCompat.getFont(context, R.font.minsans_bold)
+            TextClock(context).apply {
+                format12Hour?.let { this.format12Hour = "hh:mm aa" }
+                timeZone?.let { this.timeZone = "Asia/Seoul" }
+                setTextColor(prc_white100.toArgb())
+                typeface = mTypeface
+                setTextSize(TypedValue.COMPLEX_UNIT_PX, 32f)
+                addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                        s?.let {
+                            val regex = "(오전|오후)".toRegex()
+                            val replacedText =
+                                regex.replace(s.toString()) { matchResult ->
+                                    if (matchResult.value == "오전") "AM" else "PM"
+                                }
+                            if (s.toString() != replacedText) {
+                                s.replace(0, s.length, replacedText)
+                            }
+                        }
+                    }
+                })
+            }
+        },
+    )
 }
 
 inline fun Modifier.noRippleClickable(crossinline onClick: () -> Unit): Modifier = composed {
