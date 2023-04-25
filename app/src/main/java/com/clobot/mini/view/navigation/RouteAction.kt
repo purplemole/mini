@@ -21,4 +21,8 @@ class RouteAction(private val viewModel: NavigationViewModel) {
     fun getCurPage(): String? {
         return viewModel.getCurPageInfo()
     }
+
+    fun leftPop(){
+        viewModel.leftQueuePop()
+    }
 }

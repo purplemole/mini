@@ -42,4 +42,8 @@ class NavigationViewModel @Inject constructor() :
     fun getCurPageInfo(): String? {
         return navController.currentDestination?.route
     }
+
+    fun leftQueuePop(){
+        navController.backQueue.removeFirst()
+    }
 }

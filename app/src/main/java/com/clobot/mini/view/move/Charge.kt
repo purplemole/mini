@@ -15,10 +15,10 @@ fun Charging() {
             Text("충전 중")
         }
     )
-    if (!LocalRobotViewModel.current.dockingState.collectAsState(
-            initial = false
-        ).value
-    ) LocalRouteAction.current.goBack()
+//    if (!LocalRobotViewModel.current.dockingState.collectAsState(
+//            initial = false
+//        ).value
+//    ) LocalRouteAction.current.goBack()
 }
 
 @Composable
