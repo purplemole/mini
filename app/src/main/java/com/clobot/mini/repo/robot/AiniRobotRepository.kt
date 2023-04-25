@@ -8,7 +8,6 @@ import com.ainirobot.coreservice.client.RobotApi
 import com.ainirobot.coreservice.client.StatusListener
 import com.ainirobot.coreservice.client.actionbean.LeadingParams
 import com.ainirobot.coreservice.client.actionbean.Pose
-import com.ainirobot.coreservice.client.actionbean.StartCreateMapBean
 import com.ainirobot.coreservice.client.listener.ActionListener
 import com.ainirobot.coreservice.client.listener.CommandListener
 import com.ainirobot.coreservice.client.robotsetting.RobotSettingApi
@@ -16,6 +15,8 @@ import com.clobot.mini.data.robot.*
 import com.clobot.mini.repo.RobotRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -25,6 +26,9 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
     override val dockingState: StateFlow<Boolean> = _dockingState
 
     private var checkTimes: Int = 0
+
+    // 지점 리스트
+    val placeList: MutableList<String> = ArrayList()
 
     override fun initialize(): Boolean {
         checkTimes++
@@ -61,6 +65,7 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         direction: MoveDirection,
         reqId: Int = 0,
         speed: Float = 0.2f,
+        angleSpeed: Float = 15.0f,
         distance: Float = 1f,
         avoid: Boolean = false,
         angle: Float = 90f,
@@ -68,8 +73,8 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         when (direction) {
             MoveDirection.Forward -> robotApi.goForward(reqId, speed, distance, avoid, mMotionListener)
             MoveDirection.Backward -> robotApi.goBackward(reqId, speed, distance, mMotionListener)
-            MoveDirection.TurnLeft -> robotApi.turnLeft(reqId, speed, angle, mMotionListener)
-            MoveDirection.TurnRight -> robotApi.turnRight(reqId, speed, angle, mMotionListener)
+            MoveDirection.TurnLeft -> robotApi.turnLeft(reqId, angleSpeed, angle, mMotionListener)
+            MoveDirection.TurnRight -> robotApi.turnRight(reqId, angleSpeed, angle, mMotionListener)
             MoveDirection.Stop -> robotApi.stopMove(reqId, mMotionListener)
             // 테스트
             MoveDirection.AllStop -> robotApi.stopAllAction(reqId)
@@ -127,7 +132,6 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
             NavMode.ToPos -> robotApi.resumeSpecialPlaceTheta(reqId, destination, mMotionListener)
             NavMode.StopToPos -> robotApi.stopResumeSpecialPlaceThetaAction(reqId)
             // 테스트
-
             NavMode.Lead -> robotApi.startLead(reqId, LeadingParams(), mNavigationListener)
             NavMode.StopLead -> robotApi.stopLead(reqId, true)
             NavMode.PosNavi -> robotApi.startPoseNavigation(reqId, destination, 1.5, 10 * 1000, speed, angleSpeed, true, mNavigationListener)
@@ -182,7 +186,8 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
             "Get" -> robotApi.getLocation(reqId, placeName, mMotionListener)
             "Remove" -> robotApi.removeLocation(reqId, placeName, mMotionListener)
             "Edit" -> robotApi.editPlace(reqId, "", mMotionListener)
-            "List" -> robotApi.placeList
+            "List" -> robotApi.getPlaceList(reqId, mLocationListener)
+            "ListPos" -> robotApi.placeList
             "IsPos" -> robotApi.isRobotInlocations(placeName, 0.0)
             // estimate point: receoption point(접수처)
             "Init" -> robotApi.setPoseEstimate(reqId, "", mMotionListener)
@@ -201,13 +206,14 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
     fun map(
         mode: String,
         reqId: Int = 0,
-        Bean: StartCreateMapBean,
+//        Bean: StartCreateMapBean,
     ) {
         when (mode) {
-            "Name" -> robotApi.mapName
+            "Name" -> robotApi.getMapName(reqId, mMotionListener)
+            "NameS" -> robotApi.mapName
             "Rename" -> robotApi.renameMap(reqId, "", "", mMotionListener)
             // setMapInfo
-            "Create" -> robotApi.startCreatingMap(reqId, Bean, mMotionListener)
+//            "Create" -> robotApi.startCreatingMap(reqId, Bean, mMotionListener)
             "StopCreate" ->  robotApi.stopCreatingMap(reqId, "", mMotionListener)
             "CancelCreate" -> robotApi.cancelCreateMap(reqId, mMotionListener)
             "Remove" -> robotApi.removeMap(reqId, "", mMotionListener)
@@ -268,29 +274,30 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         Log.i(TAG, "[$SYS] Setting $mode")
     }
 
-    // 기능 테스트
-    fun testAction(
-        mode: String,
-    ) {
-        var reqId: Int = 0
-        val route = RobotApi.getInstance().placeList.first()
-        when (mode) {
-            "ToTarget" -> robotApi.turnToTargetDirection(0, route, 0.2, 1.0, true, mMotionListener)
-            "StopToTarget" -> robotApi.stopTurnToTargetDirection(0)
-            "resetHead" -> robotApi.resetHead(reqId++, mMotionListener)
-            "moveHead" -> robotApi.moveHead(reqId++, "relative", "relative", -10, 0, mMotionListener)
-            "getList" -> robotApi.getPlaceList(0, mMotionListener)
-            "navi" -> robotApi.startNavigation(0, "qq", 1.5, 10 * 1000, 0.2, 1.0, mNavigationListener)
-            "stopNavi" -> robotApi.stopNavigation(0)
-        }
-    }
-
     // 동작 리스너
     private val mMotionListener: CommandListener = object : CommandListener() {
         override fun onResult(result: Int, message: String, extraData: String) {
             Log.i(TAG, "result: $result message:$message")
-            if ("succeed" == message) {
-            } else {
+        }
+
+        override fun onStatusUpdate(status: Int, data: String, extraData: String) {
+            Log.i(TAG, "status: $status data:$data")
+        }
+    }
+
+    private val mLocationListener: CommandListener = object : CommandListener() {
+        override fun onResult(result: Int, message: String, extraData: String) {
+            Log.i(TAG, "result: $result message:$message")
+            try {
+                placeList.clear()
+                val jsonArray = JSONArray(message)
+                val length: Int = jsonArray.length()
+                for (i in 0 until length) {
+                    val json: JSONObject = jsonArray.getJSONObject(i)
+                    placeList.add(json.getString("name"))
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
             }
         }
 
@@ -301,7 +308,7 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
 
     // 탐색 리스너
     private val mNavigationListener: ActionListener = object : ActionListener() {
-        override fun onResult(status: Int, response: String, extraData: String) {
+        override fun onResult(status: Int, response: String) {
             Log.i(TAG, "status: $status response:$response")
         }
 

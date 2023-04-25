@@ -28,12 +28,15 @@ class RobotViewModel @Inject constructor(
     private val _moveReason = mutableStateOf<MoveReason>(MoveReason.None)
     val moveReason = _moveReason.value//: State<MoveReason> = _moveReason
 
+    private var reqId = 0
+
     init {
         viewModelScope.launch {
             repo.initialize().let {
                 repo.dockingState.collectLatest {
                     _dockingState.emit(it)
                 }
+                repo.location("List")
             }
         }
     }
@@ -57,7 +60,7 @@ class RobotViewModel @Inject constructor(
     fun headMotion(
         mode: String
     ) {
-        repo.headMotion(mode)
+        repo.headMotion(mode, reqId++)
     }
 
     fun posController(
@@ -66,10 +69,23 @@ class RobotViewModel @Inject constructor(
         repo.position(mode)
     }
 
+    fun locController(
+        mode: String,
+    ) {
+        repo.location(mode)
+    }
+
     fun navController(
         mode: NavMode,
+        dest: String = ""
     ) {
-        repo.navigation(mode)
+        repo.navigation(mode, destination = dest)
+    }
+
+    fun mapController(
+        mode: String,
+    ) {
+        repo.map(mode)
     }
 
     fun chargeController(
@@ -85,17 +101,15 @@ class RobotViewModel @Inject constructor(
 //        ttsRepo.tts(mode, text)
     }
 
-    fun testControll(
-        mode: String
-    ) {
-        repo.testAction(mode)
-    }
-
     fun autoCharge() {
         when (repo.getBattery()) {
             20 -> chargeController(ChargeMode.Start)
             50 -> Log.d(tag, "charge level: 50%")
             100 -> chargeController(ChargeMode.StopLeave)
         }
+    }
+
+    fun getPlaceList(): MutableList<String> {
+        return repo.placeList
     }
 }

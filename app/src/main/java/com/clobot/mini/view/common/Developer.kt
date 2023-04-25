@@ -2,7 +2,7 @@ package com.clobot.mini.view.common
 
 import android.content.Intent
 import android.provider.Settings
-import android.transition.ArcMotion
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.border
@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.clobot.mini.data.robot.ArcMode
 import com.clobot.mini.data.robot.MoveDirection
 import com.clobot.mini.data.robot.NavMode
 import com.clobot.mini.util.LocalRobotViewModel
@@ -31,6 +30,7 @@ import com.clobot.mini.util.LocalRobotViewModel
 @Composable
 fun Developer() {
     val robotViewModel = LocalRobotViewModel.current
+    val placeList = robotViewModel.getPlaceList()
 
     Template0(needTopBar = true) {
         LazyColumn(
@@ -38,27 +38,51 @@ fun Developer() {
                 item { AndroidSetting() }
                 item {
                     LazyRow {
-                        item { CustomButton("Forward", robotViewModel.basicMotion(MoveDirection.Forward)) }
-                        item { CustomButton("Backward", robotViewModel.basicMotion(MoveDirection.Backward)) }
-                        item { CustomButton("TurnLeft", robotViewModel.basicMotion(MoveDirection.TurnLeft)) }
-                        item { CustomButton("TurnRight", robotViewModel.basicMotion(MoveDirection.TurnRight)) }
-                        item { CustomButton("Stop", robotViewModel.basicMotion(MoveDirection.Stop)) }
+                        item {
+                            Text("Motion")
+                            CustomButton("Forward") { robotViewModel.basicMotion(MoveDirection.Forward) }
+                            CustomButton("Backward") { robotViewModel.basicMotion(MoveDirection.Backward) }
+                            CustomButton("TurnLeft") { robotViewModel.basicMotion(MoveDirection.TurnLeft) }
+                            CustomButton("TurnRight") { robotViewModel.basicMotion(MoveDirection.TurnRight) }
+                            CustomButton("Stop") { robotViewModel.basicMotion(MoveDirection.Stop) }
+                            CustomButton("HeadReset") { robotViewModel.headMotion("Reset") }
+                            CustomButton("HeadMove") { robotViewModel.headMotion("Move") }
+                        }
+                    }
+                    LazyRow {
+                        item {
+                            Text("Navigation")
+                            CustomButton("StartNav") { robotViewModel.navController(NavMode.Start) }
+                            CustomButton("StopNav") { robotViewModel.navController(NavMode.Stop) }
+                            CustomButton("RotateToPos") { robotViewModel.navController(NavMode.ToPos) }
+                            CustomButton("StopRotate") { robotViewModel.navController(NavMode.StopToPos) }
+                        }
+                    }
+                    LazyRow {
+                        item {
+                            Text("Charge")
+                            CustomButton("List") { robotViewModel.locController("List") }
+                            CustomButton("Set") { robotViewModel.locController("Set") }
+                            CustomButton("Get") { robotViewModel.locController("Get") }
+                            CustomButton("Remove") { robotViewModel.locController("Remove") }
+                            CustomButton("Edit") { robotViewModel.locController("Edit") }
+                            CustomButton("IsPos") { robotViewModel.locController("IsPos") }
+                        }
+                    }
+                    LazyRow {
+                        item {
+                            Text("Navi")
+                            placeList.forEach {
+                                CustomButton(it) { robotViewModel.navController(NavMode.Start, it) }
+                            }
+                        }
+                    }
+                    LazyRow {
+                        item {
+                            Text("Status")
+                        }
                     }
                 }
-//                item {
-//                    CustomButton("Arc", robotViewModel.arcMotion(ArcMode.None))
-//                    CustomButton("Obstacle", robotViewModel.arcMotion(ArcMode.Obstacle))
-//                }
-//                item {
-//                    CustomButton("Reset", robotViewModel.headMotion("Reset"))
-//                    CustomButton("Move", robotViewModel.headMotion("Move"))
-//                }
-//                item {
-//                    CustomButton("Start", robotViewModel.navController(NavMode.Start))
-//                    CustomButton("Stop", robotViewModel.navController(NavMode.Stop))
-//                    CustomButton("Start", robotViewModel.navController(NavMode.ToPos))
-//                    CustomButton("Start", robotViewModel.navController(NavMode.StopToPos))
-//                }
             },
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.Start
@@ -74,21 +98,27 @@ private fun AndroidSetting() {
             val intent = Intent(Settings.ACTION_SETTINGS)
 //            context.startActivity(Intent(context, Settings.ACTION_SETTINGS::class.java))
             activityResultLauncher.launch(intent)
-        },
-        content = { Text("기본 설정 화면") },
-        modifier = Modifier
-            .fillMaxWidth()
+        }, content = { Text("기본 설정 화면") },
     )
+}
+
+@Composable
+private fun logView() {
+    LazyRow {
+        item {
+            Text("Status")
+        }
+    }
 }
 
 @Composable
 fun CustomButton(
     text: String,
-    event: Unit
+    onClick: () -> Unit
 ) {
     val robotViewModel = LocalRobotViewModel.current
-    val colors = listOf(Color(0xFFC7C7C7), Color(0xFF030303))
-    val paddingValues = PaddingValues(horizontal = 10.dp, vertical = 10.dp)
+    val colors = listOf(Color(0xFF00195F), Color(0xFF253A6F))
+    val paddingValues = PaddingValues(horizontal = 5.dp, vertical = 5.dp)
     val widthFraction = 0.68f
 
     val interactionSource = remember {
@@ -99,7 +129,7 @@ fun CustomButton(
         modifier = Modifier
             .fillMaxWidth(fraction = widthFraction)
             .border(
-                width = 4.dp,
+                width = 2.dp,
                 brush = Brush.horizontalGradient(colors = colors),
                 shape = RectangleShape
             )
@@ -107,13 +137,13 @@ fun CustomButton(
 //                interactionSource = interactionSource,
 //                indication = null
             ) {
-                event
+                onClick()
             },
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = text,
-            fontSize = 10.sp,
+            fontSize = 8.sp,
             modifier = Modifier.padding(paddingValues),
         )
     }
