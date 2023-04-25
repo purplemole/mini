@@ -15,6 +15,9 @@ sealed class MoveDirection {
     object TurnLeft: MoveDirection()
     object TurnRight: MoveDirection()
     object Stop: MoveDirection()
+    object AllStop: MoveDirection()
+    object TurnToTarget: MoveDirection()
+    object StopTurnToTarget: MoveDirection()
 }
 
 sealed class ArcMode {
@@ -23,37 +26,48 @@ sealed class ArcMode {
 }
 
 sealed class PosMode {
-    object Set: PosMode()
-    object Get: PosMode()
     object Pos: PosMode()
-    object Remove: PosMode()
-    object Init: PosMode()
-    object IsInit: PosMode()
-    object Switch: PosMode()
-    object IsPos: PosMode()
-    object MapName: PosMode()
-    object List: PosMode()
+    object GoPos: PosMode()
+    object StopPos: PosMode()
 }
 
 sealed class NavMode {
     object Start: NavMode()
     object Stop: NavMode()
-    object GoPos: NavMode()
-    object StopPos: NavMode()
     object ToPos: NavMode()
-    object Cruise: NavMode()
-    object StopCruise: NavMode()
+    object StopToPos: NavMode()
     object Lead: NavMode()
     object StopLead: NavMode()
+    object PosNavi: NavMode()
+    object StopPosNavi: NavMode()
+    object NaviBack: NavMode()
+    object StopNaviBack: NavMode()
+    object SetConfig: NavMode()
+    object Config: NavMode()
+    object Status: NavMode()
+}
+
+sealed class Cruise {
+    object Start: Cruise()
+    object Stop: Cruise()
+    object Status: Cruise()
+    object Clear: Cruise()
 }
 
 sealed class ChargeMode {
+    object GoCharge: ChargeMode()
     object Start: ChargeMode()
     object Stop: ChargeMode()
+    object Auto: ChargeMode()
+    object StopAuto: ChargeMode()
     object Leave: ChargeMode()
     object StopLeave: ChargeMode()
-    object Standby: ChargeMode()
-    object Wake: ChargeMode()
+    object Exits: ChargeMode()
+    object Status: ChargeMode()
+    object Level: ChargeMode()
+    object Door: ChargeMode()
+    object RemainBattTime: ChargeMode()
+    object RemainChargeTime: ChargeMode()
 }
 
 sealed class TtsMode {

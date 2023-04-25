@@ -7,9 +7,5 @@ interface RobotRepository {
 
     fun initialize(): Boolean
 
-    fun checkDockingStation()
-
-    fun getVersion(): String
-
 //    fun basicMove (vararg any: Any?)
 }

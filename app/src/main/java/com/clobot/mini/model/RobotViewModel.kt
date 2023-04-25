@@ -1,5 +1,6 @@
 package com.clobot.mini.model
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -53,6 +54,12 @@ class RobotViewModel @Inject constructor(
         repo.arcMotion(mode)
     }
 
+    fun headMotion(
+        mode: String
+    ) {
+        repo.headMotion(mode)
+    }
+
     fun posController(
         mode: PosMode,
     ) {
@@ -76,5 +83,19 @@ class RobotViewModel @Inject constructor(
         text: String = ""
     ) {
 //        ttsRepo.tts(mode, text)
+    }
+
+    fun testControll(
+        mode: String
+    ) {
+        repo.testAction(mode)
+    }
+
+    fun autoCharge() {
+        when (repo.getBattery()) {
+            20 -> chargeController(ChargeMode.Start)
+            50 -> Log.d(tag, "charge level: 50%")
+            100 -> chargeController(ChargeMode.StopLeave)
+        }
     }
 }
