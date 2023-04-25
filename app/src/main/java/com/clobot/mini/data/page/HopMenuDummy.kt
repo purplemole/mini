@@ -4,44 +4,40 @@ import com.clobot.mini.R
 import com.clobot.mini.view.navigation.NavRoute
 
 object HospitalMenuDummyData {
-    private val sampleMainMenu = HospitalMenu(
-        picto = R.drawable.ic_launcher_foreground,
-        menu = R.string.main_b1,
-        page = "main",
-        route = NavRoute.NewCustomer
-    )
-
     private val sampleSitesMenu = HospitalMenu(
         picto = R.drawable.ic_launcher_foreground,
-        menu = R.string.sites_information_b1,
-        page = "sites-information",
         route = NavRoute.HospitalHours
     )
 
     val mainMenuList = listOf(
-        sampleMainMenu,
-        sampleMainMenu.copy(
-            menu = R.string.main_b2,
-            route = NavRoute.ExistingCustomer
+        HospitalMenu(
+            picto = R.drawable.main_b1,
+            route = NavRoute.NewCustomer,
+            menu = "main_b1",
         ),
-        sampleMainMenu.copy(
-            menu = R.string.main_b3,
-            route = NavRoute.ReservationCustomer
+        HospitalMenu(
+            picto = R.drawable.main_b2,
+            route = NavRoute.ExistingCustomer,
+            menu = "main_b2",
         ),
-        sampleMainMenu.copy(
-            menu = R.string.main_b4,
-            route = NavRoute.SitesInformation
+        HospitalMenu(
+            picto = R.drawable.main_b3,
+            route = NavRoute.ReservationCustomer,
+            menu = "main_b3",
+        ),
+        HospitalMenu(
+            picto = R.drawable.main_b4,
+            route = NavRoute.SitesInformation,
+            menu = "main_b4",
         )
     )
 
     val sitesMenuList = listOf(
         sampleSitesMenu,
         sampleSitesMenu.copy(
-            menu = R.string.sites_information_b2,
             route = NavRoute.ReservationMethod
         ),
         sampleSitesMenu.copy(
-            menu = R.string.sites_information_b3,
             route = NavRoute.Parking
         )
     )

@@ -1,6 +1,5 @@
 package com.clobot.mini.model
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController

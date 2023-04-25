@@ -13,13 +13,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.R
 import com.clobot.mini.util.DeviceStorage
-import com.clobot.mini.util.getCurTimeInfo
-import com.clobot.mini.data.network.NetworkState
 import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.util.LocalRouteAction
+import com.clobot.mini.util.getCurTimeInfo
 import com.clobot.mini.view.common.ui.theme.testColor
 import com.clobot.mini.view.navigation.NavRoute
-import com.clobot.mini.view.navigation.NavigationGraph
 
 @SuppressLint("SimpleDateFormat")
 @Composable

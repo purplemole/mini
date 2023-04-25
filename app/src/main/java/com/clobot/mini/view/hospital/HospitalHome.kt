@@ -1,6 +1,7 @@
 package com.clobot.mini.view.hospital
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
@@ -11,12 +12,16 @@ import androidx.compose.ui.unit.dp
 import com.clobot.mini.data.page.HospitalMenuDummyData
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import com.clobot.mini.R
 import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.navigation.NavigationGraph
 import com.clobot.mini.view.common.ui.theme.MiniTheme
-import com.clobot.mini.view.common.BottomTTSCaption
 import com.clobot.mini.view.common.ImgMenuBtn
 import com.clobot.mini.view.common.HospitalTopBar
 
@@ -31,43 +36,37 @@ fun HospitalHome() {
     }
 
     Scaffold(
-        topBar = { HospitalTopBar(false) },
-        bottomBar = {
-            BottomTTSCaption("test")
-        },
+        topBar = { HospitalTopBar() },
         content = {
             HomeContent()
-        },
-        modifier = Modifier.padding(bottom = 15.dp)
+        }
     )
 }
 
 @Composable
 private fun HomeContent() {
     val routeAction = LocalRouteAction.current
+    val backgroundImg = painterResource(R.drawable.variant7)
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 20.dp, bottom = 30.dp),
+            .paint(painter = backgroundImg),
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
+
+        val mainMenus = remember { HospitalMenuDummyData.mainMenuList.filter { true } }
+        LazyRow(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 71.dp)
+                .padding(top = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-//            NavigationGraph()
-            val mainMenus = remember { HospitalMenuDummyData.mainMenuList.filter { true } }
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 70.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                items(mainMenus) {
-                    ImgMenuBtn(menu = it, routeAction)
-                }
+            items(mainMenus) {
+                ImgMenuBtn(menu = it, routeAction)
             }
-            //BottomTTSCaption("로봇이 발화하는 멘트를 텍스트로 표시...")
         }
+
     }
 }
 
