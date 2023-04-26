@@ -13,6 +13,7 @@ import com.clobot.mini.view.common.BootCheck
 import com.clobot.mini.view.common.Developer
 import com.clobot.mini.view.hospital.*
 import com.clobot.mini.view.move.Charging
+import com.clobot.mini.view.move.MovePosition
 import com.clobot.mini.view.move.Standby
 
 @Composable
@@ -67,6 +68,12 @@ fun NavigationGraph() {
 //                )
                     Charging()
             }
+
+            // move-position1,2,3 / move-name
+            composable(NavRoute.MovePosition1.routeName){ MovePosition(1) }
+            composable(NavRoute.MovePosition2.routeName){ MovePosition(2)}
+            composable(NavRoute.MovePosition3.routeName){ MovePosition(3)}
+            composable(NavRoute.MoveName.routeName){ MovePosition(4)}
 
             composable(NavRoute.BootCheck.routeName){ BootCheck() }
 

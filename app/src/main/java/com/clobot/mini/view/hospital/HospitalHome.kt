@@ -1,7 +1,7 @@
 package com.clobot.mini.view.hospital
 
 import android.util.Log
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
@@ -13,13 +13,11 @@ import com.clobot.mini.data.page.HospitalMenuDummyData
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.clobot.mini.R
-import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.navigation.NavigationGraph
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.common.ImgMenuBtn
@@ -36,38 +34,44 @@ fun HospitalHome() {
     }
 
     Scaffold(
-        topBar = { HospitalTopBar() },
+        topBar = { HospitalTopBar(false) },
         content = {
             HomeContent()
-        }
+        },
+        modifier = Modifier.fillMaxSize(),
     )
 }
 
 @Composable
 private fun HomeContent() {
-    val routeAction = LocalRouteAction.current
     val backgroundImg = painterResource(R.drawable.variant7)
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .paint(painter = backgroundImg),
-    ) {
-
-        val mainMenus = remember { HospitalMenuDummyData.mainMenuList.filter { true } }
-        LazyRow(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 71.dp)
-                .padding(top = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(14.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            items(mainMenus) {
-                ImgMenuBtn(menu = it, routeAction)
-            }
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center,
+        content = {
+            Image(
+                painter = backgroundImg,
+                contentDescription = "home",
+                alignment = Alignment.BottomCenter,
+                contentScale = ContentScale.Crop
+            )
+            Box(
+                content = {
+                    val mainMenus = remember { HospitalMenuDummyData.mainMenuList.filter { true } }
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(14.dp),
+                        content = {
+                            items(mainMenus) {
+                                ImgMenuBtn(menu = it)
+                            }
+                        }
+                    )
+                },
+                contentAlignment = Alignment.Center
+            )
         }
-
-    }
+    )
 }
 
 @Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 410)

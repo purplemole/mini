@@ -4,11 +4,6 @@ import com.clobot.mini.R
 import com.clobot.mini.view.navigation.NavRoute
 
 object HospitalMenuDummyData {
-    private val sampleSitesMenu = HospitalMenu(
-        picto = R.drawable.ic_launcher_foreground,
-        route = NavRoute.HospitalHours
-    )
-
     val mainMenuList = listOf(
         HospitalMenu(
             picto = R.drawable.main_b1,
@@ -32,12 +27,33 @@ object HospitalMenuDummyData {
         )
     )
 
+    val reservationMenuList = listOf(
+        HospitalMenu(
+            picto = R.drawable.reservation_customer_b1,
+            route = NavRoute.QrRecognition,
+        ),
+        HospitalMenu(
+            picto = R.drawable.reservation_customer_b2,
+            route = NavRoute.MovePosition1,
+        ),
+    )
+
+    val reservationConfirmMenu = HospitalMenu(
+        picto = R.drawable.reservation_confirm_b1,
+        route = NavRoute.MovePosition2
+    )
+
     val sitesMenuList = listOf(
-        sampleSitesMenu,
-        sampleSitesMenu.copy(
+        HospitalMenu(
+            picto = R.drawable.site_information_b1,
+            route = NavRoute.HospitalHours
+        ),
+        HospitalMenu(
+            picto = R.drawable.site_information_b2,
             route = NavRoute.ReservationMethod
         ),
-        sampleSitesMenu.copy(
+        HospitalMenu(
+            picto = R.drawable.site_information_b3,
             route = NavRoute.Parking
         )
     )

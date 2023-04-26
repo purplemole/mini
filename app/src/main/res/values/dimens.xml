@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="gnb_height">27dp</dimen>
+    <dimen name="padding_24">7dp</dimen>
+    <dimen name="padding_28">8dp</dimen>
+    <dimen name="padding_48">14dp</dimen>
+    <dimen name="main_horizontal">71dp</dimen>
+    <dimen name="qrViewWidth">256dp</dimen>
+    <dimen name="qrViewHeight">167dp</dimen>
+</resources>

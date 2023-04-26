@@ -29,9 +29,10 @@ import com.clobot.mini.R
 import com.clobot.mini.data.page.HospitalMenu
 import com.clobot.mini.util.ContinuousClickHelper
 import com.clobot.mini.util.LocalRouteAction
+import com.clobot.mini.view.common.ui.MyIconPack
+import com.clobot.mini.view.common.ui.myiconpack.Logo
 import com.clobot.mini.view.common.ui.theme.prc_white100
 import com.clobot.mini.view.navigation.NavRoute
-import com.clobot.mini.view.navigation.RouteAction
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
 import java.util.*
@@ -43,7 +44,9 @@ import java.util.*
  * @param routeAction
  */
 @Composable
-fun ImgMenuBtn(menu: HospitalMenu, routeAction: RouteAction) {
+fun ImgMenuBtn(menu: HospitalMenu) {
+    val routeAction = LocalRouteAction.current
+
     Image(
         painter = painterResource(menu.picto),
         contentDescription = menu.menu,
@@ -59,7 +62,7 @@ fun ImgMenuBtn(menu: HospitalMenu, routeAction: RouteAction) {
  * @param canNavigate
  */
 @Composable
-fun HospitalTopBar() {
+fun HospitalTopBar(goBackEnable: Boolean = true) {
     TopAppBar(
         modifier = Modifier
             .fillMaxWidth()
@@ -69,7 +72,7 @@ fun HospitalTopBar() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                content = { TopAppBarTitle() }
+                content = { TopAppBarTitle(goBackEnable) }
             )
         },
         elevation = 0.dp,
@@ -119,9 +122,9 @@ fun CoilImgView(
 }
 
 @Composable
-fun TopAppBarTitle() {
+fun TopAppBarTitle(goBackEnable : Boolean = true) {
     val routeAction = LocalRouteAction.current
-    val backModifier = if (routeAction.getCurPage() == "main") Modifier.alpha(0f)
+    val backModifier = if (!goBackEnable) Modifier.alpha(0f)
     else Modifier
         .noRippleClickable { routeAction.goBack() }
         .alpha(1f)
@@ -145,9 +148,11 @@ fun TopAppBarTitle() {
                 .noRippleClickable { ccHelper.touch(routeAction) }
                 .size(50.dp),
         )
-        CoilImage(
-            imageModel = R.drawable.clobot_logo,
-            modifier = Modifier.size(width = 63.dp, height = 14.dp)
+        Icon(
+            imageVector = MyIconPack.Logo,
+            modifier = Modifier.size(width = 63.dp, height = 14.dp),
+            contentDescription = "logo",
+            tint = Color.White
         )
         Box(
             modifier = Modifier
