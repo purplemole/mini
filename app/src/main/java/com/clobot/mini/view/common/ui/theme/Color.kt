@@ -20,6 +20,7 @@ val prc_gray700 = Color(0xff6b7286)
 val prc_gray800 = Color(0xff36383c)
 
 val prc_name = Color(0xfff2c94c)
+val prc_birth = Color(0xff18d28f)
 
 val prc_danger = Color(0xffff3b30)
 

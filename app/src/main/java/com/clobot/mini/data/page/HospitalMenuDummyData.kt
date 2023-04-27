@@ -76,4 +76,10 @@ object HospitalMenuDummyData {
             menu = "site_information_b3"
         )
     )
+
+    val nameCallingMenu = HospitalMenu(
+        picto = R.drawable.name_calling_b1,
+        route = NavRoute.NameQr,
+        menu = "name_calling_b1"
+    )
 }

@@ -56,6 +56,15 @@ fun NavigationGraph() {
             // 주차 안내
             composable(NavRoute.Parking.routeName) { Parking() }
 
+            // 이름 부르기
+            composable(NavRoute.NameCalling.routeName) { NameCalling() }
+            // 본인 확인(QR 인식)
+            composable(NavRoute.NameQr.routeName) { NameQr() }
+            // 본인 확인 완료
+            composable(NavRoute.NameConfirm.routeName) { NameConfirm() }
+            // 본인 확인 실패
+            composable(NavRoute.NameFailed.routeName) { NameFailed() }
+
             // 관리자 화면
             composable(NavRoute.Admin.routeName) { AdminView() }
 

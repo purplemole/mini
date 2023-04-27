@@ -10,7 +10,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
@@ -117,6 +116,15 @@ private fun QrRecognitionContent() {
                 contentDescription = "reservation_customer background img",
                 contentScale = ContentScale.Crop
             )
+//            Text(
+//                text = stringResource(id = R.string.qr_recognition_x1),
+//                style = pageTypography.h2,
+//                color = prc_white100,
+//                modifier = Modifier.padding(
+//                    end = 407.dp,
+//                    bottom = 240.dp
+//                )
+//            )
             AndroidView(
                 factory = { context ->
                     val previewView = PreviewView(context)
@@ -233,7 +241,7 @@ private fun ReservationConfirmContent() {
                                                     color = prc_white100
                                                 )
                                             ) {
-                                                append(stringResource(id = R.string.reservation_confirm_t1))
+                                                append(stringResource(id = R.string.reservation_confirm_x1))
                                             }
                                         },
                                         style = pageTypography.h1
@@ -280,18 +288,40 @@ private fun ReservationFailedContent() {
                 contentDescription = "reservation_failed background img",
             )
             Box(
-                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_48)),
+                contentAlignment = Alignment.BottomCenter,
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_24)),
                 content = {
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_24))
-                    ) {
-                        item {
-                            ImgMenuBtn(menu = failedMenus[0])
-                        }
-                        item {
-                            ImgMenuBtn2(menu = failedMenus[1])
-                        }
-                    }
+                    Column(
+                        content = {
+                            Column(
+                                content = {
+                                    Text(
+                                        text = stringResource(id = R.string.reservation_failed_x1),
+                                        style = pageTypography.h1
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.reservation_failed_x2),
+                                        style = pageTypography.h5
+                                    )
+                                },
+                                verticalArrangement = Arrangement.spacedBy(
+                                    dimensionResource(id = R.dimen.padding_48)
+                                ),
+                            )
+                            Row(
+                                content = {
+                                    ImgMenuBtn(menu = failedMenus[0])
+                                    ImgMenuBtn2(menu = failedMenus[1])
+                                },
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    dimensionResource(id = R.dimen.padding_24)
+                                )
+                            )
+                        },
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    )
                 }
             )
         }

@@ -20,6 +20,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -78,7 +79,7 @@ fun HospitalTopBar(goBackEnable: Boolean = true) {
     TopAppBar(
         modifier = Modifier
             .fillMaxWidth()
-            .height(27.dp),
+            .height(dimensionResource(id = R.dimen.gnb_height)),
         backgroundColor = Color.Black,
         content = {
             Row(
