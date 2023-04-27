@@ -44,6 +44,8 @@ fun NavigationGraph() {
             composable(NavRoute.ReservationCustomer.routeName) { ReservationCustomer() }
             // 예약 확인
             composable(NavRoute.QrRecognition.routeName) { QrRecognition() }
+            composable(NavRoute.ReservationConfirm.routeName) { ReservationConfirm() }
+            composable(NavRoute.ReservationFailed.routeName) { ReservationFailed() }
 
             // 이용 안내
             composable(NavRoute.SitesInformation.routeName) { SitesInformation() }
@@ -66,16 +68,16 @@ fun NavigationGraph() {
 //                        initial = false
 //                    ).value
 //                )
-                    Charging()
+                Charging()
             }
 
             // move-position1,2,3 / move-name
-            composable(NavRoute.MovePosition1.routeName){ MovePosition(1) }
-            composable(NavRoute.MovePosition2.routeName){ MovePosition(2)}
-            composable(NavRoute.MovePosition3.routeName){ MovePosition(3)}
-            composable(NavRoute.MoveName.routeName){ MovePosition(4)}
+            composable(NavRoute.MovePosition1.routeName) { MovePosition(1) }
+            composable(NavRoute.MovePosition2.routeName) { MovePosition(2) }
+            composable(NavRoute.MovePosition3.routeName) { MovePosition(3) }
+            composable(NavRoute.MoveName.routeName) { MovePosition(4) }
 
-            composable(NavRoute.BootCheck.routeName){ BootCheck() }
+            composable(NavRoute.BootCheck.routeName) { BootCheck() }
 
             // 개발자용 테스트 화면
             composable(NavRoute.Developer.routeName) { Developer() }

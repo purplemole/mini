@@ -43,3 +43,13 @@ val AdminTypography = Typography(
         lineHeight = 15.sp
     ),
 )
+
+val pageTypography = Typography(
+    h1 = TextStyle(
+        textAlign = TextAlign.Center,
+        fontSize = 23.sp,
+        fontFamily = FontFamily(Font(R.font.minsans_medium)),
+        lineHeight = 29.sp,
+        fontWeight = FontWeight.Bold
+    )
+)

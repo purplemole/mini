@@ -17,10 +17,7 @@ class NetworkChecker constructor(
     val networkState: StateFlow<NetworkState> = _networkState
 
     private val validTransportTypes by lazy {
-        listOf(
-            NetworkCapabilities.TRANSPORT_WIFI,
-            NetworkCapabilities.TRANSPORT_CELLULAR
-        )
+        NetworkCapabilities.TRANSPORT_WIFI
     }
 
     private val networkCallback by lazy {
@@ -30,7 +27,7 @@ class NetworkChecker constructor(
                 context.getSystemService(Context.CONNECTIVITY_SERVICE)?.let { service ->
                     val connectivityManager = service as ConnectivityManager
                     connectivityManager.getNetworkCapabilities(network)?.let { networkCapabilities ->
-                        if (validTransportTypes.any { networkCapabilities.hasTransport(it) }) {
+                        if (networkCapabilities.hasTransport(validTransportTypes)) {
                             _networkState.value = NetworkState.Connected
                         } else {
                             _networkState.value = NetworkState.NotConnected
@@ -57,7 +54,7 @@ class NetworkChecker constructor(
     init {
         connectivityManager.activeNetwork?.let { network ->
             connectivityManager.getNetworkCapabilities(network)?.let { networkCapabilities ->
-                if (validTransportTypes.any { networkCapabilities.hasTransport(it) }) {
+                if (networkCapabilities.hasTransport(validTransportTypes)) {
                     _networkState.value = NetworkState.Connected
                 } else {
                     _networkState.value = NetworkState.NotConnected
@@ -70,7 +67,7 @@ class NetworkChecker constructor(
         }
 
         val builder = NetworkRequest.Builder().apply {
-            validTransportTypes.onEach { addTransportType(it) }
+            addTransportType(validTransportTypes)
         }
 
         connectivityManager.registerNetworkCallback(builder.build(), networkCallback)

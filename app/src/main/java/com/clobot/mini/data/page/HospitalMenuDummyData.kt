@@ -31,30 +31,49 @@ object HospitalMenuDummyData {
         HospitalMenu(
             picto = R.drawable.reservation_customer_b1,
             route = NavRoute.QrRecognition,
+            menu = "reservation_customer_b1"
         ),
         HospitalMenu(
             picto = R.drawable.reservation_customer_b2,
             route = NavRoute.MovePosition1,
+            menu = "reservation_customer_b2"
         ),
     )
 
     val reservationConfirmMenu = HospitalMenu(
         picto = R.drawable.reservation_confirm_b1,
-        route = NavRoute.MovePosition2
+        route = NavRoute.MovePosition2,
+        menu = "reservation_confirm_b1"
+    )
+
+    val reservationFailedMenu = listOf(
+        HospitalMenu(
+            picto = R.drawable.reservation_failed_b1,
+            route = NavRoute.MovePosition1,
+            menu = "reservation_failed_b1"
+        ),
+        HospitalMenu(
+            picto = R.drawable.reservation_failed_b2,
+            route = NavRoute.QrRecognition,
+            menu = "reservation_failed_b2"
+        ),
     )
 
     val sitesMenuList = listOf(
         HospitalMenu(
             picto = R.drawable.site_information_b1,
-            route = NavRoute.HospitalHours
+            route = NavRoute.HospitalHours,
+            menu = "site_information_b1"
         ),
         HospitalMenu(
             picto = R.drawable.site_information_b2,
-            route = NavRoute.ReservationMethod
+            route = NavRoute.ReservationMethod,
+            menu = "site_information_b2"
         ),
         HospitalMenu(
             picto = R.drawable.site_information_b3,
-            route = NavRoute.Parking
+            route = NavRoute.Parking,
+            menu = "site_information_b3"
         )
     )
 }

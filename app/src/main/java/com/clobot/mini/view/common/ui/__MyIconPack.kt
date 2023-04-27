@@ -1,7 +1,6 @@
 package com.clobot.mini.view.common.ui
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.clobot.mini.view.common.ui.myiconpack.Confirm
 import com.clobot.mini.view.common.ui.myiconpack.Logo
 import kotlin.collections.List as ____KtList
 
@@ -14,6 +13,6 @@ public val MyIconPack.AllIcons: ____KtList<ImageVector>
     if (__AllIcons != null) {
       return __AllIcons!!
     }
-    __AllIcons= listOf(Confirm, Logo)
+    __AllIcons= listOf(Logo)
     return __AllIcons!!
   }

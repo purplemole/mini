@@ -47,7 +47,6 @@ sealed class NavRoute(val routeName: String, val pageWaite: Int = 0) {
     // 관리자 화면
     object Admin : NavRoute("admin")
     object Developer : NavRoute("developer", 0)
-
     object Charging : NavRoute("charging")
     object BootCheck : NavRoute("boot-check", 0)
 }

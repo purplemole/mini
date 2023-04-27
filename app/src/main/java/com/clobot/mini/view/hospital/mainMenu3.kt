@@ -10,6 +10,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
@@ -25,20 +26,22 @@ import com.clobot.mini.data.page.HospitalMenuDummyData
 import com.clobot.mini.util.QrCodeAnalyzer
 import com.clobot.mini.view.common.HospitalTopBar
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.*
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.clobot.mini.view.common.ImgMenuBtn
 import com.clobot.mini.util.LocalRouteAction
-import com.clobot.mini.view.common.ui.MyIconPack
-import com.clobot.mini.view.common.ui.myiconpack.Confirm
-import com.clobot.mini.view.common.ui.myiconpack.Logo
+import com.clobot.mini.view.common.ImgMenuBtn2
+import com.clobot.mini.view.common.ui.theme.pageTypography
+import com.clobot.mini.view.common.ui.theme.prc_name
+import com.clobot.mini.view.common.ui.theme.prc_white100
 import com.clobot.mini.view.navigation.NavRoute
+import kotlinx.coroutines.delay
 
 
 // 예약 고객 페이지
@@ -92,9 +95,12 @@ fun QrRecognition() {
 @Composable
 private fun QrRecognitionContent() {
     val routeAction = LocalRouteAction.current
-    var code by remember {
-        mutableStateOf("")
-    }
+    val code = remember { mutableStateOf("") }
+    val failed = remember { mutableStateOf(false) }
+    if (code.value != "" && !failed.value)
+        routeAction.navTo(NavRoute.ReservationConfirm)
+    if (failed.value)
+        routeAction.navTo(NavRoute.ReservationFailed)
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val cameraProviderFuture = remember {
@@ -122,17 +128,14 @@ private fun QrRecognitionContent() {
                     preview.setSurfaceProvider(previewView.surfaceProvider)
                     val imageAnalysis = ImageAnalysis.Builder().setTargetResolution(
                         Size(
-                            previewView.width,
-                            previewView.height
+                            700,
+                            500
                         )
                     ).setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST).build()
                     imageAnalysis.setAnalyzer(
                         ContextCompat.getMainExecutor(context),
                         QrCodeAnalyzer { result ->
-                            code = result
-                            Log.i("qrAnalysis", "success!, $code")
-                            if(result != "")
-                                routeAction.navTo(NavRoute.ReservationConfirm)
+                            code.value = result
                         }
                     )
                     try {
@@ -149,14 +152,14 @@ private fun QrRecognitionContent() {
                 },
                 modifier = Modifier.size(width = camWidth, height = camHeight)//weight(1f).
             )
-            Text(
-                text = code,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(32.dp)
-            )
+//            Text(
+//                text = code,
+//                fontSize = 20.sp,
+//                fontWeight = FontWeight.Bold,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(32.dp)
+//            )
             Image(
                 painter = painterResource(R.drawable.camera),
                 contentDescription = "camera",
@@ -166,6 +169,10 @@ private fun QrRecognitionContent() {
         }
     )
 
+    LaunchedEffect(Unit) {
+        delay(7000)
+        failed.value = true
+    }
     DisposableEffect(Unit) {
         onDispose {
             cameraProviderFuture.get().unbindAll()
@@ -204,26 +211,48 @@ private fun ReservationConfirmContent() {
                     Column(
                         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_48)),
                         content = {
-                            Column(content = {
-                                Icon(
-                                    imageVector = MyIconPack.Confirm,
-                                    contentDescription = "confirm"
-                                )
-                                Text(
-                                    text = String.format(
-                                        stringResource(id = R.string.reservation_confirm_t1),
-                                        name
-                                    ),
-//                                style = TextStyle(fontResource(fontFamily = ))
-                                )
-                            })
-                            ImgMenuBtn(HospitalMenuDummyData.reservationConfirmMenu)
+                            Column(
+                                content = {
+                                    Image(
+                                        painterResource(R.drawable.confirm),
+                                        contentDescription = "confirm",
+                                        modifier = Modifier.size(37.dp),
+                                    )
+                                    Text(
+                                        text = buildAnnotatedString {
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = prc_name,
+                                                )
+                                            ) {
+                                                append(name)
+                                            }
+
+                                            withStyle(
+                                                style = SpanStyle(
+                                                    color = prc_white100
+                                                )
+                                            ) {
+                                                append(stringResource(id = R.string.reservation_confirm_t1))
+                                            }
+                                        },
+                                        style = pageTypography.h1
+                                    )
+                                },
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            )
                         },
-                        horizontalAlignment = Alignment.CenterHorizontally
                     )
+                    ImgMenuBtn(HospitalMenuDummyData.reservationConfirmMenu)
                 },
-                modifier = Modifier.fillMaxHeight(),
-                verticalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(
+                        top = dimensionResource(R.dimen.padding_64),
+                        bottom = dimensionResource(R.dimen.padding_48)
+                    ),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally,
             )
         })
 }
@@ -240,7 +269,33 @@ fun ReservationFailed() {
 
 @Composable
 private fun ReservationFailedContent() {
-
+    val failedMenus =
+        remember { HospitalMenuDummyData.reservationFailedMenu.filter { true } }
+    Box(
+        contentAlignment = Alignment.BottomCenter,
+        modifier = Modifier.fillMaxSize(),
+        content = {
+            Image(
+                painter = painterResource(R.drawable._failed),
+                contentDescription = "reservation_failed background img",
+            )
+            Box(
+                modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_48)),
+                content = {
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_24))
+                    ) {
+                        item {
+                            ImgMenuBtn(menu = failedMenus[0])
+                        }
+                        item {
+                            ImgMenuBtn2(menu = failedMenus[1])
+                        }
+                    }
+                }
+            )
+        }
+    )
 }
 
 @Composable

@@ -34,7 +34,7 @@
     <string name="qr_recognition_t1">핸드폰에 생성된 QR 코드를 로봇 상단에 있는 카메라에 보여주세요</string>
     <string name="qr_recognition_t2">QR 코드가 정상적으로 인식되면 자동으로 접수가 완료 됩니다.</string>
 
-    <string name="reservation_confirm_t1">%1$s님 예약 확인이 완료 되었습니다.\n잠시 대기장소에서 기다려 주세요.</string>
+    <string name="reservation_confirm_t1">님 예약 확인이 완료 되었습니다.\n잠시 대기장소에서 기다려 주세요.</string>
     <string name="reservation_confirm_t2">대기 장소 안내가 필요하신 경우 대기장소 안내 버튼을 클릭해 주세요.</string>
     <string name="reservation_failed_t1">고객님의 예약 정보가 확인되지 않았습니다. 접수 장소에서 담당자에게 문의 바랍니다.</string>
     <string name="reservation_failed_t2">예약 확인을 다시 하시려면 QR 코드 재 확인 버튼을 클릭해 주세요.</string>

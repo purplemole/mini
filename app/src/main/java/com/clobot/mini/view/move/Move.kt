@@ -3,10 +3,14 @@ package com.clobot.mini.view.move
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.clobot.mini.R
+import com.clobot.mini.util.LocalRouteAction
+import com.clobot.mini.view.navigation.NavRoute
+import kotlinx.coroutines.delay
 
 /**
  * TODO
@@ -15,6 +19,8 @@ import com.clobot.mini.R
  */
 @Composable
 fun MovePosition(pos: Int = 0) {
+    val routeAction = LocalRouteAction.current
+
     val backgroundImg = when (pos) {
         1 -> painterResource(R.drawable.move_position_1)
         2 -> painterResource(R.drawable.move_position_2)
@@ -27,6 +33,10 @@ fun MovePosition(pos: Int = 0) {
         contentDescription = "move-position_$pos",
         contentScale = ContentScale.Crop
     )
+    LaunchedEffect(Unit) {
+        delay(5000)
+        routeAction.navTo(NavRoute.Standby)
+    }
 }
 
 /**

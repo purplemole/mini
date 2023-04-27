@@ -55,6 +55,18 @@ fun ImgMenuBtn(menu: HospitalMenu) {
         })
 }
 
+@Composable
+fun ImgMenuBtn2(menu: HospitalMenu) {
+    val routeAction = LocalRouteAction.current
+
+    Image(
+        painter = painterResource(menu.picto),
+        contentDescription = menu.menu,
+        modifier = Modifier.clickable {
+            routeAction.goBack()
+        })
+}
+
 /**
  * Scaffold 내부에서 사용 가능한 TopAppBar
  * TODO : title - 날짜 - 시간 - 배터리 표시
