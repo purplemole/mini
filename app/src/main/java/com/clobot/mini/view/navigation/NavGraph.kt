@@ -27,7 +27,7 @@ fun NavigationGraph() {
     val routeAction = RouteAction(route)
 
     val robotViewModel = LocalRobotViewModel.current
-    val chargeState = robotViewModel.dockingState.collectAsState()
+    val chargeState = robotViewModel.chargingState.collectAsState()
 
     if(chargeState.value)
         route.navTo(NavRoute.Charging)

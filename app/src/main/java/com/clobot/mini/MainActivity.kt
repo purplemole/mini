@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                     LaunchedEffect(Unit) {
                         while (true) {
                             delay(500)
-                            robotViewModel.checkDockingState()
+                            robotViewModel.checkChargingState()
                         }
                     }
                     Surface(

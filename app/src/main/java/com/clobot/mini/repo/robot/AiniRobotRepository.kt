@@ -15,12 +15,18 @@ import com.clobot.mini.data.robot.*
 import com.clobot.mini.repo.RobotRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class AiniRobotRepository @Inject constructor() : RobotRepository {
     private val robotApi = RobotApi.getInstance()
+    private val settingApi = RobotSettingApi.getInstance()
+
     private val _dockingState = MutableStateFlow(false)
-    override val dockingState: StateFlow<Boolean> = _dockingState
+    override val dockingState: StateFlow<Boolean> = _dockingState.asStateFlow()
+
+    private val _chargingState = MutableStateFlow(false)
+    val chargingState: StateFlow<Boolean> = _chargingState.asStateFlow()
 
     private var checkTimes: Int = 0
 //    val battState = robotApi.chargeStatus
@@ -33,7 +39,9 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
             && robotApi.isActive
         ) {
             // 도킹스테이션 확인
-            _dockingState.value = robotApi.chargeStatus
+            _dockingState.value = robotApi.chargeStatus ||
+                    (settingApi.getRobotString(Definition.CHARGING_PILE_CONFIGURED) == "1"
+                            && robotApi.getPlaceDistance("충전대") != 0.0)
             robotApi.disableBattery()
             robotApi.disableEmergency()
             true
@@ -42,9 +50,10 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         }
     }
 
-    fun checkDockingStation() {
-        if (_dockingState.value != robotApi.chargeStatus)
-            _dockingState.value = robotApi.chargeStatus
+    // 충전 상태 확인
+    fun checkChargingStation() {
+        if (_chargingState.value != robotApi.chargeStatus)
+            _chargingState.value = robotApi.chargeStatus
     }
 
     // system 으로 구분 예정
@@ -201,7 +210,7 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
             "IsInit" -> robotApi.isRobotEstimate
             "IsRec" -> robotApi.isInReceptionLocation
             // distance
-            "Dist" -> robotApi.getPlaceDistance(placeName)
+            "Dist" -> Log.d(TAG, robotApi.getPlaceDistance("충전대").toString())
             "SafeDist" -> robotApi.setObstaclesSafeDistance(reqId, 0.5, listener)
             "resetDist" -> robotApi.resetObstaclesSafeDistance(reqId, listener)
         }

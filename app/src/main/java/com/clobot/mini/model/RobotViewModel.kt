@@ -25,20 +25,26 @@ class RobotViewModel @Inject constructor(
     private val _dockingState = MutableStateFlow<Boolean>(false)
     val dockingState: StateFlow<Boolean> = _dockingState.asStateFlow()
 
+    private val _chargingState = MutableStateFlow<Boolean>(false)
+    val chargingState: StateFlow<Boolean> = _chargingState.asStateFlow()
+
     private val _placeList = MutableStateFlow<List<String>>(ArrayList())
     val placeList = _placeList.asStateFlow()
 
     private val _moveReason = mutableStateOf<MoveReason>(MoveReason.None)
     val moveReason = _moveReason.value//: State<MoveReason> = _moveReason
 
+    private val _textLog = MutableStateFlow("")
+    val textLog: StateFlow<String> = _textLog.asStateFlow()
+
     private var reqId = 0
 
     init {
         viewModelScope.launch {
             repo.initialize().let {
-//                repo.dockingState.collectLatest {
-//                    _dockingState.emit(it)
-//                }
+                repo.dockingState.collectLatest {
+                    _dockingState.emit(it)
+                }
             }
         }
     }
@@ -55,10 +61,10 @@ class RobotViewModel @Inject constructor(
         }
     }
 
-    fun checkDockingState() = viewModelScope.launch {
-        repo.checkDockingStation()
-        repo.dockingState.collect {
-            _dockingState.emit(it)
+    fun checkChargingState() = viewModelScope.launch {
+        repo.checkChargingStation()
+        repo.chargingState.collect {
+            _chargingState.emit(it)
         }
     }
 
@@ -137,6 +143,7 @@ class RobotViewModel @Inject constructor(
     private val mMotionListener: CommandListener = object : CommandListener() {
         override fun onResult(result: Int, message: String, extraData: String) {
             Log.i(TAG, "result: $result message:$message")
+            _textLog.value = message
 //                when (result) {
 //                    Definition.RESULT_OK -> // 도착 완료
 //                    Definition.RESULT_FAILURE -> // 도착 실패
@@ -152,6 +159,7 @@ class RobotViewModel @Inject constructor(
     private val mNavigationListener: ActionListener = object : ActionListener() {
         override fun onResult(status: Int, response: String) {
             Log.i(TAG, "status: $status response:$response")
+            _textLog.value = status.toString()
 //                when (status) {
 //                    Definition.RESULT_OK -> // 도착 완료
 //                    Definition.RESULT_FAILURE -> // 도착 실패
@@ -171,6 +179,7 @@ class RobotViewModel @Inject constructor(
     private val mLocationListener: CommandListener = object : CommandListener() {
         override fun onResult(result: Int, message: String, extraData: String) {
             Log.i(TAG, "result: $result message:$message")
+            _textLog.value = message
             try {
                 val placeList: MutableList<String> = ArrayList()
                 placeList.clear()
@@ -195,6 +204,7 @@ class RobotViewModel @Inject constructor(
     private val mStatusListener: StatusListener = object : StatusListener() {
         override fun onStatusUpdate(type: String, data: String) {
             Log.i(TAG, "type: $type data:$data")
+            _textLog.value = data
         }
     }
 

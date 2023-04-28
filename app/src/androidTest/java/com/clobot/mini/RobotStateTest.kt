@@ -27,7 +27,6 @@ class RobotStateTest {
 
     @Test
     fun testRobotConnect() = runBlocking {
-        robot.checkDockingStation()
         assertEquals(true, robot.dockingState.last())
     }
 

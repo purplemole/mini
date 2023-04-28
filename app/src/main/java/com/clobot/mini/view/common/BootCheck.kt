@@ -47,8 +47,8 @@ fun BootCheck() {
                 stringResource(R.string.book_check_x1),
                 modifier = Modifier.background(Color(0xFFE0C2F8))
             )
-//            val dock = robotViewModel.dockingState.collectAsState(initial = false)
-            val dockStateStr = if (true)
+            val dock = robotViewModel.dockingState.collectAsState(initial = false)
+            val dockStateStr = if (dock.value)
                 stringResource(id = R.string.success) else stringResource(id = R.string.fail)
             Text(text = dockStateStr, modifier = Modifier.background(Color(0xFFE0C2F8)))
             Text(text = getCurTimeInfo(4))

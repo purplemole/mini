@@ -14,7 +14,7 @@ import com.clobot.mini.view.navigation.NavRoute
 @Composable
 fun Charging() {
     val robotViewModel = LocalRobotViewModel.current
-    val chargeState = robotViewModel.dockingState.collectAsState()
+    val chargeState = robotViewModel.chargingState.collectAsState()
     val route = LocalRouteAction.current
 
     Box(

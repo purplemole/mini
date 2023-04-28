@@ -33,6 +33,7 @@ import com.clobot.mini.util.LocalRobotViewModel
 fun Developer() {
     val robotViewModel = LocalRobotViewModel.current
     val placeList = robotViewModel.placeList.collectAsState(initial = ArrayList())
+    val textLog = robotViewModel.textLog.collectAsState()
 
     Template0(needTopBar = true) {
         LazyColumn(
@@ -69,6 +70,7 @@ fun Developer() {
                             CustomButton("Remove") { robotViewModel.locController("Remove") }
                             CustomButton("Edit") { robotViewModel.locController("Edit") }
                             CustomButton("IsPos") { robotViewModel.locController("IsPos") }
+                            CustomButton("Dist") { robotViewModel.locController("Dist") }
                         }
                     }
                     LazyRow {
@@ -113,8 +115,11 @@ fun Developer() {
 //                            CustomButton("FullCheck") { robotViewModel.systemController("FullCheck") }
                             CustomButton("Emerg") { robotViewModel.systemController("Emerg") }
                             CustomButton("Status") { robotViewModel.systemController("Status") }
-//                            CustomButton("Update") { robotViewModel.systemController("Update") }
+                            CustomButton("Update") { robotViewModel.systemController("Update") }
                         }
+                    }
+                    Row {
+                        LogView(textLog.value)
                     }
                 }
             },
@@ -137,10 +142,10 @@ private fun AndroidSetting() {
 }
 
 @Composable
-private fun logView() {
+private fun LogView(log: String) {
     LazyRow {
         item {
-            Text("Status")
+            Text("Log: $log")
         }
     }
 }
