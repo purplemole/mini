@@ -13,6 +13,11 @@
     <string name="name_confirm_x1">님 본인 확인이 완료 되었습니다.\n진료실 까지 안내해 드리겠습니다.</string>
     <string name="name_confirm_x2">※예약 문자가 없는 경우에는 본인 확인을 위해\n성함과 생년 월을 말씀해 주시면 감사하겠습니다.</string>
     <string name="name_failed_x1">본인 확인에 실패하였습니다.\n접수 장소에서 담당자에게 문의 바랍니다.</string>
+    <string name="name_failed_title">본인 확인 실패</string>
+    <string name="treatment_method_x1">님 진료실에\n도착 하였습니다.</string>
+    <string name="treatment_method_x2">모니터에 본인 이름 확인 바랍니다.\n치료 잘 받으시고 빠르게 건강 회복하시기를 바랍니다.</string>
+    <string name="patient_information_x1_1">담당자님 진료실 안내 고객(</string>
+    <string name="patient_information_x1_2">) 입니다.\n본인 확인 후 진료실로 안내 바랍니다.</string>
 
     <string name="waiting_area_t1">대기 장소에 도착하였습니다.</string>
     <string name="waiting_area_t2">이곳에서 잠시 동안 기다리시면 진찰 순서에 맞게 호명하도록 하겠습니다.</string>

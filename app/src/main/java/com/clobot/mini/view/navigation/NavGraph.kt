@@ -70,8 +70,12 @@ fun NavigationGraph() {
             composable(NavRoute.NameQr.routeName) { NameQr() }
             // 본인 확인 완료
             composable(NavRoute.NameConfirm.routeName) { NameConfirm() }
+            // 진료 방법 안내
+            composable(NavRoute.TreatmentMethod.routeName) { TreatmentMethod() }
             // 본인 확인 실패
             composable(NavRoute.NameFailed.routeName) { NameFailed() }
+            // 환자 안내
+            composable(NavRoute.PatientInformation.routeName) { PatientInformation() }
 
             // 관리자 화면
             composable(NavRoute.Admin.routeName) { AdminView() }
@@ -80,13 +84,7 @@ fun NavigationGraph() {
             composable(NavRoute.Standby.routeName) { Standby() }
 
             // 충전 중
-            composable(NavRoute.Charging.routeName) {
-//                if (LocalRobotViewModel.current.dockingState.collectAsState(
-//                        initial = false
-//                    ).value
-//                )
-                Charging()
-            }
+            composable(NavRoute.Charging.routeName) { Charging() }
 
             // move-position1,2,3 / move-name
             composable(NavRoute.MovePosition1.routeName) { MovePosition(1) }

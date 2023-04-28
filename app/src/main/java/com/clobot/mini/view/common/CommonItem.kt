@@ -31,7 +31,9 @@ import com.clobot.mini.data.page.HospitalMenu
 import com.clobot.mini.util.ContinuousClickHelper
 import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.common.ui.MyIconPack
+import com.clobot.mini.view.common.ui.myiconpack.Actionleft
 import com.clobot.mini.view.common.ui.myiconpack.Logo
+import com.clobot.mini.view.common.ui.theme.pageTypography
 import com.clobot.mini.view.common.ui.theme.prc_white100
 import com.clobot.mini.view.navigation.NavRoute
 import com.skydoves.landscapist.ShimmerParams
@@ -93,6 +95,38 @@ fun HospitalTopBar(goBackEnable: Boolean = true) {
 }
 
 @Composable
+fun HospitalTopBar2(goBackEnable: Boolean = false, title: String) {
+    val navRoute = LocalRouteAction.current
+    TopAppBar(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(dimensionResource(id = R.dimen.gnb_height)),
+        backgroundColor = Color.Black,
+        content = {
+            Box(
+                content = {
+                    if (goBackEnable)
+                        Image(
+                            imageVector = MyIconPack.Actionleft,
+                            modifier = Modifier
+                                .padding(top = dimensionResource(id = R.dimen.padding_20), start = 6.dp)
+                                .clickable { navRoute.goBack() },
+                            contentDescription = null,
+                        )
+                    Text(
+                        text = title,
+                        style = pageTypography.h6,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        },
+        elevation = 0.dp,
+    )
+}
+
+@Composable
 fun CoilImgView(
     nextRoute: NavRoute,
     imgModel: String
@@ -135,7 +169,7 @@ fun CoilImgView(
 }
 
 @Composable
-fun TopAppBarTitle(goBackEnable : Boolean = true) {
+fun TopAppBarTitle(goBackEnable: Boolean = true) {
     val routeAction = LocalRouteAction.current
     val backModifier = if (!goBackEnable) Modifier.alpha(0f)
     else Modifier
