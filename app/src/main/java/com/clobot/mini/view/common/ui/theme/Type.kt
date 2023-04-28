@@ -64,7 +64,7 @@ val pageTypography = Typography(
     ),
     h5 = TextStyle(
         textAlign = TextAlign.Center,
-        fontSize = 13.sp,
+        fontSize = 13.sp, //44px
         fontFamily = FontFamily(Font(R.font.minsans_regular)),
         lineHeight = 19.sp,
         fontWeight = FontWeight.Medium,

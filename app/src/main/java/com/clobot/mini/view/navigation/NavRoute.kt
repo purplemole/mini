@@ -6,11 +6,11 @@ sealed class NavRoute(val routeName: String, val pageWaite: Int = 0) {
 
     //main - button1
     object NewCustomer : NavRoute("new-customer")
-    object NewInformation : NavRoute("new-information",5)
+    object NewInformation : NavRoute("new-information", 5)
 
     //main - button2
     object ExistingCustomer : NavRoute("existing-customer")
-    object ExistingInformation : NavRoute("existing-information",5)
+    object ExistingInformation : NavRoute("existing-information", 5)
 
     //main - button3
     object ReservationCustomer : NavRoute("reservation-customer", 30)
@@ -47,6 +47,10 @@ sealed class NavRoute(val routeName: String, val pageWaite: Int = 0) {
     // 관리자 화면
     object Admin : NavRoute("admin")
     object Developer : NavRoute("developer", 0)
-    object Charging : NavRoute("charging")
+
     object BootCheck : NavRoute("boot-check", 0)
+
+    // 충전 관련
+    object Charging : NavRoute("charging")
+    object MoveCharge : NavRoute("move-charge")
 }

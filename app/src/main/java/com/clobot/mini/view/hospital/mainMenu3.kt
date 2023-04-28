@@ -109,22 +109,22 @@ private fun QrRecognitionContent() {
     val camHeight = dimensionResource(R.dimen.qrViewHeight)
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomEnd,
+//        contentAlignment = Alignment.BottomEnd,
         content = {
             Image(
                 painter = painterResource(R.drawable.qr_recognition),
                 contentDescription = "reservation_customer background img",
                 contentScale = ContentScale.Crop
             )
-//            Text(
-//                text = stringResource(id = R.string.qr_recognition_x1),
-//                style = pageTypography.h2,
-//                color = prc_white100,
-//                modifier = Modifier.padding(
-//                    end = 407.dp,
-//                    bottom = 240.dp
-//                )
-//            )
+            Text(
+                text = stringResource(id = R.string.qr_recognition_x1),
+                style = pageTypography.h2,
+                color = prc_white100,
+                modifier = Modifier.padding(
+                    top = dimensionResource(id = R.dimen.padding_64),
+                    start = dimensionResource(id = R.dimen.padding_64)
+                )
+            )
             AndroidView(
                 factory = { context ->
                     val previewView = PreviewView(context)
@@ -158,7 +158,9 @@ private fun QrRecognitionContent() {
                     }
                     previewView
                 },
-                modifier = Modifier.size(width = camWidth, height = camHeight)//weight(1f).
+                modifier = Modifier
+                    .size(width = camWidth, height = camHeight)
+                    .align(Alignment.BottomEnd)//weight(1f).
             )
 //            Text(
 //                text = code,
@@ -171,7 +173,9 @@ private fun QrRecognitionContent() {
             Image(
                 painter = painterResource(R.drawable.camera),
                 contentDescription = "camera",
-                modifier = Modifier.size(width = camWidth, height = camHeight),
+                modifier = Modifier
+                    .size(width = camWidth, height = camHeight)
+                    .align(Alignment.BottomEnd),
                 contentScale = ContentScale.Crop
             )
         }

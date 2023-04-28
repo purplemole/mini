@@ -9,8 +9,9 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,7 +33,9 @@ import com.clobot.mini.R
 import com.clobot.mini.data.page.HospitalMenuDummyData
 import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.util.QrCodeAnalyzer
+import com.clobot.mini.view.common.HospitalTopBar
 import com.clobot.mini.view.common.ImgMenuBtn
+import com.clobot.mini.view.common.ImgMenuBtn2
 import com.clobot.mini.view.common.ui.MyIconPack
 import com.clobot.mini.view.common.ui.myiconpack.Actionleft
 import com.clobot.mini.view.common.ui.theme.pageTypography
@@ -41,6 +44,11 @@ import com.clobot.mini.view.common.ui.theme.prc_name
 import com.clobot.mini.view.common.ui.theme.prc_white100
 import com.clobot.mini.view.navigation.NavRoute
 import kotlinx.coroutines.delay
+
+/*
+* 진료실 안내 요청을 통해 들어 오는 서비스 메뉴들
+* 기본 예약 고객과 차이점 : 환자 정보 값들이 표시
+* */
 
 @Composable
 fun NameCalling() {
@@ -124,7 +132,6 @@ fun NameQr() {
 
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.BottomEnd,
         content = {
             Image(
                 painter = painterResource(R.drawable.qr_recognition),
@@ -138,18 +145,13 @@ fun NameQr() {
                         modifier = Modifier.align(Alignment.Center),
                         style = pageTypography.h6
                     )
-                    Button(
-                        onClick = { routeAction.goBack() },
-                        content = {
-                            Image(
-                                imageVector = MyIconPack.Actionleft,
-                                modifier = Modifier.size(width = 37.dp, height = 14.dp),
-                                contentDescription = "name-qr cancel button",
-                            )
-                        },
+                    Image(
+                        imageVector = MyIconPack.Actionleft,
                         modifier = Modifier
-                            .padding(start = dimensionResource(id = R.dimen.padding_20))
+                            .padding(top = dimensionResource(id = R.dimen.padding_20), start = 6.dp)
                             .align(Alignment.TopStart)
+                            .clickable { routeAction.goBack() },
+                        contentDescription = "name-qr cancel button",
                     )
                 },
                 modifier = Modifier
@@ -157,26 +159,26 @@ fun NameQr() {
                     .height(dimensionResource(id = R.dimen.gnb_height))
             )
 
-//            Text(
-//                text = buildAnnotatedString {
-//                    withStyle(style = SpanStyle(color = prc_name)) {
-//                        append(
-//                            "nn년 m월"
-//                        )
-//                    }
-//                    append(" ")
-//                    withStyle(style = SpanStyle(color = prc_birth)) {
-//                        append("홍길동")
-//                    }
-//                    append(stringResource(id = R.string.name_calling_x1))
-//                },
-//                style = pageTypography.h2,
-//                color = prc_white100,
-//                modifier = Modifier.padding(
-//                    top = dimensionResource(id = R.dimen.padding_160),
-//                    start = dimensionResource(id = R.dimen.padding_64)
-//                )
-//            )
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = prc_birth)) {
+                        append(
+                            "nn년 m월"
+                        )
+                    }
+                    append(" ")
+                    withStyle(style = SpanStyle(color = prc_name)) {
+                        append("홍길동")
+                    }
+                    append(stringResource(id = R.string.name_qr_x2))
+                },
+                style = pageTypography.h2,
+                color = prc_white100,
+                modifier = Modifier.padding(
+                    top = dimensionResource(id = R.dimen.padding_160),
+                    start = dimensionResource(id = R.dimen.padding_64)
+                )
+            )
             AndroidView(
                 factory = { context ->
                     val previewView = PreviewView(context)
@@ -210,12 +212,16 @@ fun NameQr() {
                     }
                     previewView
                 },
-                modifier = Modifier.size(width = camWidth, height = camHeight)//weight(1f).
+                modifier = Modifier
+                    .size(width = camWidth, height = camHeight)
+                    .align(Alignment.BottomEnd)//weight(1f).
             )
             Image(
                 painter = painterResource(R.drawable.camera),
                 contentDescription = "camera",
-                modifier = Modifier.size(width = camWidth, height = camHeight),
+                modifier = Modifier
+                    .size(width = camWidth, height = camHeight)
+                    .align(Alignment.BottomEnd),
                 contentScale = ContentScale.Crop
             )
         }
@@ -236,8 +242,10 @@ fun NameQr() {
     }
 }
 
+// 본인 확인 완료
 @Composable
 fun NameConfirm() {
+    val name = "홍길동"
     Box(
         content = {
             Image(
@@ -247,9 +255,38 @@ fun NameConfirm() {
             )
             Text(
                 text = stringResource(id = R.string.name_confirm_title),
-                Modifier.align(Alignment.TopCenter)
+                modifier = Modifier.align(Alignment.TopCenter),
+                style = pageTypography.h6
             )
-        }
+            Column(
+                content = {
+                    Text(
+                        text = buildAnnotatedString {
+                            withStyle(style = SpanStyle(color = prc_name)) {
+                                append(
+                                    name
+                                )
+                            }
+                            withStyle(style = SpanStyle(color = prc_white100)) {
+                                append(stringResource(id = R.string.name_confirm_x1))
+                            }
+                        },
+                        style = pageTypography.h1,
+                        modifier = Modifier.padding(
+                            top = dimensionResource(id = R.dimen.padding_160),
+                        )
+                    )
+                    Text(
+                        text = stringResource(id = R.string.name_confirm_x2),
+                        style = pageTypography.h5,
+                        color = prc_white100
+                    )
+                },
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_48))
+            )
+        },
     )
 //    Box(content = {
 //        Text(text=)
@@ -257,6 +294,71 @@ fun NameConfirm() {
 }
 
 @Composable
-fun NameFailed() {
+fun TreatmentMethod() {
 
+}
+
+//본인 확인 실패
+@Composable
+fun NameFailed() {
+    Scaffold(
+        topBar = { HospitalTopBar() },
+        content = { NameFailedContent() }
+    )
+}
+
+@Composable
+private
+fun NameFailedContent() {
+    val failedMenus =
+        remember { HospitalMenuDummyData.reservationFailedMenu.filter { true } }
+    Box(
+        contentAlignment = Alignment.BottomCenter,
+        modifier = Modifier.fillMaxSize(),
+        content = {
+            Image(
+                painter = painterResource(R.drawable._failed),
+                contentDescription = "reservation_failed background img",
+            )
+            Box(
+                contentAlignment = Alignment.BottomCenter,
+                modifier = Modifier.padding(bottom = dimensionResource(id = R.dimen.padding_24)),
+                content = {
+                    Column(
+                        content = {
+                            Column(
+                                content = {
+                                    Text(
+                                        text = stringResource(id = R.string.name_failed_x1),
+                                        style = pageTypography.h1
+                                    )
+                                },
+                                verticalArrangement = Arrangement.spacedBy(
+                                    dimensionResource(id = R.dimen.padding_48)
+                                ),
+                            )
+                            Row(
+                                content = {
+                                    ImgMenuBtn(menu = failedMenus[0])
+                                    ImgMenuBtn2(menu = failedMenus[1])
+                                },
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    dimensionResource(id = R.dimen.padding_24)
+                                )
+                            )
+                        },
+                        modifier = Modifier.fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    )
+                }
+            )
+        }
+    )
+}
+
+@androidx.compose.ui.tooling.preview.Preview
+@Composable
+fun NameMenuPreview() {
+    NameFailedContent()
 }
