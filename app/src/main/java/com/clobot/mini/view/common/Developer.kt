@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.clobot.mini.data.robot.ChargeMode
 import com.clobot.mini.data.robot.MoveDirection
 import com.clobot.mini.data.robot.NavMode
 import com.clobot.mini.util.LocalRobotViewModel
@@ -30,7 +32,7 @@ import com.clobot.mini.util.LocalRobotViewModel
 @Composable
 fun Developer() {
     val robotViewModel = LocalRobotViewModel.current
-    val placeList = robotViewModel.getPlaceList()
+    val placeList = robotViewModel.placeList.collectAsState(initial = ArrayList())
 
     Template0(needTopBar = true) {
         LazyColumn(
@@ -60,7 +62,7 @@ fun Developer() {
                     }
                     LazyRow {
                         item {
-                            Text("Charge")
+                            Text("Location")
                             CustomButton("List") { robotViewModel.locController("List") }
                             CustomButton("Set") { robotViewModel.locController("Set") }
                             CustomButton("Get") { robotViewModel.locController("Get") }
@@ -72,14 +74,46 @@ fun Developer() {
                     LazyRow {
                         item {
                             Text("Navi")
-                            placeList.forEach {
+                            robotViewModel.refreshPlaceList()
+                            placeList.value.forEach {
                                 CustomButton(it) { robotViewModel.navController(NavMode.Start, it) }
                             }
                         }
                     }
                     LazyRow {
                         item {
-                            Text("Status")
+                            Text("Charge")
+                            CustomButton("GoCharge") { robotViewModel.chargeController(ChargeMode.GoCharge) }
+//                            CustomButton("Start") { robotViewModel.chargeController(ChargeMode.Start) }
+//                            CustomButton("Stop") { robotViewModel.chargeController(ChargeMode.Stop) }
+                            CustomButton("Auto") { robotViewModel.chargeController(ChargeMode.Auto) }
+                            CustomButton("StopAuto") { robotViewModel.chargeController(ChargeMode.StopAuto) }
+//                            CustomButton("Leave") { robotViewModel.chargeController(ChargeMode.Leave) }
+                            CustomButton("StopLeave") { robotViewModel.chargeController(ChargeMode.StopLeave) }
+                            CustomButton("Exits") { robotViewModel.chargeController(ChargeMode.Exits) }
+                            CustomButton("Status") { robotViewModel.chargeController(ChargeMode.Status) }
+                            CustomButton("Level") { robotViewModel.chargeController(ChargeMode.Level) }
+//                            CustomButton("Door") { robotViewModel.chargeController(ChargeMode.Door) }
+//                            CustomButton("RemainBattTime") { robotViewModel.chargeController(ChargeMode.RemainBattTime) }
+//                            CustomButton("RemainChargeTime") { robotViewModel.chargeController(ChargeMode.RemainChargeTime) }
+                        }
+                    }
+                    LazyRow {
+                        item {
+                            Text("System")
+                            CustomButton("Lock") { robotViewModel.systemController("Lock") }
+                            CustomButton("DisEmerg") { robotViewModel.systemController("DisEmerg") }
+                            CustomButton("EnEmerg") { robotViewModel.systemController("EnEmerg") }
+                            CustomButton("DisBatt") { robotViewModel.systemController("DisBatt") }
+                            CustomButton("EnBatt") { robotViewModel.systemController("EnBatt") }
+//                            CustomButton("ResetSystem") { robotViewModel.systemController("ResetSystem") }
+//                            CustomButton("Reboot") { robotViewModel.systemController("Reboot") }
+//                            CustomButton("Standby") { robotViewModel.systemController("Standby") }
+//                            CustomButton("Wake") { robotViewModel.systemController("Wake") }
+//                            CustomButton("FullCheck") { robotViewModel.systemController("FullCheck") }
+                            CustomButton("Emerg") { robotViewModel.systemController("Emerg") }
+                            CustomButton("Status") { robotViewModel.systemController("Status") }
+//                            CustomButton("Update") { robotViewModel.systemController("Update") }
                         }
                     }
                 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -24,6 +25,7 @@ import com.clobot.mini.util.LocalMainViewModel
 import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.view.navigation.NavigationGraph
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -55,8 +57,16 @@ class MainActivity : ComponentActivity() {
                     LocalMainViewModel provides viewModel,
                     LocalRobotViewModel provides robotViewModel
                 ) {
+                    val robotViewModel = LocalRobotViewModel.current
                     NetworkOfflineDialog(networkState = networkState) {
                         viewModel.onRetry()
+                    }
+                    // heartbeat 0.5 sec
+                    LaunchedEffect(Unit) {
+                        while (true) {
+                            delay(500)
+                            robotViewModel.checkDockingState()
+                        }
                     }
                     Surface(
                         modifier = Modifier.fillMaxSize(),
@@ -67,7 +77,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
     }
 }
 //@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 410)

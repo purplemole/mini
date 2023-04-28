@@ -3,12 +3,19 @@ package com.clobot.mini.view.move
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.clobot.mini.R
+import com.clobot.mini.util.LocalRobotViewModel
+import com.clobot.mini.util.LocalRouteAction
+import com.clobot.mini.view.navigation.NavRoute
 
 @Composable
 fun Charging() {
+    val robotViewModel = LocalRobotViewModel.current
+    val chargeState = robotViewModel.dockingState.collectAsState()
+    val route = LocalRouteAction.current
 
     Box(
         content = {
@@ -19,10 +26,9 @@ fun Charging() {
             )
         }
     )
-//    if (!LocalRobotViewModel.current.dockingState.collectAsState(
-//            initial = false
-//        ).value
-//    ) LocalRouteAction.current.goBack()
+
+    if(!chargeState.value)
+        route.goBack()
 }
 
 @Composable
