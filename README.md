@@ -46,18 +46,20 @@
 - gnb 화면 (상단 바) 같이 동일하게 나타나는 item들은 common 항목에서 관리
 - gnb 바 제외 디자인은 이미지 전체 교환(drawable)
 </br>
-- 디자인 변경 시 주의
-  - gnb 따로 / 본문 화면 따로
-  - view\hospital\nameMenu 에 있는 composable : 화면에 유동적으로 표시되어야 하는 정보가 포함되어 있음 
+* 디자인 변경 시 주의
+  * gnb 따로 / 본문 화면 따로
+  * view\hospital\nameMenu 에 있는 composable : 화면에 유동적으로 표시되어야 하는 정보가 포함되어 있음 
   => 전체 이미지로 작업하지 않고 나눠서 작업했기 때문에 수정할 때도 주의 (text 따로 추가 / 배경 image는 동일한 리소스 사용)
-  - reservation-confirm / name-calling : 배경 이미지 없고 아이콘 - text - button 형태라서 분리해서 작업
-  - reservation-failed / name-failed : 동일한 배경 이미지를 사용하고 있는 페이지라 resource 변경되면 확인 필요
-  - main / sites-information 등 버튼이 포함된 화면은 click event를 넣어주기 위해 통 이미지를 사용하지 않고 버튼 resource 분리해서 추가함.
-- view\common\ui 참고 사항
-  - myiconpack : svg 파일들 (jetpack compose image vector 생성)
-  - theme폴더의 Type.kt/Color.kt 에 병원 별 figma 파일의 공통 Inspect 값 저장
-  - 로봇 해상도가 560dpi 라 px -> dp 변환 시 주의 => 미리 변환 한 값 dimen.xml 파일에 정리해 뒀으니 참고
-    - 48px 값 변환해서 가져오기 => dimensionResource(R.dimin.id값) / id값은 padding_픽셀 값으로 지정 해뒀음.
+  * reservation-confirm / name-calling : 배경 이미지 없고 아이콘 - text - button 형태라서 분리해서 작업
+  * reservation-failed / name-failed : 동일한 배경 이미지를 사용하고 있는 페이지라 resource 변경되면 확인 필요
+  * main / sites-information 등 버튼이 포함된 화면은 click event를 넣어주기 위해 통 이미지를 사용하지 않고 버튼 resource 분리해서 추가함.
+
+* view\common\ui 참고 사항
+  * myiconpack : svg 파일들 (jetpack compose image vector 생성)
+  * theme폴더의 Type.kt/Color.kt 에 병원 별 figma 파일의 공통 Inspect 값 저장
+  * 로봇 해상도가 560dpi 라 px -> dp 변환 시 주의 => 미리 변환 한 값 dimen.xml 파일에 정리해 뒀으니 참고
+    * 48px 값 변환해서 가져오기 => ```dimensionResource(R.dimin.id값)```
+    * id값은 padding_픽셀 값으로 지정 해뒀음.
 
 ******************
 ### 환경 설정
