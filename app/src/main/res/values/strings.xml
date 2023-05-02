@@ -72,6 +72,8 @@
     <string name="book_check_x3">관련 프로세트</string>
     <string name="book_check_x4">디스크 용량</string>
     <string name="book_check_x5">최종 부팅</string>
+    <string name="boot_check_storage1">(%1$dGB, %2$d%% 사용 중)</string>
+    <string name="boot_check_storage2">총 %1$dGB</string>
 
     <string name="docking_t1">충전기에 들어가는 중입니다. 잠시만 뒤로 물러서 주세요.</string>
     <string name="undocking_t1">충전기에서 나오는 중입니다. 잠시만 뒤로 물러서 주세요.</string>

@@ -34,7 +34,7 @@ private fun NewCustomerContent() {
     )
     LaunchedEffect(Unit) {
         delay(5000)
-        routeAction.navTo(NavRoute.NewInformation)
+        routeAction.navTo(NavRoute.MovePosition1)
     }
 }
 

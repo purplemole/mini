@@ -48,6 +48,7 @@ val AdminTypography = Typography(
 )
 
 val pageTypography = Typography(
+    // title (80px)
     h1 = TextStyle(
         textAlign = TextAlign.Center,
         fontSize = 23.sp,
@@ -56,19 +57,33 @@ val pageTypography = Typography(
         fontWeight = FontWeight.Bold
     ),
     h2 = TextStyle(
+        textAlign = TextAlign.Center,
+        fontSize = 21.sp,
+        fontFamily = FontFamily(Font(R.font.minsans_bold)),
+        lineHeight = 29.sp
+    ),
+    h3 = TextStyle(
         textAlign = TextAlign.Left,
         fontSize = 18.sp,
         fontFamily = FontFamily(Font(R.font.minsans_medium)),
         lineHeight = 23.sp,
         fontWeight = FontWeight.Bold
     ),
-    h5 = TextStyle(
+    h4 = TextStyle(
         textAlign = TextAlign.Center,
         fontSize = 13.sp, //44px
         fontFamily = FontFamily(Font(R.font.minsans_regular)),
         lineHeight = 19.sp,
         fontWeight = FontWeight.Medium,
         color = prc_white100
+    ),
+    h5 = TextStyle(
+        textAlign = TextAlign.Left,
+        fontSize = 11.sp,
+        fontFamily = FontFamily(Font(R.font.minsans_regular)),
+        lineHeight = 13.sp,
+        fontWeight = FontWeight.SemiBold,
+        color = prc_birth
     ),
     h6 = TextStyle(
         textAlign = TextAlign.Center,

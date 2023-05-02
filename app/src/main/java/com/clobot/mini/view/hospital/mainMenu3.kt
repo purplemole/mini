@@ -118,7 +118,7 @@ private fun QrRecognitionContent() {
             )
             Text(
                 text = stringResource(id = R.string.qr_recognition_x1),
-                style = pageTypography.h2,
+                style = pageTypography.h3,
                 color = prc_white100,
                 modifier = Modifier.padding(
                     top = dimensionResource(id = R.dimen.padding_64),
@@ -305,7 +305,7 @@ private fun ReservationFailedContent() {
                                     )
                                     Text(
                                         text = stringResource(id = R.string.reservation_failed_x2),
-                                        style = pageTypography.h5
+                                        style = pageTypography.h4
                                     )
                                 },
                                 verticalArrangement = Arrangement.spacedBy(

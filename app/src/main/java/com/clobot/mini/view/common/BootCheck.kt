@@ -8,101 +8,195 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.R
-import com.clobot.mini.util.DeviceStorage
-import com.clobot.mini.util.LocalRobotViewModel
-import com.clobot.mini.util.LocalRouteAction
-import com.clobot.mini.util.getCurTimeInfo
-import com.clobot.mini.view.common.ui.theme.testColor
+import com.clobot.mini.data.network.NetworkState
+import com.clobot.mini.util.*
+import com.clobot.mini.view.common.ui.theme.*
 import com.clobot.mini.view.navigation.NavRoute
 
 @SuppressLint("SimpleDateFormat")
 @Composable
 fun BootCheck() {
+    // 화면이 넘어가지 않을 경우를 대비한 임시 값
     val shouldShowNavigationGraph = remember { mutableStateOf(false) }
-    val robotViewModel = LocalRobotViewModel.current
     val routeAction = LocalRouteAction.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(horizontal = 70.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 36.dp),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_28))
     ) {
         Text(
-            stringResource(id = R.string.boot_check_t1), modifier = Modifier
-                .background(testColor)
-                .clickable {
-                    shouldShowNavigationGraph.value = true
-                })
-        // Docking Station
-        Row(
-            modifier = Modifier
-                .padding(top = 10.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Text(
-                stringResource(R.string.book_check_x1),
-                modifier = Modifier.background(Color(0xFFE0C2F8))
-            )
-            val dock = robotViewModel.dockingState.collectAsState(initial = false)
-            val dockStateStr = if (dock.value)
-                stringResource(id = R.string.success) else stringResource(id = R.string.fail)
-            Text(text = dockStateStr, modifier = Modifier.background(Color(0xFFE0C2F8)))
-            Text(text = getCurTimeInfo(4))
-        }
-        // Network
-        Row(
-            modifier = Modifier
-                .padding(top = 10.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Text(
-                stringResource(R.string.book_check_x2),
-                modifier = Modifier.background(Color(0xFFE0C2F8))
-            )
-            val netStateStr = //if (networkState == NetworkState.Connected)
-//                stringResource(id = R.string.success)
-//            else stringResource(id = R.string.fail)
-                Text(text = "수정 필요", modifier = Modifier.background(Color(0xFFE0C2F8)))
-            Text(text = getCurTimeInfo(4))
-        }
-        // Process
-        Row(
-            modifier = Modifier
-                .padding(top = 10.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Text(
-                stringResource(R.string.book_check_x3),
-                modifier = Modifier.background(Color(0xFFE0C2F8))
-            )
-            val processStateStr = if (MainApplication.getInstance() != null)
-                stringResource(id = R.string.success)
-            else stringResource(id = R.string.fail)
-            Text(text = processStateStr, modifier = Modifier.background(Color(0xFFE0C2F8)))
-            Text(text = getCurTimeInfo(4))
-        }
-        // DeviceStorage
-        Row {
-            Text(
-                stringResource(id = R.string.book_check_x4)
-            )
-            val deviceStorage = DeviceStorage()
-            val total = deviceStorage.getTotalCapacity()
-            val inUse = deviceStorage.getCapacityInUse()
-            Text("total is $total, using $inUse")
-        }
-//        val deviceStorage2 = DeviceStorage2(LocalContext.current).showVolumeStates()
-//        Text(text = "1: ${deviceStorage2.first}, 2: ${deviceStorage2.second}, 3: ${deviceStorage2.third}")
+            text = stringResource(id = R.string.boot_check_t1),
+            modifier = Modifier.clickable { shouldShowNavigationGraph.value = true },
+            style = pageTypography.h2,
+            color = prc_white100
+        )
+        BootCheckContent()
     }
+
     if (shouldShowNavigationGraph.value) {
         routeAction.navTo(NavRoute.Main)
         routeAction.leftPop()
     }
 
+}
+
+@Composable
+private fun BootCheckContent() {
+    //val robotViewModel = LocalRobotViewModel.current
+    Column(
+        modifier = Modifier
+            .width(width = 304.dp)
+            .background(
+                color = prc_gray900,
+                shape = Shapes.large
+            )
+            .padding(dimensionResource(id = R.dimen.padding_48)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_24)),
+        content = {
+            DockConnect()
+            NetConnect()
+            RelatedProcess()
+            GetStorage()
+            FinalBoot()
+        }
+    )
+}
+
+@Composable
+private fun DockConnect() {
+    val robotViewModel = LocalRobotViewModel.current
+    val dock = robotViewModel.dockingState.collectAsState(initial = false)
+
+// Docking Station
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            stringResource(R.string.book_check_x1),
+            style = pageTypography.h5,
+            color = prc_white100
+        )
+
+        BootTimeItem(dock.value)
+    }
+}
+
+@Composable
+private fun NetConnect() {
+    val viewModel = LocalMainViewModel.current
+    // Network
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        content = {
+            Text(
+                stringResource(R.string.book_check_x2),
+                style = pageTypography.h5,
+                color = prc_white100
+            )
+            val networkState by viewModel.networkState.collectAsState(initial = NetworkState.None)
+            BootTimeItem(networkState == NetworkState.Connected)
+        }
+    )
+}
+
+@Composable
+private fun RelatedProcess() {
+// Process
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        content = {
+            Text(
+                stringResource(R.string.book_check_x3),
+                style = pageTypography.h5,
+                color = prc_white100
+            )
+            BootTimeItem(MainApplication.getInstance() != null)
+        }
+    )
+}
+
+@Composable
+private fun GetStorage() {
+    val deviceStorage = DeviceStorage()
+    val total = deviceStorage.getTotalCapacity()
+    val inUse = deviceStorage.getCapacityInUse()
+    val usePer = total / inUse
+// DeviceStorage
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        content = {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(9.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                content = {
+                    Text(
+                        stringResource(id = R.string.book_check_x4),
+                        style = pageTypography.h5,
+                        color = prc_white100
+                    )
+                    Text(
+                        String.format(
+                            stringResource(id = R.string.boot_check_storage1),
+                            inUse.toInt(),
+                            usePer.toInt()
+                        ), style = pageTypography.h6, color = prc_gray700
+                    )
+                })
+            Text(
+                String.format(stringResource(id = R.string.boot_check_storage2), total.toInt()),
+                style = pageTypography.h6,
+                color = prc_gray700
+            )
+        }
+    )
+}
+
+@Composable
+private fun FinalBoot() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        content = {
+            Text(
+                stringResource(R.string.book_check_x5),
+                style = pageTypography.h5,
+                color = prc_white100
+            )
+            BootTimeItem(true)
+        }
+    )
+}
+
+// 성공,실패 여부 & 시간 표시
+@Composable
+private fun BootTimeItem(isSuccess: Boolean) {
+    val result =
+        if (isSuccess) stringResource(id = R.string.success) else stringResource(id = R.string.fail)
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        content = {
+            Text(result, style = pageTypography.h5, color = prc_birth)
+            Text(getCurTimeInfo(4), style = pageTypography.h6, color = prc_gray700)
+        })
+}
+
+@Preview(device = Devices.AUTOMOTIVE_1024p, widthDp = 1000, heightDp = 410)
+@Composable
+fun BootCheckPreview() {
+    BootCheckContent()
 }

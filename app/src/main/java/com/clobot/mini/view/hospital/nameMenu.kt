@@ -167,7 +167,7 @@ private fun NameQrContent() {
                     }
                     append(stringResource(id = R.string.name_qr_x2))
                 },
-                style = pageTypography.h2,
+                style = pageTypography.h3,
                 color = prc_white100,
                 modifier = Modifier.padding(
                     top = dimensionResource(id = R.dimen.padding_64),
@@ -282,7 +282,7 @@ private fun NameConfirmContent() {
                     )
                     Text(
                         text = stringResource(id = R.string.name_confirm_x2),
-                        style = pageTypography.h5,
+                        style = pageTypography.h4,
                         color = prc_white100
                     )
                 },
@@ -338,7 +338,7 @@ private fun TreatmentMethodContent() {
                     )
                     Text(
                         text = stringResource(id = R.string.treatment_method_x2),
-                        style = pageTypography.h5,
+                        style = pageTypography.h4,
                         color = prc_white100
                     )
                 },
