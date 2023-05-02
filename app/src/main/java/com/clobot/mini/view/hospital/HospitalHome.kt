@@ -1,6 +1,5 @@
 package com.clobot.mini.view.hospital
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -22,6 +21,7 @@ import com.clobot.mini.view.navigation.NavigationGraph
 import com.clobot.mini.view.common.ui.theme.MiniTheme
 import com.clobot.mini.view.common.ImgMenuBtn
 import com.clobot.mini.view.common.HospitalTopBar
+import timber.log.Timber
 
 @Composable
 fun HospitalHome() {
@@ -30,7 +30,7 @@ fun HospitalHome() {
      * Composable launched tag name은 "Launched check"로 동일하게 (로그 보기 쉽게..)
      */
     LaunchedEffect(Unit) {
-        Log.i("Launched check", "Main Launched")
+        Timber.i("Main Launched")
     }
 
     Scaffold(

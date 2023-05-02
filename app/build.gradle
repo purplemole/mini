@@ -72,6 +72,9 @@ dependencies {
     api 'com.google.code.gson:gson:2.7'
 
 
+    //timbeer log
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+
     // Img
     implementation "com.github.skydoves:landscapist-glide:1.4.7"
     implementation "com.github.skydoves:landscapist-coil:1.4.7"

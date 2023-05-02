@@ -8,9 +8,11 @@ import com.ainirobot.coreservice.client.ApiListener
 import com.ainirobot.coreservice.client.RobotApi
 import com.ainirobot.coreservice.client.module.ModuleCallbackApi
 import com.ainirobot.coreservice.client.speech.SkillApi
+import com.clobot.mini.BuildConfig
 import com.clobot.mini.util.robot.ModuleCallback
 import com.clobot.mini.util.robot.SpeechCallback
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
 
 @HiltAndroidApp
 class MainApplication : Application() {
@@ -26,6 +28,12 @@ class MainApplication : Application() {
         mApplication = this
         init()
         initRobotApi()
+
+        // 참고: https://github.com/JakeWharton/timber/blob/trunk/timber-sample/src/main/java/com/example/timber/ExampleApp.java
+        // TODO: Release 일때 Custom DebugTree 정의
+        if(BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     private fun init() {
