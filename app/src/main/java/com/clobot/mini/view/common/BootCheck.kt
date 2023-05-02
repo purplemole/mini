@@ -191,7 +191,7 @@ private fun BootTimeItem(isSuccess: Boolean) {
         verticalAlignment = Alignment.CenterVertically,
         content = {
             Text(result, style = pageTypography.h5, color = prc_birth)
-            Text(getCurTimeInfo(4), style = pageTypography.h6, color = prc_gray700)
+            Text(getCurTimeInfo(DateFormat.HOUR24, System.currentTimeMillis()), style = pageTypography.h6, color = prc_gray700)
         })
 }
 

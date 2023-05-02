@@ -4,27 +4,22 @@ import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 
 /**
- * type1 = SimpleDateFormat("yyyy-MM-dd") // 년 월 일
- * type2 = SimpleDateFormat("yy-MM-dd-E") // 년(20XX) 월 일 요일
- * type3 = SimpleDateFormat("hh:mm:ss") // 시(1~12) 분 초
- * type4 = SimpleDateFormat("HH:mm:ss") // 시(0~23) 분 초
+ * @param formatType YMD - 년 월 일,
+ * YMDE - 년(20XX) 월 일 요일,
+ * HOUR12 - 시(1~12) 분 초,
+ * HOUR24 - 시(0~23) 분 초
+ * @param currentTime 시간 정수값
  */
 @SuppressLint("SimpleDateFormat")
-fun getCurTimeInfo(formatType: Int): String {
-    val currentTime: Long = System.currentTimeMillis()
+fun getCurTimeInfo(formatType: DateFormat, currentTime: Long): String {
+    return formatType.format(currentTime)
+}
 
-    val dataFormat1 = SimpleDateFormat("yyyy-MM-dd") // 년 월 일
-    val dataFormat2 = SimpleDateFormat("yy-MM-dd-E") // 년(20XX) 월 일 요일
-    val dataFormat3 = SimpleDateFormat("hh:mm:ss") // 시(1~12) 분 초
-    val dataFormat4 = SimpleDateFormat("HH:mm:ss") // 시(0~23) 분 초
+enum class DateFormat(private val format: String) {
+    YMD("yyyy-MM-dd"),
+    YMDE("yy-MM-dd-E"),
+    HOUR12("hh:mm:ss"),
+    HOUR24("HH:mm:ss");
 
-    val curT = when (formatType) {
-        1 -> dataFormat1.format(currentTime)
-        2 -> dataFormat2.format(currentTime)
-        3 -> dataFormat3.format(currentTime)
-        4 -> dataFormat4.format(currentTime)
-        else -> dataFormat1.format(currentTime)
-    }
-
-    return curT
+    fun format(time: Long):String = ( SimpleDateFormat(this.format).format(time) )
 }
