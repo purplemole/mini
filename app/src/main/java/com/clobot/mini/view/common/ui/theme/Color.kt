@@ -17,7 +17,7 @@ val prc_white100 = Color(0xfff3f4f4)
 val prc_white800 = Color(0xfffdfdfd)
 
 val prc_gray100 = Color(0xffb7bbc0)
-val prc_gray600 = Color(0xff6b7286)
+val prc_gray600 = Color(0xffA6b7286)
 val prc_gray700 = Color(0xff6c7178)
 val prc_gray800 = Color(0xff36383c)
 val prc_gray900 = Color(0xff1b1c1e)

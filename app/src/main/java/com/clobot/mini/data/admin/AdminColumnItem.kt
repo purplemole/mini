@@ -1,5 +1,6 @@
 package com.clobot.mini.data.admin
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -31,12 +32,14 @@ object AdminColumnItem {
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         content = {
-                            Text(text = stringResource(id = R.string.admin_x4))
-                            Icon(
+                            Text(
+                                text = stringResource(id = R.string.admin_x4),
+                                style = AdminTypography.h3
+                            )
+                            Image(
                                 imageVector = MyIconPack.AdminPen,
-                                contentDescription = "admin_pen_icon",
-                                modifier = Modifier
-                                    .size(18.dp),
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp)
                             )
                         }
                     )
@@ -61,13 +64,9 @@ object AdminColumnItem {
                     Text(
                         text = String.format(stringResource(id = R.string.admin_x8), isCharging),
                         modifier = Modifier
-                            .background(Color.LightGray, shape = AdminRoundedBtn.medium)
-                            .border(
-                                width = 2.dp,
-                                color = Color.Gray,
-                                shape = AdminRoundedBtn.medium
-                            )
-                            .padding(15.dp)
+                            .background(prc_gray800, shape = AdminRoundedBtn.large)
+                            .padding(horizontal = 7.dp, vertical = 4.dp),
+                        style = AdminTypography.h3
                     )
                 }
             ),
@@ -88,13 +87,9 @@ object AdminColumnItem {
                     Text(
                         text = String.format(stringResource(id = R.string.admin_x12), 0, 0, 0),
                         modifier = Modifier
-                            .background(Color.LightGray, shape = AdminRoundedBtn.medium)
-                            .border(
-                                width = 2.dp,
-                                color = Color.Gray,
-                                shape = AdminRoundedBtn.medium
-                            )
-                            .padding(15.dp)
+                            .background(prc_gray800, shape = AdminRoundedBtn.large)
+                            .padding(vertical = 4.dp, horizontal = 7.dp),
+                        style = AdminTypography.h3
                     )
                 }
             )

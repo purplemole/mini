@@ -4,15 +4,17 @@ import android.content.Context
 import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.ButtonDefaults.elevation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -20,12 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.clobot.mini.R
 import com.clobot.mini.data.admin.AdminData
 import com.clobot.mini.data.admin.AdminEnum
@@ -34,6 +34,8 @@ import com.clobot.mini.util.LocalPromoteCycle
 import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.util.state.IntFieldState
 import com.clobot.mini.util.state.TextFieldState
+import com.clobot.mini.view.common.ui.MyIconPack
+import com.clobot.mini.view.common.ui.myiconpack.*
 import com.clobot.mini.view.common.ui.theme.*
 import com.guru.fontawesomecomposelib.FaIcon
 import com.guru.fontawesomecomposelib.FaIcons
@@ -46,29 +48,34 @@ fun CustomBox(
     contents: List<AdminData.DataPair>,
 ) {
     Column(modifier = Modifier.padding(start = 18.dp),
+        verticalArrangement = Arrangement.spacedBy(5.dp),
         content = {
             if (titleText != 0)
                 Text(
                     text = stringResource(id = titleText),
                     style = AdminTypography.subtitle2
                 )
-            contents.forEach {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0xFFE9E7E7))
-                        .padding(horizontal = 10.dp, vertical = 3.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    if (it.subText != 0) {
-                        Text(
-                            text = stringResource(id = it.subText),
-                            modifier = Modifier.align(Alignment.CenterVertically)
-                        )
+            Column(
+                modifier = Modifier.background(color = prc_gray900, shape = AdminRoundedBtn.medium),
+                content = {
+                    contents.forEach {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 7.dp, vertical = 5.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            if (it.subText != 0) {
+                                Text(
+                                    text = stringResource(id = it.subText),
+                                    modifier = Modifier.align(Alignment.CenterVertically),
+                                    style = AdminTypography.h1
+                                )
+                            }
+                            it.cosUnit()
+                        }
                     }
-                    it.cosUnit()
-                }
-            }
+                })
         }
     )
 }
@@ -79,67 +86,87 @@ fun PromoteCycleBtn() {
     val selectOptionList = listOf(1, 3, 5, 10)
     val selectedOption = tmpCycle.getInt()
     val onSelectionChange = { choose: Int -> tmpCycle.setInt(choose) }
-    Row(modifier = Modifier.padding(8.dp), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-        selectOptionList.forEach {
-            OutlinedButton(
-                onClick = { onSelectionChange(it) },
-                content = {
-                    Text(
-                        text = "${it}분",
-                        style = TextStyle(textAlign = TextAlign.Center, color = Color.Black)
-                    )
-                },
-                shape = AdminRoundedBtn.small,
-                colors = ButtonDefaults.outlinedButtonColors(
-                    backgroundColor = if (it == selectedOption) AdminSelect else Color.White,
-                    contentColor = AdminClicked
-                ),
-                modifier = Modifier
-                    .padding(4.dp),
-                border = adminBorder,
-                elevation = elevation(1.dp)
-            )
-        }
-    }
+    Row(
+        modifier = Modifier
+            .background(prc_gray800, shape = AdminRoundedBtn.large)
+            .padding(2.dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        content = {
+            selectOptionList.forEach {
+                Text(
+                    text = "${it}분",
+                    style = AdminTypography.h2,
+                    modifier = Modifier
+                        .noRippleClickable { onSelectionChange(it) }
+                        .background(
+                            color = if (it == selectedOption) prc_gray600 else Color.Transparent,
+                            shape = RoundedCornerShape(25.dp)
+                        )
+                        .width(25.dp),
+                )
+            }
+        })
 }
 
 @Composable // 로봇 관리 항목 버튼 composable
 fun RobotManagementBtn() {
     val robotViewModel = LocalRobotViewModel.current
-    val pairItem1 = Pair((R.string.admin_B1)) { robotViewModel.chargeController(ChargeMode.Start) }
-    val pairItem2 = Pair((R.string.admin_B2)) {/*TODO*/ }
-    val pairItem3 = Pair((R.string.admin_B3)) {/*TODO*/ }
-    val pairItem4 = Pair((R.string.admin_B4)) {/*TODO*/ }
+    val mgmtItem1 = Triple( // 충전기로 이동
+        R.string.admin_B1,
+        { robotViewModel.chargeController(ChargeMode.Start) },
+        MyIconPack.AdminBattery
+    )
+    val mgmtItem2 = Triple( // 로봇 운영 시작
+        R.string.admin_B2,
+        {/*TODO*/ },
+        Icons.Outlined.PlayArrow
+    )
+    val mgmtItem3 = Triple( // 프로그램 재시작
+        R.string.admin_B3,
+        {/*TODO*/ },
+        MyIconPack.AdminRestart
+    )
+    val mgmtItem4 = Triple( // 로봇 종료
+        R.string.admin_B4,
+        {/*TODO*/ },
+        MyIconPack.AdminEnd
+    )
 
-    val robotAction = listOf(pairItem1, pairItem2, pairItem3, pairItem4)
+    val robotAction = listOf(mgmtItem1, mgmtItem2, mgmtItem3, mgmtItem4)
 
     LazyRow(
-        horizontalArrangement = Arrangement.SpaceAround,
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
         content = {
-
             itemsIndexed(robotAction) { _, item ->
-                OutlinedButton(
-                    onClick = item.second,
+                Row(
                     content = {
+                        Icon(
+                            imageVector = item.third,
+                            contentDescription = null,
+                            tint = prc_white800,
+                            modifier = Modifier.size(9.dp)
+                        )
+                        Spacer(Modifier.size(4.dp))
                         Text(
                             text = stringResource(id = item.first),
                             style = AdminTypography.button,
+                            fontSize = 7.sp
                         )
                     },
-                    shape = AdminRoundedBtn.medium,
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        backgroundColor = AdminSelect,
-                        contentColor = AdminClicked
-                    ),
-                    border = adminBorder,
-                    modifier = Modifier.height(50.dp),
-                    elevation = elevation(2.dp)
+                    modifier = Modifier
+                        .height(24.dp)
+                        .width(54.dp)
+                        .background(
+                            shape = AdminRoundedBtn.medium,
+                            color = if (item == mgmtItem4) prc_danger else prc_gray600
+                        )
+                        .clickable { item.second },
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 )
             }
         },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 3.dp)
+        modifier = Modifier.width(238.dp)
     )
 }
 
@@ -268,43 +295,29 @@ fun CustomVolumeButton(
     currentVolume: MutableState<Int>,
     state: AdminEnum.AudioState
 ) {
-    OutlinedButton(
-        onClick = {
-            audioManager.adjustStreamVolume(
-                AudioManager.STREAM_MUSIC,
-                when (state) {
-                    AdminEnum.AudioState.UP -> AudioManager.ADJUST_RAISE
-                    AdminEnum.AudioState.DOWN -> AudioManager.ADJUST_LOWER
-                    AdminEnum.AudioState.MUTE -> AudioManager.ADJUST_TOGGLE_MUTE
-                },
-                0
-            )
-            val volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-            currentVolume.value = volumeLevel
+    Image(
+        imageVector = when (state) {
+            AdminEnum.AudioState.UP -> MyIconPack.AdminPlus
+            AdminEnum.AudioState.DOWN -> MyIconPack.AdminMinus
+            AdminEnum.AudioState.MUTE -> MyIconPack.AdminMute
         },
-        border = BorderStroke(1.dp, Color.Black),
-        contentPadding = PaddingValues(5.dp),
-        modifier = Modifier.defaultMinSize(25.dp, 30.dp),
-        elevation = elevation(1.dp)
-    ) {
-        FaIcon(
-            faIcon = when (state) {
-                AdminEnum.AudioState.UP -> FaIcons.CaretUp
-                AdminEnum.AudioState.DOWN -> FaIcons.CaretDown
-                AdminEnum.AudioState.MUTE -> FaIcons.VolumeMute
-            },
-            tint = if (currentVolume.value == 0) {
-                if (state == AdminEnum.AudioState.DOWN) Color.LightGray
-                else Color.Black
-            } else if (currentVolume.value == audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)) {
-                if (state == AdminEnum.AudioState.UP) Color.Black
-                else Color.LightGray
-            } else {
-                if (state == AdminEnum.AudioState.MUTE) Color.LightGray
-                else Color.Black
+        contentDescription = null,
+        modifier = Modifier
+            .size(18.dp)
+            .noRippleClickable {
+                audioManager.adjustStreamVolume(
+                    AudioManager.STREAM_MUSIC,
+                    when (state) {
+                        AdminEnum.AudioState.UP -> AudioManager.ADJUST_RAISE
+                        AdminEnum.AudioState.DOWN -> AudioManager.ADJUST_LOWER
+                        AdminEnum.AudioState.MUTE -> AudioManager.ADJUST_TOGGLE_MUTE
+                    },
+                    0
+                )
+                val volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+                currentVolume.value = volumeLevel
             }
-        )
-    }
+    )
 }
 
 // 볼륨 조절
@@ -319,8 +332,15 @@ fun VolumeStage() {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         CustomVolumeButton(audioManager, currentVolume, AdminEnum.AudioState.UP)
-        Text(text = currentVolume.value.toString())
+        Text(
+            text = currentVolume.value.toString(),
+            modifier = Modifier
+                .width(25.dp)
+                .align(Alignment.CenterVertically),
+            style = AdminTypography.h2,
+        )
         CustomVolumeButton(audioManager, currentVolume, AdminEnum.AudioState.DOWN)
+        Spacer(modifier = Modifier.size(7.dp))
         CustomVolumeButton(audioManager, currentVolume, AdminEnum.AudioState.MUTE)
     }
 }

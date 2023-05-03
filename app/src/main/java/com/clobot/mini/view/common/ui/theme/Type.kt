@@ -50,6 +50,21 @@ val AdminTypography = Typography(
         lineHeight = 10.sp,
         color = prc_white100
     ),
+    // 컨텐츠 - 흰색
+    h2 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.minsans_bold)),
+        fontSize = 8.sp,
+        textAlign = TextAlign.Center,
+        color = prc_white100,
+        lineHeight = 10.sp
+    ),
+    // 컨텐츠 - 회색
+    h3 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.minsans_bold)),
+        fontSize = 8.sp,
+        textAlign = TextAlign.Center,
+        color = prc_gray100
+    ),
     // 관리자 환경 설정 title
     subtitle1 = TextStyle(
         fontFamily = FontFamily(Font(R.font.minsans_bold)),
@@ -123,28 +138,4 @@ val pageTypography = Typography(
         fontWeight = FontWeight(700),
         color = prc_white100
     )
-)
-
-/**
- * val color: Color = Color.Unspecified,
-val fontSize: TextUnit = TextUnit.Unspecified,
-val fontWeight: FontWeight? = null,
-val fontStyle: FontStyle? = null,
-val fontSynthesis: FontSynthesis? = null,
-val fontFamily: FontFamily? = null,
-val fontFeatureSettings: String? = null,
-val letterSpacing: TextUnit = TextUnit.Unspecified,
-val baselineShift: BaselineShift? = null,
-val textGeometricTransform: TextGeometricTransform? = null,
-val localeList: LocaleList? = null,
-val background: Color = Color.Unspecified,
-val textDecoration: TextDecoration? = null,
-val shadow: Shadow? = null
- */
-val titleTextSpanStyle = SpanStyle(
-    fontSize = 23.sp,
-    fontFamily = FontFamily(Font(R.font.minsans_medium)),
-    fontWeight = FontWeight.Bold,
-    color = prc_white100,
-    fontStyle = FontStyle.Normal,
 )
