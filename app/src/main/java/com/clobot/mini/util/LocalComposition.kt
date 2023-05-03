@@ -5,6 +5,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import com.clobot.mini.data.admin.StoreAdminSetting
 import com.clobot.mini.model.MainViewModel
 import com.clobot.mini.model.RobotViewModel
+import com.clobot.mini.model.TTSViewModel
 import com.clobot.mini.util.state.IntFieldState
 import com.clobot.mini.util.state.TextFieldState
 import com.clobot.mini.view.navigation.RouteAction
@@ -21,6 +22,9 @@ val LocalMainViewModel =
 val LocalRouteAction = staticCompositionLocalOf<RouteAction> { error("No RouteActionProvided") }
 val LocalRobotViewModel =
     staticCompositionLocalOf<RobotViewModel> { error("No RobotViewModel found!") }
+
+val LocalTTSService =
+    staticCompositionLocalOf<TTSViewModel> { error("No LocalTTSService found!") }
 
 // Admin 에서만 사용할 Local 값.
 val LocalDataStore =
