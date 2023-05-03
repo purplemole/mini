@@ -2,6 +2,7 @@ package com.clobot.mini.model
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import com.clobot.mini.view.navigation.NavRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +37,10 @@ class NavigationViewModel @Inject constructor() :
 
     fun popToPos(pos: Int) {
         navController.popBackStack(navController.backQueue[pos].destination.id, false)
+    }
+
+    fun popTo(destination: String){
+        navController.popBackStack(destination, true)
     }
 
     fun getCurPageInfo(): String? {

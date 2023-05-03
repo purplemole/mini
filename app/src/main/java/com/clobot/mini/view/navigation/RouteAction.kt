@@ -22,6 +22,10 @@ class RouteAction(private val viewModel: NavigationViewModel) {
         return viewModel.getCurPageInfo()
     }
 
+    fun popTo(destination : NavRoute){
+        viewModel.popTo(destination.routeName)
+    }
+
     fun leftPop(){
         viewModel.leftQueuePop()
     }

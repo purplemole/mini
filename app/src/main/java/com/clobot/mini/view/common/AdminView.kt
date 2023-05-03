@@ -28,6 +28,7 @@ import com.clobot.mini.util.state.TextFieldState
 import com.clobot.mini.view.common.ui.MyIconPack
 import com.clobot.mini.view.common.ui.myiconpack.Cancel
 import com.clobot.mini.view.common.ui.theme.*
+import com.clobot.mini.view.navigation.NavRoute
 import kotlinx.coroutines.launch
 
 @Composable
@@ -122,7 +123,7 @@ fun AdminTopArea() {
     ) {
         Row(
             modifier = Modifier
-                .clickable { routeAction.goBack() }
+                .clickable { routeAction.popTo(NavRoute.Main) }
                 .background(
                     color = prc_gray800, shape = AdminRoundedBtn.small
                 )
