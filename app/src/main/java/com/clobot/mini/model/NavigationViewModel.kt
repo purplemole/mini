@@ -6,6 +6,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import com.clobot.mini.view.navigation.NavRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,6 +20,7 @@ class NavigationViewModel @Inject constructor() :
     }
 
     fun navTo(route: NavRoute) {
+        Timber.i("navTo ${route.routeName}")
         //Log.i("navCheck", "navTo ${route.routeName} (${route.description})")
         navController.navigate(route.routeName)
     }
