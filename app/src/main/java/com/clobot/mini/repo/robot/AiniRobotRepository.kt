@@ -16,6 +16,7 @@ import com.clobot.mini.repo.RobotRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import timber.log.Timber
 import javax.inject.Inject
 
 class AiniRobotRepository @Inject constructor() : RobotRepository {
@@ -50,10 +51,18 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         }
     }
 
-    // 충전 상태 확인
+
+    /** 충전 상태 확인
+     * TODO NULL check
+     * emulator : robotApi.chargeStatue (NullPointerException)
+     */
     fun checkChargingStation() {
-        if (_chargingState.value != robotApi.chargeStatus)
-            _chargingState.value = robotApi.chargeStatus
+        try {
+            if (_chargingState.value != robotApi.chargeStatus)
+                _chargingState.value = robotApi.chargeStatus
+        } catch (e: NullPointerException) {
+            return
+        }
     }
 
     // system 으로 구분 예정
@@ -63,7 +72,8 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
 
     // system or charge 로 구분 예정
     fun getBattery(): Int {
-        return RobotSettingApi.getInstance().getRobotString(Definition.ROBOT_SETTINGS_BATTERY_INFO).toInt()
+        return RobotSettingApi.getInstance().getRobotString(Definition.ROBOT_SETTINGS_BATTERY_INFO)
+            .toInt()
     }
 
     // 기본 동작
@@ -86,7 +96,14 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
             MoveDirection.Stop -> robotApi.stopMove(reqId, listener)
             // 테스트
             MoveDirection.AllStop -> robotApi.stopAllAction(reqId)
-            MoveDirection.TurnToTarget -> robotApi.turnToTargetDirection(reqId, RobotApi.getInstance().placeList.first(), 0.2, 1.0, false, listener)
+            MoveDirection.TurnToTarget -> robotApi.turnToTargetDirection(
+                reqId,
+                RobotApi.getInstance().placeList.first(),
+                0.2,
+                1.0,
+                false,
+                listener
+            )
             MoveDirection.StopTurnToTarget -> robotApi.stopTurnToTargetDirection(reqId)
         }
         Log.i(TAG, "[$MTN] Basic $reqId")
@@ -103,7 +120,12 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         // motionArcWithObstacles: 장애물 감지?
         when (mode) {
             ArcMode.None -> robotApi.motionArc(reqId, lineSpeed, angularSpeed, listener)
-            ArcMode.Obstacle -> robotApi.motionArcWithObstacles(reqId, lineSpeed, angularSpeed, listener)
+            ArcMode.Obstacle -> robotApi.motionArcWithObstacles(
+                reqId,
+                lineSpeed,
+                angularSpeed,
+                listener
+            )
         }
         Log.i(TAG, "[$MTN] Arc $mode")
     }
@@ -138,14 +160,31 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         listener: ActionListener
     ) {
         when (mode) {
-            NavMode.Start -> robotApi.startNavigation(reqId, destination, 1.5, 10 * 1000, speed, angleSpeed, listener)
+            NavMode.Start -> robotApi.startNavigation(
+                reqId,
+                destination,
+                1.5,
+                10 * 1000,
+                speed,
+                angleSpeed,
+                listener
+            )
             NavMode.Stop -> robotApi.stopNavigation(reqId)
 //            NavMode.ToPos -> robotApi.resumeSpecialPlaceTheta(reqId, destination, mMotionListener)
             NavMode.StopToPos -> robotApi.stopResumeSpecialPlaceThetaAction(reqId)
             // 테스트
             NavMode.Lead -> robotApi.startLead(reqId, LeadingParams(), listener)
             NavMode.StopLead -> robotApi.stopLead(reqId, true)
-            NavMode.PosNavi -> robotApi.startPoseNavigation(reqId, destination, 1.5, 10 * 1000, speed, angleSpeed, true, listener)
+            NavMode.PosNavi -> robotApi.startPoseNavigation(
+                reqId,
+                destination,
+                1.5,
+                10 * 1000,
+                speed,
+                angleSpeed,
+                true,
+                listener
+            )
             NavMode.StopPosNavi -> robotApi.stopPoseNavigation(reqId)
 //            NavMode.NaviBack -> robotApi.startNavigationBack(reqId, destination, speed, angleSpeed, mNavigationListener)
 //            NavMode.StopNaviBack -> robotApi.stopNavigationBack(reqId)
@@ -229,7 +268,7 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
             "Rename" -> robotApi.renameMap(reqId, "", "", listener)
             // setMapInfo
 //            "Create" -> robotApi.startCreatingMap(reqId, Bean, mMotionListener)
-            "StopCreate" ->  robotApi.stopCreatingMap(reqId, "", listener)
+            "StopCreate" -> robotApi.stopCreatingMap(reqId, "", listener)
             "CancelCreate" -> robotApi.cancelCreateMap(reqId, listener)
             "Remove" -> robotApi.removeMap(reqId, "", listener)
             "Switch" -> robotApi.switchMap(reqId, "", listener)
