@@ -4,7 +4,7 @@ import android.util.Log
 import com.ainirobot.coreservice.client.listener.TextListener
 import com.ainirobot.coreservice.client.speech.entity.TTSEntity
 import com.clobot.mini.data.robot.TtsMode
-import com.clobot.mini.view.common.MainApplication
+import com.clobot.mini.MainApplication
 import javax.inject.Inject
 
 

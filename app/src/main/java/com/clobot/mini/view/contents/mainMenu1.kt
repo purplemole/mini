@@ -1,9 +1,8 @@
-package com.clobot.mini.view.hospital
+package com.clobot.mini.view.contents
 
 import androidx.compose.foundation.Image
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.clobot.mini.R
@@ -12,50 +11,52 @@ import com.clobot.mini.view.common.HospitalTopBar
 import com.clobot.mini.view.navigation.NavRoute
 import kotlinx.coroutines.delay
 
-// 당일 방문 고객 페이지
+// 신규 고객 페이지
 @Composable
-fun ExistingCustomer() {
+fun NewCustomer() {
     Scaffold(
         topBar = { HospitalTopBar() },
-        content = { ExistingCustomerContent() }
+        content = { NewCustomerContent() }
     )
 }
 
-// 당일 방문 고객 페이지 컨텐츠
+/** 신규 고객 페이지 컨텐츠
+ * TODO 다음 페이지 넘어 가는 방법 => 접수 장소 이동 후 페이지 전환
+ *
+ */
 @Composable
-private fun ExistingCustomerContent() {
+private fun NewCustomerContent() {
     val routeAction = LocalRouteAction.current
     Image(
-        painter = painterResource(R.drawable.existing_customer),
-        contentDescription = "existing-customer background img",
+        painter = painterResource(R.drawable.new_customer),
+        contentDescription = "new_customer background img",
         contentScale = ContentScale.Crop
     )
     LaunchedEffect(Unit) {
         delay(5000)
-        routeAction.navTo(NavRoute.ExistingInformation)
+        routeAction.navTo(NavRoute.MovePosition1)
     }
 }
 
-// 예약 방법 안내 페이지
-/**
- * TODO routeAction 을 통해 다음 페이지 이동 시키기(STANDBY, 자동으로)
- *
- */
+// 접수 방법 안내 페이지
 @Composable
-fun ExistingInformation() {
+fun NewInformation() {
     Scaffold(
         topBar = { HospitalTopBar(false) },
-        content = { ExistingInformationContent() }
+        content = { NewInformationContent() }
     )
 }
 
-// 예약 방법 안내 페이지
+/** 접수 방법 안내 페이지 컨텐츠
+ * TODO LaunchedEffect
+ *
+ */
 @Composable
-private fun ExistingInformationContent() {
+private fun NewInformationContent() {
     val routeAction = LocalRouteAction.current
     Image(
-        painter = painterResource(R.drawable.existing_information),
-        contentDescription = "existing_information background img",
+        painter = painterResource(R.drawable.new_information),
+        contentDescription = "new_customer background img",
         contentScale = ContentScale.Crop
     )
 

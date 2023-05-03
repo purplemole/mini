@@ -3,7 +3,9 @@ package com.clobot.mini.data.admin
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -12,6 +14,9 @@ import com.clobot.mini.R
 import com.clobot.mini.data.admin.AdminData.*
 import com.clobot.mini.util.*
 import com.clobot.mini.view.common.*
+import com.clobot.mini.view.common.ui.MyIconPack
+import com.clobot.mini.view.common.ui.myiconpack.AdminPen
+import com.clobot.mini.view.common.ui.myiconpack.Cancel
 import com.clobot.mini.view.common.ui.theme.*
 
 object AdminColumnItem {
@@ -22,16 +27,18 @@ object AdminColumnItem {
             DataPair(
                 subText = R.string.admin_x3,
                 cosUnit = {
-                    Text(
-                        text = stringResource(id = R.string.admin_x4),
-                        modifier = Modifier
-                            .background(Color.White, shape = AdminRoundedBtn.medium)
-                            .border(
-                                width = 2.dp,
-                                color = Color.Gray,
-                                shape = AdminRoundedBtn.medium
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        content = {
+                            Text(text = stringResource(id = R.string.admin_x4))
+                            Icon(
+                                imageVector = MyIconPack.AdminPen,
+                                contentDescription = "admin_pen_icon",
+                                modifier = Modifier
+                                    .size(18.dp),
                             )
-                            .padding(15.dp)
+                        }
                     )
                 }
             )

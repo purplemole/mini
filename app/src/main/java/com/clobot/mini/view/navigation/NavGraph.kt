@@ -13,10 +13,10 @@ import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.common.BootCheck
 import com.clobot.mini.view.common.Developer
-import com.clobot.mini.view.hospital.*
-import com.clobot.mini.view.move.Charging
-import com.clobot.mini.view.move.MovePosition
-import com.clobot.mini.view.move.Standby
+import com.clobot.mini.view.contents.*
+import com.clobot.mini.view.contents.Charging
+import com.clobot.mini.view.contents.MovePosition
+import com.clobot.mini.view.contents.Standby
 
 @Composable
 fun NavigationGraph() {

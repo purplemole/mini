@@ -6,6 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults.elevation
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,6 +17,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clobot.mini.R
@@ -21,6 +25,8 @@ import com.clobot.mini.data.admin.*
 import com.clobot.mini.util.*
 import com.clobot.mini.util.state.IntFieldState
 import com.clobot.mini.util.state.TextFieldState
+import com.clobot.mini.view.common.ui.MyIconPack
+import com.clobot.mini.view.common.ui.myiconpack.Cancel
 import com.clobot.mini.view.common.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -37,21 +43,21 @@ fun AdminView() {
     forceCharging.setInt(dataStore.getForceCharging.collectAsState(initial = 10).value)
     val robotOperating = remember { IntFieldState() } // 로봇 운영 시작 퍼센트
     robotOperating.setInt(dataStore.getOperatingPer.collectAsState(initial = 40).value)
-    val restrictFromTo = remember {TextFieldState()}
+    val restrictFromTo = remember { TextFieldState() }
     restrictFromTo.setText(dataStore.getMoveRestrict.collectAsState(initial = "00:00~00:00").value)
-    val monFromTo = remember {TextFieldState()}
+    val monFromTo = remember { TextFieldState() }
     monFromTo.setText(dataStore.getMonFromTo.collectAsState(initial = "00:00~00:00").value)
-    val tueFromTo = remember {TextFieldState()}
+    val tueFromTo = remember { TextFieldState() }
     tueFromTo.setText(dataStore.getTueFromTo.collectAsState(initial = "00:00~00:00").value)
-    val wedFromTo = remember {TextFieldState()}
+    val wedFromTo = remember { TextFieldState() }
     wedFromTo.setText(dataStore.getWedFromTo.collectAsState(initial = "00:00~00:00").value)
-    val thuFromTo = remember {TextFieldState()}
+    val thuFromTo = remember { TextFieldState() }
     thuFromTo.setText(dataStore.getThuFromTo.collectAsState(initial = "00:00~00:00").value)
-    val friFromTo = remember {TextFieldState()}
+    val friFromTo = remember { TextFieldState() }
     friFromTo.setText(dataStore.getFriFromTo.collectAsState(initial = "00:00~00:00").value)
-    val satFromTo = remember {TextFieldState()}
+    val satFromTo = remember { TextFieldState() }
     satFromTo.setText(dataStore.getSatFromTo.collectAsState(initial = "00:00~00:00").value)
-    val sunFromTo = remember {TextFieldState()}
+    val sunFromTo = remember { TextFieldState() }
     sunFromTo.setText(dataStore.getSunFromTo.collectAsState(initial = "00:00~00:00").value)
 
     CompositionLocalProvider(
@@ -78,7 +84,6 @@ fun AdminView() {
                         .weight(1f)
                         .padding(5.dp)
                     LeftArea(modifier)
-                    DottedLine()
                     RightArea(modifier)
                 }
             }
@@ -110,90 +115,94 @@ fun AdminTopArea() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
-            .padding(horizontal = 10.dp),
+            .height(28.dp)
+            .padding(horizontal = 6.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(2f),
-            contentAlignment = Alignment.Center,
+                .clickable { routeAction.goBack() }
+                .background(
+                    color = prc_gray800, shape = AdminRoundedBtn.small
+                )
+                .size(width = 38.dp, height = 19.dp)
+                .padding(horizontal = 5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
             content = {
+                Icon(
+                    imageVector = MyIconPack.Cancel,
+                    contentDescription = "save",
+                    modifier = Modifier
+                        .size(9.dp)
+                        .align(Alignment.CenterVertically),
+                    tint = prc_white100
+                )
+                Spacer(modifier = Modifier.size(4.dp))
                 Text(
-                    text = stringResource(id = R.string.admin_x1),
-//                    textAlign = TextAlign.Center
+                    text = stringResource(id = R.string.admin_B5),
+                    style = AdminTypography.button,
                 )
             }
         )
+        Text(
+            text = stringResource(id = R.string.admin_x1),
+            style = AdminTypography.subtitle1
+        )
         Row(
-            modifier = Modifier.weight(1f),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .clickable {
+                    scope.launch {
+                        dataStore.saveAllAdminSetting(
+                            promote = promoteT.getInt(),
+                            forcePer = forcePer.getInt(),
+                            operating = operating.getInt(),
+                            restrictT = restrictT.getText(),
+                            monT = monFromTo.getText(),
+                            tueT = tueFromTo.getText(),
+                            wedT = wedFromTo.getText(),
+                            thuT = thuFromTo.getText(),
+                            friT = friFromTo.getText(),
+                            satT = satFromTo.getText(),
+                            sunT = sunFromTo.getText(),
+                        )
+                    }
+                    routeAction.goBack()
+                }
+                .background(
+                    color = prc_check, shape = AdminRoundedBtn.small
+                )
+                .size(width = 63.dp, height = 19.dp)
+                .padding(horizontal = 5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
             content = {
-                OutlinedButton(onClick = { routeAction.goBack() },
-                    shape = AdminRoundedBtn.large,
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        backgroundColor = AdminSelect,
-                        contentColor = AdminClicked
-                    ),
-                    border = adminBorder,
-                    elevation = elevation(2.dp),
-                    modifier = Modifier.width(115.dp),
-                    content = {
-                        Text(
-                            text = stringResource(id = R.string.admin_B5),
-                            color = Color.Black
-                        )
-                    })
-                OutlinedButton(
-                    onClick = {// 저장 버튼
-                        scope.launch {
-                            dataStore.saveAllAdminSetting(
-                                promote = promoteT.getInt(),
-                                forcePer = forcePer.getInt(),
-                                operating = operating.getInt(),
-                                restrictT = restrictT.getText(),
-                                monT = monFromTo.getText(),
-                                tueT = tueFromTo.getText(),
-                                wedT = wedFromTo.getText(),
-                                thuT = thuFromTo.getText(),
-                                friT = friFromTo.getText(),
-                                satT = satFromTo.getText(),
-                                sunT = sunFromTo.getText(),
-                            )
-                        }
-                        routeAction.goBack()
-                    },
-                    shape = AdminRoundedBtn.large,
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        backgroundColor = AdminSelect,
-                        contentColor = AdminClicked
-                    ),
-                    border = adminBorder,
-                    elevation = elevation(2.dp),
-                    modifier = Modifier.width(115.dp),
-                    content = {
-                        Text(
-                            text = stringResource(id = R.string.admin_B6),
-                            color = Color.Black
-                        )
-                    })
+                Icon(
+                    imageVector = Icons.Default.Done,
+                    contentDescription = "save",
+                    modifier = Modifier.size(9.dp)
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+                Text(
+                    text = stringResource(id = R.string.admin_B6),
+                    style = AdminTypography.button,
+                )
             }
         )
-
     }
 }
 
 @Composable
 fun LeftArea(modifier: Modifier) {
     // 좌측 Column
-    LazyColumn(modifier = modifier, content = {
-        val leftItems = AdminColumnItem.leftItemList
-        items(leftItems) {
-            CustomBox(titleText = it.titleText, contents = it.content)
-        }
-    })
+    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(9.dp),
+        content = {
+            val leftItems = AdminColumnItem.leftItemList
+            items(leftItems) {
+                CustomBox(titleText = it.titleText, contents = it.content)
+            }
+        })
 }
 
 @Composable // 가운데 구분 선

@@ -45,49 +45,32 @@ fun CustomBox(
     titleText: Int,
     contents: List<AdminData.DataPair>,
 ) {
-    Column(
-        modifier = Modifier
-            .padding(top = 5.dp, start = 5.dp, end = 5.dp),
-    ) {
-        FieldName(titleText)
-        contents.forEach {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFFE9E7E7))
-                    .padding(horizontal = 10.dp, vertical = 3.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                if (it.subText != 0) {
-                    Text(
-                        text = stringResource(id = it.subText),
-                        modifier = Modifier.align(Alignment.CenterVertically)
-                    )
+    Column(modifier = Modifier.padding(start = 18.dp),
+        content = {
+            if (titleText != 0)
+                Text(
+                    text = stringResource(id = titleText),
+                    style = AdminTypography.subtitle2
+                )
+            contents.forEach {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFE9E7E7))
+                        .padding(horizontal = 10.dp, vertical = 3.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    if (it.subText != 0) {
+                        Text(
+                            text = stringResource(id = it.subText),
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                        )
+                    }
+                    it.cosUnit()
                 }
-                it.cosUnit()
             }
         }
-    }
-}
-
-// 텍스트 필드
-@Composable
-fun FieldName(stringInt: Int) {
-    if (stringInt != 0) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(5.dp),
-            modifier = Modifier.padding(bottom = 5.dp)
-        ) {
-            FaIcon(faIcon = FaIcons.Circle, size = 12.dp)
-            Text(
-                text = stringResource(id = stringInt), style = TextStyle(
-                    textAlign = TextAlign.Left,
-                    fontWeight = FontWeight.Bold
-                )
-            )
-        }
-    }
+    )
 }
 
 @Composable // 이동 홍보 주기 버튼 composable

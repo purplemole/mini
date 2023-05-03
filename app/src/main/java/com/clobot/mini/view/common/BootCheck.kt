@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.clobot.mini.MainApplication
 import com.clobot.mini.R
 import com.clobot.mini.data.network.NetworkState
 import com.clobot.mini.util.*
@@ -130,9 +131,9 @@ private fun RelatedProcess() {
 @Composable
 private fun GetStorage() {
     val deviceStorage = DeviceStorage()
-    val total = deviceStorage.getTotalCapacity()
-    val inUse = deviceStorage.getCapacityInUse()
-    val usePer = total / inUse
+    val total = deviceStorage.getTotalCapacity().toInt()
+    val inUse = deviceStorage.getCapacityInUse().toInt()
+    val usePer = if(inUse != 0) total / inUse else total
 // DeviceStorage
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -151,8 +152,8 @@ private fun GetStorage() {
                     Text(
                         String.format(
                             stringResource(id = R.string.boot_check_storage1),
-                            inUse.toInt(),
-                            usePer.toInt()
+                            inUse,
+                            usePer
                         ), style = pageTypography.h6, color = prc_gray700
                     )
                 })

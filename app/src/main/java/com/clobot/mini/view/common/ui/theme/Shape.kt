@@ -13,10 +13,12 @@ val Shapes = Shapes(
 )
 
 val AdminRoundedBtn = Shapes(
-    small = RoundedCornerShape(6.dp),
+    small = RoundedCornerShape(5.dp),
     medium = RoundedCornerShape(10.dp),
     large = RoundedCornerShape(12.dp)
 )
 
 
-val adminBorder = BorderStroke(2.dp, Color.Gray)
+val adminBorder = BorderStroke(2.dp, prc_gray800)
+val adminBorder_gray1 = BorderStroke(1.dp, prc_gray800)
+val adminBorder_skyBlue = BorderStroke(1.dp, prc_check)

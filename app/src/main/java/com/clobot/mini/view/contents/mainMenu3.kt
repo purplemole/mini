@@ -1,4 +1,4 @@
-package com.clobot.mini.view.hospital
+package com.clobot.mini.view.contents
 
 import android.util.Log
 import android.util.Size

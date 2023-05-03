@@ -1,4 +1,4 @@
-package com.clobot.mini.view.common
+package com.clobot.mini
 
 import android.app.Application
 import android.content.Context
@@ -8,7 +8,6 @@ import com.ainirobot.coreservice.client.ApiListener
 import com.ainirobot.coreservice.client.RobotApi
 import com.ainirobot.coreservice.client.module.ModuleCallbackApi
 import com.ainirobot.coreservice.client.speech.SkillApi
-import com.clobot.mini.BuildConfig
 import com.clobot.mini.util.robot.ModuleCallback
 import com.clobot.mini.util.robot.SpeechCallback
 import dagger.hilt.android.HiltAndroidApp

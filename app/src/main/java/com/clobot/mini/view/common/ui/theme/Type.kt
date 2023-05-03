@@ -10,6 +10,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.sp
 import com.clobot.mini.R
 
@@ -38,12 +40,40 @@ val Typography = Typography(
     */
 )
 
+// 관리자 화면 textStyle
 val AdminTypography = Typography(
+    // 세부 메뉴 (설치 장소 및 순번 ..)
+    h1 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.minsans_medium)),
+        fontSize = 8.sp,
+        textAlign = TextAlign.Left,
+        lineHeight = 10.sp,
+        color = prc_white100
+    ),
+    // 관리자 환경 설정 title
+    subtitle1 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.minsans_bold)),
+        fontWeight = FontWeight(500),
+        fontSize = 9.sp,
+        letterSpacing = 0.15.sp,
+        textAlign = TextAlign.Center,
+        color = prc_white100
+    ),
+    // 항목 별 제목
+    subtitle2 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.minsans_medium)),
+        fontSize = 7.sp,
+        lineHeight = 9.sp,
+        color = prc_gray700
+    ),
+    // 상단 버튼
     button = TextStyle(
         textAlign = TextAlign.Center,
-        fontSize = 13.sp,
-        color = Color.Black,
-        lineHeight = 15.sp
+        fontSize = 8.sp,
+        color = prc_white800,
+        lineHeight = 10.sp,
+        fontWeight = FontWeight(700),
+        fontFamily = FontFamily(Font(R.font.minsans_bold))
     ),
 )
 

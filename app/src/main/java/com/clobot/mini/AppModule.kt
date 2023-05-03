@@ -1,4 +1,4 @@
-package com.clobot.mini.view.common
+package com.clobot.mini
 
 import android.content.Context
 import com.clobot.mini.util.network.NetworkChecker

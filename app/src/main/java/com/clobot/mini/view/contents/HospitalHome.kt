@@ -1,4 +1,4 @@
-package com.clobot.mini.view.hospital
+package com.clobot.mini.view.contents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

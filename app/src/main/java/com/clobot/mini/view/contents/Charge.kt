@@ -1,4 +1,4 @@
-package com.clobot.mini.view.move
+package com.clobot.mini.view.contents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -9,7 +9,6 @@ import androidx.compose.ui.res.painterResource
 import com.clobot.mini.R
 import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.util.LocalRouteAction
-import com.clobot.mini.view.navigation.NavRoute
 
 @Composable
 fun Charging() {

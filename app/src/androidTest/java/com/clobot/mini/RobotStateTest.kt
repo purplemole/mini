@@ -2,7 +2,6 @@ package com.clobot.mini
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.clobot.mini.repo.robot.AiniRobotRepository
-import com.clobot.mini.view.common.MainApplication
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.runBlocking
 import org.junit.After

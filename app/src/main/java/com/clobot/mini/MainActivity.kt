@@ -1,80 +1,88 @@
 package com.clobot.mini
 
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.clobot.mini.model.MainViewModel
 import com.clobot.mini.model.RobotViewModel
 import com.clobot.mini.view.common.ui.theme.MiniTheme
-import com.clobot.mini.util.network.NetworkOfflineDialog
-import com.clobot.mini.data.network.NetworkState
 import com.clobot.mini.util.LocalMainViewModel
 import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.view.navigation.NavigationGraph
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
+@ExperimentalPermissionsApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
     private val robotViewModel: RobotViewModel by viewModels()
 
+    // 필요 권한
+    private val myPermission = listOf(
+        android.Manifest.permission.CAMERA,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-        // 참고 : https://copycoding.tistory.com/357
-        val cameraPermissionCheck = ContextCompat.checkSelfPermission(
-            this@MainActivity,
-            android.Manifest.permission.CAMERA, //자체 사용 권한 선택(.CAMERA)
-        )
-        if (cameraPermissionCheck != PackageManager.PERMISSION_GRANTED) { // 권한이 없는 경우
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.CAMERA), //권한 요청이 필요한 것들을 배열로 넘겨줌
-                1000
-            )
-        }
-
         setContent {
-            //val dockingState by robotViewModel.dockingState.collectAsState(initial = false)
-            val networkState by viewModel.networkState.collectAsState(initial = NetworkState.None)
+            val lifecycleOwner = LocalLifecycleOwner.current
             MiniTheme {
-                CompositionLocalProvider(
-                    LocalMainViewModel provides viewModel,
-                    LocalRobotViewModel provides robotViewModel
-                ) {
-                    val robotViewModel = LocalRobotViewModel.current
-                    NetworkOfflineDialog(networkState = networkState) {
-                        viewModel.onRetry()
-                    }
-                    // heartbeat 0.5 sec
+                val permissionsState = rememberMultiplePermissionsState(permissions = myPermission)
+                if(permissionsState.allPermissionsGranted){
+                    CompositionLocalProvider(
+                        LocalMainViewModel provides viewModel,
+                        LocalRobotViewModel provides robotViewModel
+                    ) {
+                        val robotViewModel = LocalRobotViewModel.current
+                        // 특정 페이지 에서만 확인 필요
+//                    NetworkOfflineDialog(networkState = networkState) {
+//                        viewModel.onRetry()
+//                    }
+                        // heartbeat 0.5 sec
                     LaunchedEffect(Unit) {
                         while (true) {
                             delay(500)
                             robotViewModel.checkChargingState()
                         }
                     }
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colors.background
-                    ) {
-                        NavigationGraph()
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = MaterialTheme.colors.background
+                        ) {
+                            NavigationGraph()
+                        }
                     }
                 }
+
+                DisposableEffect(key1 = lifecycleOwner, effect = {
+                    val observer = LifecycleEventObserver { _, event ->
+                        if (event == Lifecycle.Event.ON_RESUME) {
+                            permissionsState.launchMultiplePermissionRequest()
+                        }
+                    }
+                    lifecycleOwner.lifecycle.addObserver(observer)
+
+                    onDispose {
+                        lifecycleOwner.lifecycle.removeObserver(observer)
+                    }
+                })
             }
         }
     }

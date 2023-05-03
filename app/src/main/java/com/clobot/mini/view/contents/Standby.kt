@@ -1,4 +1,4 @@
-package com.clobot.mini.view.move
+package com.clobot.mini.view.contents
 
 import android.util.Log
 import androidx.compose.foundation.Image

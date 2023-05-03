@@ -1,8 +1,9 @@
-package com.clobot.mini.view.hospital
+package com.clobot.mini.view.contents
 
 import androidx.compose.foundation.Image
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.clobot.mini.R
@@ -11,52 +12,50 @@ import com.clobot.mini.view.common.HospitalTopBar
 import com.clobot.mini.view.navigation.NavRoute
 import kotlinx.coroutines.delay
 
-// 신규 고객 페이지
+// 당일 방문 고객 페이지
 @Composable
-fun NewCustomer() {
+fun ExistingCustomer() {
     Scaffold(
         topBar = { HospitalTopBar() },
-        content = { NewCustomerContent() }
+        content = { ExistingCustomerContent() }
     )
 }
 
-/** 신규 고객 페이지 컨텐츠
- * TODO 다음 페이지 넘어 가는 방법 => 접수 장소 이동 후 페이지 전환
- *
- */
+// 당일 방문 고객 페이지 컨텐츠
 @Composable
-private fun NewCustomerContent() {
+private fun ExistingCustomerContent() {
     val routeAction = LocalRouteAction.current
     Image(
-        painter = painterResource(R.drawable.new_customer),
-        contentDescription = "new_customer background img",
+        painter = painterResource(R.drawable.existing_customer),
+        contentDescription = "existing-customer background img",
         contentScale = ContentScale.Crop
     )
     LaunchedEffect(Unit) {
         delay(5000)
-        routeAction.navTo(NavRoute.MovePosition1)
+        routeAction.navTo(NavRoute.ExistingInformation)
     }
 }
 
-// 접수 방법 안내 페이지
-@Composable
-fun NewInformation() {
-    Scaffold(
-        topBar = { HospitalTopBar(false) },
-        content = { NewInformationContent() }
-    )
-}
-
-/** 접수 방법 안내 페이지 컨텐츠
- * TODO LaunchedEffect
+// 예약 방법 안내 페이지
+/**
+ * TODO routeAction 을 통해 다음 페이지 이동 시키기(STANDBY, 자동으로)
  *
  */
 @Composable
-private fun NewInformationContent() {
+fun ExistingInformation() {
+    Scaffold(
+        topBar = { HospitalTopBar(false) },
+        content = { ExistingInformationContent() }
+    )
+}
+
+// 예약 방법 안내 페이지
+@Composable
+private fun ExistingInformationContent() {
     val routeAction = LocalRouteAction.current
     Image(
-        painter = painterResource(R.drawable.new_information),
-        contentDescription = "new_customer background img",
+        painter = painterResource(R.drawable.existing_information),
+        contentDescription = "existing_information background img",
         contentScale = ContentScale.Crop
     )
 
