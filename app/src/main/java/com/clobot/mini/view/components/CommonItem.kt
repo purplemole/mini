@@ -38,13 +38,11 @@ import com.clobot.mini.view.components.ui.theme.prc_white100
 import com.clobot.mini.view.navigation.NavRoute
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.coil.CoilImage
-import java.util.*
 
 
 /**
  * 직사각형 버튼 (Column (이미지, text))
  * @param menu
- * @param routeAction
  */
 @Composable
 fun ImgMenuBtn(menu: HospitalMenu) {
@@ -70,12 +68,6 @@ fun ImgMenuBtn2(menu: HospitalMenu) {
         })
 }
 
-/**
- * Scaffold 내부에서 사용 가능한 TopAppBar
- * TODO : title - 날짜 - 시간 - 배터리 표시
- * @param routeAction
- * @param canNavigate
- */
 @Composable
 fun HospitalTopBar(goBackEnable: Boolean = true) {
     TopAppBar(
@@ -109,7 +101,10 @@ fun HospitalTopBar2(goBackEnable: Boolean = false, title: String) {
                         Image(
                             imageVector = MyIconPack.Actionleft,
                             modifier = Modifier
-                                .padding(top = dimensionResource(id = R.dimen.padding_20), start = 6.dp)
+                                .padding(
+                                    top = dimensionResource(id = R.dimen.padding_20),
+                                    start = 6.dp
+                                )
                                 .clickable { navRoute.goBack() },
                             contentDescription = null,
                         )

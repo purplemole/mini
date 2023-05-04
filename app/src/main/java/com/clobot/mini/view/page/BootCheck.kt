@@ -2,12 +2,14 @@ package com.clobot.mini.view.page
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -17,6 +19,7 @@ import com.clobot.mini.MainApplication
 import com.clobot.mini.R
 import com.clobot.mini.data.network.NetworkState
 import com.clobot.mini.util.*
+import com.clobot.mini.view.components.noRippleClickable
 import com.clobot.mini.view.components.ui.theme.*
 import com.clobot.mini.view.navigation.NavRoute
 
@@ -36,7 +39,7 @@ fun BootCheck() {
     ) {
         Text(
             text = stringResource(id = R.string.boot_check_t1),
-            modifier = Modifier.clickable { shouldShowNavigationGraph.value = true },
+            modifier = Modifier.noRippleClickable { shouldShowNavigationGraph.value = true },
             style = pageTypography.h2,
             color = prc_white100
         )
@@ -131,39 +134,59 @@ private fun RelatedProcess() {
 @Composable
 private fun GetStorage() {
     val deviceStorage = DeviceStorage()
-    val total = deviceStorage.getTotalCapacity().toInt()
+
+    var total = deviceStorage.getTotalCapacity().toInt()
+    if (total == 0) total = 1
+
     val inUse = deviceStorage.getCapacityInUse().toInt()
-    val usePer = if(inUse != 0) total / inUse else total
+    val usePer = inUse.toDouble() / total.toDouble()
 // DeviceStorage
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+    Column(
+        verticalArrangement = Arrangement.spacedBy(5.dp),
+        modifier = Modifier.padding(bottom = 8.dp),
         content = {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(9.dp),
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 content = {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(9.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        content = {
+                            Text(
+                                stringResource(id = R.string.book_check_x4),
+                                style = pageTypography.h5,
+                                color = prc_white100
+                            )
+                            Text(
+                                String.format(
+                                    stringResource(id = R.string.boot_check_storage1),
+                                    inUse,
+                                    (usePer * 100).toInt()
+                                ), style = pageTypography.h6, color = prc_gray700
+                            )
+                        })
                     Text(
-                        stringResource(id = R.string.book_check_x4),
-                        style = pageTypography.h5,
-                        color = prc_white100
+                        String.format(stringResource(id = R.string.boot_check_storage2), total),
+                        style = pageTypography.h6,
+                        color = prc_gray700
                     )
-                    Text(
-                        String.format(
-                            stringResource(id = R.string.boot_check_storage1),
-                            inUse,
-                            usePer
-                        ), style = pageTypography.h6, color = prc_gray700
-                    )
-                })
-            Text(
-                String.format(stringResource(id = R.string.boot_check_storage2), total.toInt()),
-                style = pageTypography.h6,
-                color = prc_gray700
+                }
+            )
+
+            LinearProgressIndicator(
+                color = prc_birth,
+                backgroundColor = prc_gray800,
+                progress = usePer.toFloat(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(5.dp)
+                    .clip(RoundedCornerShape(1.dp))
             )
         }
     )
+
 }
 
 @Composable
@@ -191,8 +214,16 @@ private fun BootTimeItem(isSuccess: Boolean) {
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         verticalAlignment = Alignment.CenterVertically,
         content = {
-            Text(result, style = pageTypography.h5, color = prc_birth)
-            Text(getCurTimeInfo(DateFormat.HOUR24, System.currentTimeMillis()), style = pageTypography.h6, color = prc_gray700)
+            Text(
+                result,
+                style = pageTypography.h5,
+                color = if (isSuccess) prc_birth else prc_danger
+            )
+            Text(
+                getCurTimeInfo(DateFormat.HOUR24, System.currentTimeMillis()),
+                style = pageTypography.h6,
+                color = prc_gray700
+            )
         })
 }
 
