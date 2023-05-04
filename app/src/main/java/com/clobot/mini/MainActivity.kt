@@ -17,11 +17,11 @@ import androidx.lifecycle.LifecycleEventObserver
 import com.clobot.mini.model.MainViewModel
 import com.clobot.mini.model.RobotViewModel
 import com.clobot.mini.model.TTSViewModel
-import com.clobot.mini.view.common.ui.theme.MiniTheme
+import com.clobot.mini.view.components.ui.theme.MiniTheme
 import com.clobot.mini.util.LocalMainViewModel
 import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.util.LocalTTSService
-import com.clobot.mini.view.common.AlertDialog
+import com.clobot.mini.view.components.AlertDialog
 import com.clobot.mini.view.navigation.NavigationGraph
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState

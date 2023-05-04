@@ -2,23 +2,19 @@ package com.clobot.mini.data.admin
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.clobot.mini.R
 import com.clobot.mini.data.admin.AdminData.*
 import com.clobot.mini.util.*
-import com.clobot.mini.view.common.*
-import com.clobot.mini.view.common.ui.MyIconPack
-import com.clobot.mini.view.common.ui.myiconpack.AdminPen
-import com.clobot.mini.view.common.ui.myiconpack.Cancel
-import com.clobot.mini.view.common.ui.theme.*
+import com.clobot.mini.view.components.*
+import com.clobot.mini.view.components.ui.MyIconPack
+import com.clobot.mini.view.components.ui.myiconpack.AdminPen
+import com.clobot.mini.view.components.ui.theme.*
 
 object AdminColumnItem {
     // 로봇 이름

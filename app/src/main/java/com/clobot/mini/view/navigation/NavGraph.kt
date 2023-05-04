@@ -8,16 +8,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.clobot.mini.data.robot.MoveReason
-import com.clobot.mini.view.common.AdminView
+import com.clobot.mini.view.page.AdminView
 import com.clobot.mini.model.NavigationViewModel
 import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.util.LocalRouteAction
-import com.clobot.mini.view.common.BootCheck
-import com.clobot.mini.view.common.Developer
-import com.clobot.mini.view.contents.*
-import com.clobot.mini.view.contents.Charging
-import com.clobot.mini.view.contents.MovePosition
-import com.clobot.mini.view.contents.Standby
+import com.clobot.mini.view.page.BootCheck
+import com.clobot.mini.view.page.Developer
+import com.clobot.mini.view.page.*
+import com.clobot.mini.view.page.Charging
+import com.clobot.mini.view.page.MovePosition
+import com.clobot.mini.view.page.Standby
 
 @Composable
 fun NavigationGraph() {
