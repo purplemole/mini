@@ -77,7 +77,7 @@ fun Developer() {
                             Text("Navi")
                             robotViewModel.refreshPlaceList()
                             placeList.value.forEach {
-                                CustomButton(it) { robotViewModel.moveFromReason(MoveReason.Guide, it) }
+                                CustomButton(it) { robotViewModel.moveByReason(MoveReason.Guide, it) }
                             }
                         }
                     }
@@ -87,7 +87,7 @@ fun Developer() {
                             CustomButton("GoCharge") { robotViewModel.chargeController(ChargeMode.GoCharge) }
 //                            CustomButton("Start") { robotViewModel.chargeController(ChargeMode.Start) }
 //                            CustomButton("Stop") { robotViewModel.chargeController(ChargeMode.Stop) }
-                            CustomButton("Auto") { robotViewModel.moveFromReason(MoveReason.Docking) }
+                            CustomButton("Auto") { robotViewModel.moveByReason(MoveReason.Docking) }
                             CustomButton("StopAuto") { robotViewModel.chargeController(ChargeMode.StopAuto) }
 //                            CustomButton("Leave") { robotViewModel.chargeController(ChargeMode.Leave) }
                             CustomButton("StopLeave") { robotViewModel.chargeController(ChargeMode.StopLeave) }

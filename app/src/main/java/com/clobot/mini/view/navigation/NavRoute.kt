@@ -42,6 +42,7 @@ sealed class NavRoute(val routeName: String, val pageWaite: Int = 0) {
     object MovePosition2 : NavRoute("move-position_2")
     object MovePosition3 : NavRoute("move-position_3")
     object MoveName : NavRoute("move-name")
+    object MovePromote : NavRoute("move-promote")
 
 
     // 관리자 화면

@@ -104,27 +104,27 @@ class RobotViewModel @Inject constructor(
         mode: NavMode,
         dest: String = "",
     ) {
-        repo.navigation(mode, mNavigationListener, destination = dest)
+        _moveReason.value = MoveReason.Guide
+
+        repo.navigation(mode, mNavigationListener, dest = dest)
     }
 
-    fun moveFromReason(
+    fun moveByReason(
         mode: MoveReason,
         dest: String = "",
-        test: Boolean = false,
     ) {
+        // 화면 전환을 위한 state
         _moveReason.value = mode
 
-        fun runDivision() {
-            when (mode) {
-                MoveReason.Docking -> repo.charge(ChargeMode.Auto, mNavigationListener)
-                else -> repo.navigation(NavMode.Start, mNavigationListener, destination = dest)
-            }
+        when (mode) {
+            // 초기 위치로 이동(안내 대기 장소)
+            MoveReason.Home -> repo.navigation(NavMode.Start, mNavigationListener, dest = "안내 대기 장소")
+            // 충전대로 이동
+            MoveReason.Docking -> repo.charge(ChargeMode.Auto, mNavigationListener)
+            // 해당 위치로 이동
+            MoveReason.Guide -> repo.navigation(NavMode.Start, mNavigationListener, dest = dest)
+            else -> {}
         }
-
-        if (test)
-            runDivision()
-        else
-            Handler(Looper.getMainLooper()).postDelayed(Runnable { runDivision() }, 5000)
     }
 
     fun mapController(

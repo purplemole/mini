@@ -141,18 +141,18 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
         mode: NavMode,
         listener: ActionListener,
         reqId: Int = 0,
-        destination: String = "",
+        dest: String = "",
         speed: Double = 0.2,
         angleSpeed: Double = 1.0,
     ) {
         when (mode) {
-            NavMode.Start -> robotApi.startNavigation(reqId, destination, 1.5, 10 * 1000, speed, angleSpeed, listener)
+            NavMode.Start -> robotApi.startNavigation(reqId, dest, 1.5, 10 * 1000, speed, angleSpeed, listener)
             NavMode.Stop -> robotApi.stopNavigation(reqId)
             // 따라가기
             NavMode.Lead -> robotApi.startLead(reqId, LeadingParams(), listener)
             NavMode.StopLead -> robotApi.stopLead(reqId, true)
             // 테스트
-            NavMode.PosNavi -> robotApi.startPoseNavigation(reqId, destination, 1.5, 10 * 1000, speed, angleSpeed, true, listener)
+            NavMode.PosNavi -> robotApi.startPoseNavigation(reqId, dest, 1.5, 10 * 1000, speed, angleSpeed, true, listener)
             NavMode.StopPosNavi -> robotApi.stopPoseNavigation(reqId)
 //            NavMode.ToPos -> robotApi.resumeSpecialPlaceTheta(reqId, destination, mMotionListener)
 //            NavMode.StopToPos -> robotApi.stopResumeSpecialPlaceThetaAction(reqId)

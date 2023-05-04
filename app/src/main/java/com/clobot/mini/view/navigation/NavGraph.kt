@@ -38,8 +38,9 @@ fun NavigationGraph() {
     val moveState = robotViewModel.moveReason.collectAsState()
 
     when (moveState.value) {
-        MoveReason.Guide -> route.navTo(NavRoute.MoveName)
+        MoveReason.Home -> route.navTo(NavRoute.MovePosition2)
         MoveReason.Docking -> route.navTo(NavRoute.MoveCharge)
+        MoveReason.Promote -> route.navTo(NavRoute.MovePromote)
         else -> {}
     }
 
@@ -108,6 +109,7 @@ fun NavigationGraph() {
             composable(NavRoute.MovePosition2.routeName) { MovePosition(2) }
             composable(NavRoute.MovePosition3.routeName) { MovePosition(3) }
             composable(NavRoute.MoveName.routeName) { MovePosition(4) }
+            composable(NavRoute.MovePromote.routeName) { PromoteNormal() }
 
             composable(NavRoute.BootCheck.routeName) { BootCheck() }
 

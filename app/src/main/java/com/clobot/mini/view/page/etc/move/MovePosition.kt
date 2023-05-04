@@ -1,12 +1,12 @@
 package com.clobot.mini.view.page.etc.move
 
 import androidx.compose.foundation.Image
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.clobot.mini.R
 import com.clobot.mini.data.robot.MoveReason
+import com.clobot.mini.data.robot.NavMode
 import com.clobot.mini.util.LocalRobotViewModel
 import com.clobot.mini.util.LocalRouteAction
 
@@ -21,6 +21,8 @@ fun MovePosition(pos: Int = 0) {
     val moveState = robotViewModel.moveReason.collectAsState()
     val routeAction = LocalRouteAction.current
 
+    var isStarted = remember { mutableStateOf(false) }
+
     val backgroundImg = when (pos) {
         1 -> painterResource(R.drawable.move_position_1)
         2 -> painterResource(R.drawable.move_position_2)
@@ -34,6 +36,19 @@ fun MovePosition(pos: Int = 0) {
         contentScale = ContentScale.Crop
     )
 
-    if(moveState.value == MoveReason.None)
-        routeAction.goBack()
+    if (moveState.value == MoveReason.None) {
+        if(!isStarted.value) {
+            when (pos) {
+                1 -> robotViewModel.navController(NavMode.Start, "대기1")
+                2 -> robotViewModel.navController(NavMode.Start, "안내 대기 장소")
+                3 -> robotViewModel.navController(NavMode.Start, "대기2")
+                4 -> robotViewModel.navController(NavMode.Start, "충전 장소")
+                else -> {}
+            }
+            isStarted.value = true
+        } else {
+            // 이동 후 표출될 화면
+            routeAction.goMain()
+        }
+    }
 }

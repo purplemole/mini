@@ -5,7 +5,7 @@ sealed class MoveReason {
     object Guide : MoveReason()
     object Home : MoveReason()
     object Docking : MoveReason()
-    object Patrol: MoveReason()
+    object Promote: MoveReason()
 }
 
 sealed class MoveDirection {
