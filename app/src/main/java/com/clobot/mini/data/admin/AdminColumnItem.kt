@@ -110,6 +110,19 @@ object AdminColumnItem {
                 subText = R.string.admin_x15,
                 cosUnit = { FromToPicker(LocalRestrictFromTo.current) },
             ),
+            DataPair(
+                subText = R.string.admin_x16,
+                cosUnit = { RightPerSpinner(LocalForceCharging.current, listOf(10, 20, 30)) }
+            ),
+            DataPair(
+                subText = R.string.admin_x17,
+                cosUnit = {
+                    RightPerSpinner(
+                        tmpPer = LocalRobotOperating.current,
+                        perList = listOf(20, 30, 40)
+                    )
+                }
+            )
         )
     )
 

@@ -1,5 +1,6 @@
 package com.clobot.mini.view.components.ui.theme
 
+import androidx.compose.material.Text
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -58,6 +59,12 @@ val AdminTypography = Typography(
         fontSize = 8.sp,
         textAlign = TextAlign.Center,
         color = prc_gray100
+    ),
+    h4 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.minsans_medium)),
+        fontSize = 6.sp,
+        textAlign = TextAlign.Left,
+        color = prc_white100
     ),
     // 관리자 환경 설정 title
     subtitle1 = TextStyle(

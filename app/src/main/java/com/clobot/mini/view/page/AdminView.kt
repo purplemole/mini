@@ -10,21 +10,19 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.clobot.mini.R
 import com.clobot.mini.data.admin.*
 import com.clobot.mini.util.*
 import com.clobot.mini.util.state.IntFieldState
 import com.clobot.mini.util.state.TextFieldState
 import com.clobot.mini.view.components.CustomBox
-import com.clobot.mini.view.components.RightPerSpinner
+import com.clobot.mini.view.components.noRippleClickable
 import com.clobot.mini.view.components.ui.MyIconPack
+import com.clobot.mini.view.components.ui.myiconpack.AdminChecked
+import com.clobot.mini.view.components.ui.myiconpack.AdminUnchecked
 import com.clobot.mini.view.components.ui.myiconpack.Cancel
 import com.clobot.mini.view.components.ui.theme.*
 import com.clobot.mini.view.navigation.NavRoute
@@ -82,7 +80,6 @@ fun AdminView() {
                 Row {
                     val modifier = Modifier
                         .weight(1f)
-                        .padding(5.dp)
                     LeftArea(modifier)
                     RightArea(modifier)
                 }
@@ -115,7 +112,7 @@ fun AdminTopArea() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(28.dp)
+            .height(26.dp)
             .padding(horizontal = 6.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -205,75 +202,127 @@ fun LeftArea(modifier: Modifier) {
         })
 }
 
-@Composable // 가운데 구분 선
-fun DottedLine() {
-    Canvas(
-        modifier = Modifier.fillMaxHeight()
-    ) {
-        drawLine(
-            color = Color.Red,
-            start = Offset(0f, 0f),
-            end = Offset(0f, size.height),
-            pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
-        )
-    }
-}
-
 @Composable
 fun RightArea(modifier: Modifier) {
     val rightItems = AdminColumnItem.rightItemList
-
-    LazyColumn(
-        modifier = modifier,
+    Column(
+        modifier = modifier.padding(start = 7.dp, end = 15.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
         content = {
-            item {
-                CustomBox(
-                    titleText = rightItems[0].titleText,
-                    contents = rightItems[0].content
-                )
-            }
-            item {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                        .background(Color(0xFFE9E7E7)),
-                    content = {
-                        val spinMod = Modifier
-                            .weight(1f)
-
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            RightPerSpinner(
-                                modifier = spinMod,
-                                spinName = R.string.admin_x16,
-                                tmpPer = LocalForceCharging.current,
-                                perList = listOf(10, 20, 30)
+            Column(
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+                content = {
+                    Text(
+                        text = stringResource(id = rightItems[0].titleText),
+                        style = AdminTypography.subtitle2
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = prc_gray900, shape = AdminRoundedBtn.medium)
+                            .padding(horizontal = 7.dp, vertical = 4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        content = {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                content = {
+                                    Text(
+                                        text = stringResource(id = rightItems[0].content[0].subText),
+                                        style = AdminTypography.h1
+                                    )
+                                    rightItems[0].content[0].cosUnit()
+                                }
                             )
-                            RightPerSpinner(
-                                modifier = spinMod,
-                                spinName = R.string.admin_x17,
-                                tmpPer = LocalRobotOperating.current,
-                                perList = listOf(40, 30, 20)
+                            Row(
+                                content = {
+                                    Row(
+                                        modifier = Modifier.weight(1f),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        content = {
+                                            Text(
+                                                text = stringResource(id = rightItems[0].content[1].subText),
+                                                style = AdminTypography.h1
+                                            )
+                                            rightItems[0].content[1].cosUnit()
+                                        })
+                                    Spacer(modifier = Modifier.size(9.dp))
+                                    Row(
+                                        modifier = Modifier.weight(1f),
+                                        Arrangement.SpaceBetween,
+                                        content = {
+                                            Text(
+                                                text = stringResource(id = rightItems[0].content[2].subText),
+                                                style = AdminTypography.h1
+                                            )
+                                            rightItems[0].content[2].cosUnit()
+                                        })
+                                })
+                            Text(
+                                text = stringResource(id = R.string.admin_x18),
+                                style = AdminTypography.h4
                             )
                         }
-                        Text(
-                            stringResource(id = R.string.admin_x18),
-                            modifier = Modifier
-                                .padding(start = 30.dp)
-                                .padding(vertical = 5.dp),
-                            style = TextStyle(fontSize = 10.sp)
-                        )
-                    }
-                )
-            }
-            item {
-                CustomBox(
-                    titleText = rightItems[1].titleText,
-                    contents = rightItems[1].content
-                )
-            }
+                    )
+                }
+            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+                content = {
+                    Text(
+                        text = stringResource(id = rightItems[1].titleText),
+                        style = AdminTypography.subtitle2
+                    )
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = prc_gray900, shape = AdminRoundedBtn.medium)
+                            .padding(horizontal = 7.dp, vertical = 4.dp),
+                        verticalArrangement = Arrangement.spacedBy(5.dp),
+                        content = {
+                            items(rightItems[1].content) {
+                                val checkedStatus = remember { mutableStateOf(false) }
+                                Row(modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    content = {
+                                        Row(content = {
+                                            RoundedCornerCheckBox(checkedStatus.value) { isChecked ->
+                                                checkedStatus.value = isChecked
+                                            }
+                                            Spacer(modifier = Modifier.size(4.dp))
+                                            Text(
+                                                text = stringResource(id = it.subText),
+                                                modifier = Modifier.align(Alignment.CenterVertically),
+                                                style = AdminTypography.h1
+                                            )
+                                        })
+                                        it.cosUnit()
+                                    })
+                            }
+                        }
+                    )
+                })
+
+        }
+    )
+}
+
+@Composable
+fun RoundedCornerCheckBox(
+    isChecked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit),
+) {
+    Box(
+        modifier = Modifier
+            .size(14.dp)
+            .noRippleClickable { onCheckedChange(!isChecked) },
+        content = {
+            Image(
+                imageVector = if (isChecked) MyIconPack.AdminChecked else MyIconPack.AdminUnchecked,
+                contentDescription = null
+            )
         }
     )
 }

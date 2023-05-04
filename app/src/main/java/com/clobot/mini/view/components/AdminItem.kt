@@ -13,7 +13,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clobot.mini.R
@@ -37,8 +36,6 @@ import com.clobot.mini.util.state.TextFieldState
 import com.clobot.mini.view.components.ui.MyIconPack
 import com.clobot.mini.view.components.ui.myiconpack.*
 import com.clobot.mini.view.components.ui.theme.*
-import com.guru.fontawesomecomposelib.FaIcon
-import com.guru.fontawesomecomposelib.FaIcons
 import java.util.*
 
 // 소단원
@@ -47,8 +44,8 @@ fun CustomBox(
     titleText: Int,
     contents: List<AdminData.DataPair>,
 ) {
-    Column(modifier = Modifier.padding(start = 18.dp),
-        verticalArrangement = Arrangement.spacedBy(5.dp),
+    Column(modifier = Modifier.padding(start = 15.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp),
         content = {
             if (titleText != 0)
                 Text(
@@ -62,7 +59,7 @@ fun CustomBox(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 7.dp, vertical = 5.dp),
+                                .padding(horizontal = 7.dp, vertical = 4.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                         ) {
                             if (it.subText != 0) {
@@ -135,7 +132,7 @@ fun RobotManagementBtn() {
     val robotAction = listOf(mgmtItem1, mgmtItem2, mgmtItem3, mgmtItem4)
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
         content = {
             itemsIndexed(robotAction) { _, item ->
                 Row(
@@ -155,7 +152,7 @@ fun RobotManagementBtn() {
                     },
                     modifier = Modifier
                         .height(24.dp)
-                        .width(54.dp)
+                        .width(56.dp)
                         .background(
                             shape = AdminRoundedBtn.medium,
                             color = if (item == mgmtItem4) prc_danger else prc_gray600
@@ -166,52 +163,49 @@ fun RobotManagementBtn() {
                 )
             }
         },
-        modifier = Modifier.width(238.dp)
+        modifier = Modifier.fillMaxWidth()
     )
 }
 
 @Composable // 강제 충전 시작, 로봇 운영 시작
-fun RightPerSpinner(modifier: Modifier, spinName: Int, tmpPer: IntFieldState, perList: List<Int>) {
+fun RightPerSpinner(tmpPer: IntFieldState, perList: List<Int>) {
     val selectedItem = tmpPer.getInt()
     val onItemSelected = { select: Int -> tmpPer.setInt(select) }
     val expanded = rememberSaveable { mutableStateOf(false) }
 
-    Row(modifier = modifier,
+    Column(
         content = {
-            Text(
-                text = stringResource(spinName),
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(start = 10.dp)
-            )
-            Spacer(modifier = Modifier.size(10.dp))
 //, enabled = percentageList.isNotEmpty()
-            OutlinedButton(
-                onClick = { expanded.value = true },
+            Row(
                 modifier = Modifier
-                    .width(90.dp)
-                    .height(35.dp),
-                shape = AdminRoundedBtn.medium,
-                border = adminBorder,
+                    .size(width = 53.dp, height = 19.dp)
+                    .clickable {
+                        expanded.value = true
+                    }
+                    .background(prc_gray800, AdminRoundedBtn.small)
+                    .padding(start = 6.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "${selectedItem}%",
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    modifier = Modifier.weight(1f),
-                    color = Color.Black
+                    style = AdminTypography.h3,
+                    modifier = Modifier.width(22.dp)
                 )
+                Spacer(modifier = Modifier.size(9.dp))
                 Icon(
-                    Icons.Default.ArrowDropDown,
+                    Icons.Outlined.KeyboardArrowDown,
                     contentDescription = null,
-                    tint = Color.DarkGray
+                    tint = prc_white100,
+                    modifier = Modifier.size(9.dp)
                 )
             }
 
             DropdownMenu(
                 expanded = expanded.value,
                 onDismissRequest = { expanded.value = false },
-                offset = DpOffset(x = (120).dp, y = (-2).dp)
+//                offset = DpOffset(x = (120).dp, y = (-2).dp)
             ) {
                 perList.forEach {
                     DropdownMenuItem(onClick = {
@@ -228,12 +222,11 @@ fun RightPerSpinner(modifier: Modifier, spinName: Int, tmpPer: IntFieldState, pe
 @Composable
 fun FromToPicker(fromTo: TextFieldState) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         CustomTimePicker(fromTo, true)
-        Text("~")
+        Text("~", style = AdminTypography.h2)
         CustomTimePicker(fromTo, false)
     }
 }
@@ -271,21 +264,32 @@ fun CustomTimePicker(storeT: TextFieldState, isFrom: Boolean) {
     )
     timePickerDialog.setTitle("test")
 
-    OutlinedButton(
-        onClick = { timePickerDialog.show() },
-        modifier = Modifier.defaultMinSize(
-            minWidth = 30.dp,
-            minHeight = 30.dp
-        ),
-        shape = AdminRoundedBtn.medium,
-        border = adminBorder,
-    ) {
-        Text(text = timeState, color = Color.Black)
-        FaIcon(
-            FaIcons.CaretDown,
-            tint = Color.DarkGray,
-        )
-    }
+    Row(
+        modifier = Modifier
+            .size(width = 53.dp, height = 19.dp)
+            .background(prc_gray800, AdminRoundedBtn.small)
+            .padding(start = 6.dp)
+            .clickable {
+                timePickerDialog.show()
+            },
+        verticalAlignment = Alignment.CenterVertically,
+        content = {
+            Text(
+                text = timeState,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                style = AdminTypography.h3,
+                modifier = Modifier.width(22.dp)
+            )
+            Spacer(modifier = Modifier.size(8.dp))
+            Icon(
+                Icons.Outlined.KeyboardArrowDown,
+                contentDescription = null,
+                tint = prc_white100,
+                modifier = Modifier.size(9.dp)
+            )
+        }
+    )
 }
 
 // 볼륨 버튼
