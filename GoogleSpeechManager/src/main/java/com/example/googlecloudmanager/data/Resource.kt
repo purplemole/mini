@@ -1,4 +1,4 @@
-package com.example.googlecloudmanager.common
+package com.example.googlecloudmanager.data
 
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
     class Complete<T>(data: T?) : Resource<T>(data)

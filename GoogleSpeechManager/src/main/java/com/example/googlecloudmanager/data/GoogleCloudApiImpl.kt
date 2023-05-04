@@ -32,7 +32,7 @@ class GoogleCloudApiImpl @Inject constructor(
         init()
     }
 
-    fun init() {
+    private fun init() {
         Timber.d("intialize GoogleCloudApi")
         val stream = context.resources.openRawResource(R.raw.credential)
         val credentials: GoogleCredentials = GoogleCredentials.fromStream(stream)
@@ -60,19 +60,14 @@ class GoogleCloudApiImpl @Inject constructor(
             AudioConfig.newBuilder().setAudioEncoding(AudioEncoding.MP3)
                 .setSampleRateHertz(44100).build()
 
-        try {
-            Timber.d("textToAudio response Before")
-            val response: SynthesizeSpeechResponse? =
-                ttsClient.synthesizeSpeech(input, voice, audioConfig)
-            Timber.d("textToAudio response After")
-            val audioContents: ByteString = response!!.audioContent
-            FileOutputStream(file).use { out ->
-                out.write(audioContents.toByteArray())
-                Timber.i("Audio content written to file \"output.mp3\"")
-                out.close()
-            }
-        } catch (e: Throwable) {
-            Timber.e("$e")
+        val response: SynthesizeSpeechResponse? =
+            ttsClient.synthesizeSpeech(input, voice, audioConfig)
+
+        val audioContents: ByteString = response!!.audioContent
+        FileOutputStream(file).use { out ->
+            out.write(audioContents.toByteArray())
+            Timber.i("Audio content written to file \"output.mp3\"")
+            out.close()
         }
     }
 
