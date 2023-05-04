@@ -21,8 +21,8 @@ class NavigationViewModel @Inject constructor() :
 
     fun navTo(route: NavRoute) {
         Timber.i("navTo ${route.routeName}")
-        //Log.i("navCheck", "navTo ${route.routeName} (${route.description})")
-        navController.navigate(route.routeName)
+        if (route.routeName != getCurPageInfo())
+            navController.navigate(route.routeName)
     }
 
     fun goBack() {
@@ -41,7 +41,7 @@ class NavigationViewModel @Inject constructor() :
         navController.popBackStack(navController.backQueue[pos].destination.id, false)
     }
 
-    fun popTo(destination: String){
+    fun popTo(destination: String) {
         navController.popBackStack(destination, true)
     }
 
@@ -49,7 +49,7 @@ class NavigationViewModel @Inject constructor() :
         return navController.currentDestination?.route
     }
 
-    fun leftQueuePop(){
+    fun leftQueuePop() {
         navController.backQueue.removeFirst()
     }
 }
