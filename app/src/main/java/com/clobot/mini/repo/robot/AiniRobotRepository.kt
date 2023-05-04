@@ -40,9 +40,10 @@ class AiniRobotRepository @Inject constructor() : RobotRepository {
             && robotApi.isActive
         ) {
             // 도킹스테이션 확인
-            _dockingState.value = robotApi.chargeStatus ||
-                    (settingApi.getRobotString(Definition.CHARGING_PILE_CONFIGURED) == "1"
-                            && robotApi.getPlaceDistance("충전대") != 0.0)
+            _dockingState.value = settingApi.getRobotString(Definition.CHARGING_PILE_CONFIGURED) == "1"
+                    && (robotApi.chargeStatus
+                    || robotApi.getPlaceDistance("충전대") != 0.0)
+            // 기본 충전, 비상 화면 lock
             robotApi.disableBattery()
             robotApi.disableEmergency()
             true
