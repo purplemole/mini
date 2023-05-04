@@ -68,6 +68,7 @@ class MainActivity : ComponentActivity() {
                             while (true) {
                                 delay(500)
                                 robotViewModel.checkChargingState()
+                                robotViewModel.checkMoveState()
                             }
                         }
 

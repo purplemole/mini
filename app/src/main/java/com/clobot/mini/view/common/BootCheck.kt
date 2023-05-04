@@ -123,7 +123,7 @@ private fun RelatedProcess() {
                 style = pageTypography.h5,
                 color = prc_white100
             )
-            BootTimeItem(MainApplication.getInstance() != null)
+            BootTimeItem(MainApplication.isRobotInit())
         }
     )
 }

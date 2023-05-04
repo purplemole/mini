@@ -1,9 +1,10 @@
 package com.clobot.mini.model
 
-import android.util.Log
-import androidx.compose.runtime.mutableStateOf
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ainirobot.coreservice.client.Definition
 import com.ainirobot.coreservice.client.StatusListener
 import com.ainirobot.coreservice.client.listener.ActionListener
 import com.ainirobot.coreservice.client.listener.CommandListener
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,17 +24,17 @@ class RobotViewModel @Inject constructor(
     private val repo: AiniRobotRepository,
 //    private val ttsRepo: AiniTtsRepository
 ) : ViewModel() {
-    private val _dockingState = MutableStateFlow<Boolean>(false)
+    private val _dockingState = MutableStateFlow(false)
     val dockingState: StateFlow<Boolean> = _dockingState.asStateFlow()
 
-    private val _chargingState = MutableStateFlow<Boolean>(false)
+    private val _chargingState = MutableStateFlow(false)
     val chargingState: StateFlow<Boolean> = _chargingState.asStateFlow()
 
     private val _placeList = MutableStateFlow<List<String>>(ArrayList())
     val placeList = _placeList.asStateFlow()
 
-    private val _moveReason = mutableStateOf<MoveReason>(MoveReason.None)
-    val moveReason = _moveReason.value//: State<MoveReason> = _moveReason
+    private val _moveReason = MutableStateFlow<MoveReason>(MoveReason.None)
+    val moveReason = _moveReason.asStateFlow()
 
     private val _textLog = MutableStateFlow("")
     val textLog: StateFlow<String> = _textLog.asStateFlow()
@@ -41,7 +43,7 @@ class RobotViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repo.initialize().let {
+            repo.initialize().let { it ->
                 repo.dockingState.collectLatest {
                     _dockingState.emit(it)
                 }
@@ -68,53 +70,76 @@ class RobotViewModel @Inject constructor(
         }
     }
 
+    fun checkMoveState() = viewModelScope.launch {
+        _moveReason.collect {
+            _moveReason.emit(it)
+        }
+    }
+
     fun basicMotion(
         direction: MoveDirection,
     ) {
-        repo.basicMotion(direction, listener = mMotionListener)
-    }
-
-    fun arcMotion(
-        mode: ArcMode,
-    ) {
-        repo.arcMotion(mode, listener = mMotionListener)
+        repo.basicMotion(direction, mMotionListener)
     }
 
     fun headMotion(
         mode: String
     ) {
-        repo.headMotion(mode, reqId++, listener = mMotionListener)
+        repo.headMotion(mode, mMotionListener, reqId++)
     }
 
     fun posController(
         mode: PosMode,
     ) {
-        repo.position(mode, listener = mMotionListener)
+        repo.position(mode, mMotionListener)
     }
 
     fun locController(
         mode: String,
     ) {
-        repo.location(mode, listener = mMotionListener)
+        repo.location(mode, mMotionListener)
     }
 
     fun navController(
         mode: NavMode,
-        dest: String = ""
+        dest: String = "",
     ) {
-        repo.navigation(mode, destination = dest, listener = mNavigationListener)
+        repo.navigation(mode, mNavigationListener, destination = dest)
+    }
+
+    fun moveFromReason(
+        mode: MoveReason,
+        dest: String = "",
+        test: Boolean = false,
+    ) {
+        _moveReason.value = mode
+
+        fun runDivision() {
+            when (mode) {
+                MoveReason.Docking -> repo.charge(ChargeMode.Auto, mNavigationListener)
+                else -> repo.navigation(NavMode.Start, mNavigationListener, destination = dest)
+            }
+        }
+
+        if (test)
+            runDivision()
+        else
+            Handler(Looper.getMainLooper()).postDelayed(Runnable { runDivision() }, 5000)
     }
 
     fun mapController(
         mode: String,
     ) {
-        repo.map(mode, listener = mMotionListener)
+        repo.map(mode, mMotionListener)
     }
 
     fun chargeController(
         mode: ChargeMode,
     ) {
-        repo.charge(mode, listener = mNavigationListener)
+        if (mode == ChargeMode.Auto)
+            _moveReason.value = MoveReason.Guide
+
+        repo.charge(mode, mNavigationListener)
     }
 
     fun ttsController(
@@ -127,7 +152,7 @@ class RobotViewModel @Inject constructor(
     fun autoCharge() {
         when (repo.getBattery()) {
             20 -> chargeController(ChargeMode.Start)
-            50 -> Log.d(TAG, "charge level: 50%")
+            50 -> Timber.d("charge level: 50%")
             100 -> chargeController(ChargeMode.StopLeave)
         }
     }
@@ -142,7 +167,7 @@ class RobotViewModel @Inject constructor(
     // 동작
     private val mMotionListener: CommandListener = object : CommandListener() {
         override fun onResult(result: Int, message: String, extraData: String) {
-            Log.i(TAG, "result: $result message:$message")
+            Timber.i("result: $result message:$message")
             _textLog.value = message
 //                when (result) {
 //                    Definition.RESULT_OK -> // 도착 완료
@@ -151,35 +176,35 @@ class RobotViewModel @Inject constructor(
         }
 
         override fun onStatusUpdate(status: Int, data: String, extraData: String) {
-            Log.i(TAG, "status: $status data:$data")
+            Timber.i("status: $status data:$data")
         }
     }
 
     // 탐색
     private val mNavigationListener: ActionListener = object : ActionListener() {
         override fun onResult(status: Int, response: String) {
-            Log.i(TAG, "status: $status response:$response")
+            Timber.i("status: $status response:$response")
             _textLog.value = status.toString()
-//                when (status) {
-//                    Definition.RESULT_OK -> // 도착 완료
-//                    Definition.RESULT_FAILURE -> // 도착 실패
-//                }
+            when (status) {
+                Definition.RESULT_OK -> _moveReason.value = MoveReason.None
+                else -> {}
+            }
         }
 
         override fun onError(code: Int, message: String, extraData: String) {
-            Log.i(TAG, "code: $code message:$message")
+            Timber.i("code: $code message:$message")
         }
 
         override fun onStatusUpdate(status: Int, data: String, extraData: String) {
-            Log.i(TAG, "status: $status data:$data")
+            Timber.i("status: $status data:$data")
         }
     }
 
     // 위치
     private val mLocationListener: CommandListener = object : CommandListener() {
         override fun onResult(result: Int, message: String, extraData: String) {
-            Log.i(TAG, "result: $result message:$message")
-            _textLog.value = message
+            Timber.i("result: $result message:$message")
+//            _textLog.value = message
             try {
                 val placeList: MutableList<String> = ArrayList()
                 placeList.clear()
@@ -196,19 +221,15 @@ class RobotViewModel @Inject constructor(
         }
 
         override fun onStatusUpdate(status: Int, data: String, extraData: String) {
-            Log.i(TAG, "status: $status data:$data")
+            Timber.i("status: $status data:$data")
         }
     }
 
     // 상태
     private val mStatusListener: StatusListener = object : StatusListener() {
         override fun onStatusUpdate(type: String, data: String) {
-            Log.i(TAG, "type: $type data:$data")
+            Timber.i("type: $type data:$data")
             _textLog.value = data
         }
-    }
-
-    companion object {
-        private const val TAG = "RobotViewModel"
     }
 }

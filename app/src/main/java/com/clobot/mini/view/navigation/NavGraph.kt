@@ -7,6 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.clobot.mini.data.robot.MoveReason
 import com.clobot.mini.view.common.AdminView
 import com.clobot.mini.model.NavigationViewModel
 import com.clobot.mini.util.LocalRobotViewModel
@@ -28,8 +29,15 @@ fun NavigationGraph() {
 
     val robotViewModel = LocalRobotViewModel.current
     val chargeState = robotViewModel.chargingState.collectAsState()
+    val moveState = robotViewModel.moveReason.collectAsState()
 
-    if(chargeState.value)
+    when (moveState.value) {
+        MoveReason.Guide -> route.navTo(NavRoute.MoveName)
+        MoveReason.Docking -> route.navTo(NavRoute.MoveCharge)
+        else -> {}
+    }
+
+    if (chargeState.value)
         route.navTo(NavRoute.Charging)
 
     // 해당 로컬 변수와 함께 제공 되는 모든 composable 은 routeAction 접근 가능 (매개 변수 없이)
@@ -85,6 +93,9 @@ fun NavigationGraph() {
 
             // 충전 중
             composable(NavRoute.Charging.routeName) { Charging() }
+
+            // 충전 장소로 이동
+            composable(NavRoute.MoveCharge.routeName) { MoveCharge() }
 
             // move-position1,2,3 / move-name
             composable(NavRoute.MovePosition1.routeName) { MovePosition(1) }

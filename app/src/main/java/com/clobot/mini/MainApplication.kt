@@ -1,9 +1,9 @@
 package com.clobot.mini
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.os.HandlerThread
-import android.util.Log
 import com.ainirobot.coreservice.client.ApiListener
 import com.ainirobot.coreservice.client.RobotApi
 import com.ainirobot.coreservice.client.module.ModuleCallbackApi
@@ -45,7 +45,7 @@ class MainApplication : Application() {
     private fun initRobotApi() {
         RobotApi.getInstance().connectServer(mContext, object : ApiListener {
             override fun handleApiDisabled() {
-                Log.i(TAG, "handleApiDisabled")
+                Timber.i("handleApiDisabled")
             }
 
             /**
@@ -55,12 +55,12 @@ class MainApplication : Application() {
             override fun handleApiConnected() {
                 addApiCallBack()
                 initSkillApi()
-                Log.i(TAG, "handleApiConnected")
+                Timber.i("handleApiConnected")
             }
 
             // Disconnect RobotOS
             override fun handleApiDisconnected() {
-                Log.i(TAG, "handleApiDisconnected")
+                Timber.i("handleApiDisconnected")
             }
         })
     }
@@ -68,7 +68,7 @@ class MainApplication : Application() {
     private fun addApiCallBack() {
         RobotApi.getInstance().setCallback(mModuleCallback)
         RobotApi.getInstance().setResponseThread(mApiCallbackThread)
-        Log.d(TAG, "CoreService connected ")
+        Timber.d("CoreService connected ")
     }
 
     private fun initSkillApi() {
@@ -79,6 +79,7 @@ class MainApplication : Application() {
             // Handle speech service
             override fun handleApiConnected() {
                 mSkillApi!!.registerCallBack(mSkillCallback)
+                mInit = true
             }
 
             // Disconnect speech service
@@ -95,13 +96,18 @@ class MainApplication : Application() {
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         private var mApplication: MainApplication? = null
+        @SuppressLint("StaticFieldLeak")
         private var mContext: Context? = null
+        private var mInit: Boolean = false
 
         fun getInstance(): MainApplication? {
             return mApplication
         }
 
-        private const val TAG = "RobotOS"
+        fun isRobotInit(): Boolean {
+            return mInit
+        }
     }
 }

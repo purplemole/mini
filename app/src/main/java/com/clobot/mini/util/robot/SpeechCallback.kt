@@ -1,41 +1,37 @@
 package com.clobot.mini.util.robot
 
 import android.os.RemoteException
-import android.util.Log
 import com.ainirobot.coreservice.client.speech.SkillCallback
+import timber.log.Timber
 
 class SpeechCallback : SkillCallback() {
     @Throws(RemoteException::class)
     override fun onSpeechParResult(s: String) {
-        Log.i(TAG, "onSpeechParResult: $s")
+        Timber.i("onSpeechParResult: $s")
     }
 
     @Throws(RemoteException::class)
     override fun onStart() {
-        Log.i(TAG, "onStart")
+        Timber.i("onStart")
     }
 
     @Throws(RemoteException::class)
     override fun onStop() {
-        Log.i(TAG, "onStop")
+        Timber.i("onStop")
     }
 
     @Throws(RemoteException::class)
     override fun onVolumeChange(i: Int) {
-        Log.i(TAG, "onVolumeChange: $i");
+        Timber.i("onVolumeChange: $i");
     }
 
     @Throws(RemoteException::class)
     override fun onQueryEnded(i: Int) {
-        Log.i(TAG, "onQueryEnded: $i")
+        Timber.i("onQueryEnded: $i")
     }
 
     @Throws(RemoteException::class)
     override fun onQueryAsrResult(asrResult: String) {
-        Log.i(TAG, "onQueryAsrResult: $asrResult")
-    }
-
-    companion object {
-        private val TAG = SpeechCallback::class.java.simpleName
+        Timber.i("onQueryAsrResult: $asrResult")
     }
 }

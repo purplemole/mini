@@ -1,12 +1,11 @@
 package com.clobot.mini.data.robot
 
 sealed class MoveReason {
-    object Docent : MoveReason()
-    object Schedule : MoveReason()
+    object None : MoveReason()
     object Guide : MoveReason()
     object Home : MoveReason()
-    object None : MoveReason()
     object Docking : MoveReason()
+    object Patrol: MoveReason()
 }
 
 sealed class MoveDirection {
@@ -18,11 +17,8 @@ sealed class MoveDirection {
     object AllStop: MoveDirection()
     object TurnToTarget: MoveDirection()
     object StopTurnToTarget: MoveDirection()
-}
-
-sealed class ArcMode {
-    object None: ArcMode()
-    object Obstacle: ArcMode()
+    object Arc: MoveDirection()
+    object ArcObstacle: MoveDirection()
 }
 
 sealed class PosMode {

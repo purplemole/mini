@@ -1,8 +1,8 @@
 package com.clobot.mini.util.robot
 
 import android.os.RemoteException
-import android.util.Log
 import com.ainirobot.coreservice.client.module.ModuleCallbackApi
+import timber.log.Timber
 
 class ModuleCallback : ModuleCallbackApi() {
     /**
@@ -20,12 +20,7 @@ class ModuleCallback : ModuleCallbackApi() {
         reqText: String,
         reqParam: String,
     ): Boolean {
-        Log.d(
-            TAG,
-            "New request:  type is:$reqType text is:$reqText reqParam = $reqParam"
-        )
-        val text =
-            "New request:  type is:$reqType text is:$reqText reqParam = $reqParam"
+        Timber.d("New request:  type is:$reqType text is:$reqText reqParam = $reqParam")
         return true
     }
 
@@ -38,10 +33,7 @@ class ModuleCallback : ModuleCallbackApi() {
      */
     @Throws(RemoteException::class)
     override fun onHWReport(function: Int, type: String, message: String) {
-        Log.i(
-            TAG,
-            "onHWReport function:$function type:$type message:$message"
-        )
+        Timber.i("onHWReport function:$function type:$type message:$message")
     }
 
     /**
@@ -50,7 +42,7 @@ class ModuleCallback : ModuleCallbackApi() {
      */
     @Throws(RemoteException::class)
     override fun onSuspend() {
-        Log.d(TAG, "onSuspend")
+        Timber.d("onSuspend")
     }
 
     /**
@@ -59,10 +51,6 @@ class ModuleCallback : ModuleCallbackApi() {
      */
     @Throws(RemoteException::class)
     override fun onRecovery() {
-        Log.d(TAG, "onRecovery")
-    }
-
-    companion object {
-        private val TAG = ModuleCallback::class.java.simpleName
+        Timber.d("onRecovery")
     }
 }

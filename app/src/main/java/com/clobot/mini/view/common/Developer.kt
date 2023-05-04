@@ -2,12 +2,10 @@ package com.clobot.mini.view.common
 
 import android.content.Intent
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -15,7 +13,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -26,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.clobot.mini.data.robot.ChargeMode
 import com.clobot.mini.data.robot.MoveDirection
+import com.clobot.mini.data.robot.MoveReason
 import com.clobot.mini.data.robot.NavMode
 import com.clobot.mini.util.LocalRobotViewModel
 
@@ -33,7 +31,7 @@ import com.clobot.mini.util.LocalRobotViewModel
 fun Developer() {
     val robotViewModel = LocalRobotViewModel.current
     val placeList = robotViewModel.placeList.collectAsState(initial = ArrayList())
-    val textLog = robotViewModel.textLog.collectAsState()
+    val textLog = robotViewModel.textLog.collectAsState(initial = "")
 
     Template0(needTopBar = true) {
         LazyColumn(
@@ -55,7 +53,7 @@ fun Developer() {
                     LazyRow {
                         item {
                             Text("Navigation")
-                            CustomButton("StartNav") { robotViewModel.navController(NavMode.Start) }
+                            CustomButton("StartNav") { robotViewModel.navController(NavMode.Start, "안내 대기 장소") }
                             CustomButton("StopNav") { robotViewModel.navController(NavMode.Stop) }
                             CustomButton("RotateToPos") { robotViewModel.navController(NavMode.ToPos) }
                             CustomButton("StopRotate") { robotViewModel.navController(NavMode.StopToPos) }
@@ -78,7 +76,7 @@ fun Developer() {
                             Text("Navi")
                             robotViewModel.refreshPlaceList()
                             placeList.value.forEach {
-                                CustomButton(it) { robotViewModel.navController(NavMode.Start, it) }
+                                CustomButton(it) { robotViewModel.moveFromReason(MoveReason.Guide, it) }
                             }
                         }
                     }
@@ -88,7 +86,7 @@ fun Developer() {
                             CustomButton("GoCharge") { robotViewModel.chargeController(ChargeMode.GoCharge) }
 //                            CustomButton("Start") { robotViewModel.chargeController(ChargeMode.Start) }
 //                            CustomButton("Stop") { robotViewModel.chargeController(ChargeMode.Stop) }
-                            CustomButton("Auto") { robotViewModel.chargeController(ChargeMode.Auto) }
+                            CustomButton("Auto") { robotViewModel.moveFromReason(MoveReason.Docking) }
                             CustomButton("StopAuto") { robotViewModel.chargeController(ChargeMode.StopAuto) }
 //                            CustomButton("Leave") { robotViewModel.chargeController(ChargeMode.Leave) }
                             CustomButton("StopLeave") { robotViewModel.chargeController(ChargeMode.StopLeave) }
@@ -155,14 +153,9 @@ fun CustomButton(
     text: String,
     onClick: () -> Unit
 ) {
-    val robotViewModel = LocalRobotViewModel.current
     val colors = listOf(Color(0xFF00195F), Color(0xFF253A6F))
     val paddingValues = PaddingValues(horizontal = 5.dp, vertical = 5.dp)
     val widthFraction = 0.68f
-
-    val interactionSource = remember {
-        MutableInteractionSource()
-    }
 
     Box(
         modifier = Modifier
@@ -172,10 +165,7 @@ fun CustomButton(
                 brush = Brush.horizontalGradient(colors = colors),
                 shape = RectangleShape
             )
-            .clickable(
-//                interactionSource = interactionSource,
-//                indication = null
-            ) {
+            .clickable {
                 onClick()
             },
         contentAlignment = Alignment.Center
