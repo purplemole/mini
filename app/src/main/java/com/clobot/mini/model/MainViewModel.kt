@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,11 +44,15 @@ class MainViewModel @Inject constructor(
         )
     }
     fun showAlertState(title: String, message: String) {
-        _alertState.value = AlertState(visible = true, title, message)
+        _alertState.update {
+            it.copy(title = title, message = message, visible = true)
+        }
     }
 
     fun hideAlertState() {
-        _alertState.value = AlertState(visible = false, "", "")
+        _alertState.update {
+            it.copy(title = "", message = "", visible = false)
+        }
     }
 
     fun onRetry() {
