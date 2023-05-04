@@ -1,4 +1,4 @@
-package com.clobot.mini.view.page
+package com.clobot.mini.view.page.etc
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -28,32 +28,5 @@ fun Charging() {
 
     if(!chargeState.value)
         route.goBack()
-}
-
-@Composable
-fun MoveCharge() {
-    Image(
-        painter = painterResource(R.drawable.move_charge),
-        contentDescription = "move-charge",
-        contentScale = ContentScale.Crop
-    )
-}
-
-@Composable
-fun Docking() {
-    Image(
-        painter = painterResource(id = R.drawable.docking),
-        contentDescription = "docking",
-        contentScale = ContentScale.Crop
-    )
-}
-
-@Composable
-fun UnDocking() {
-    Image(
-        painter = painterResource(id = R.drawable.undocking),
-        contentDescription = "undocking",
-        contentScale = ContentScale.Crop
-    )
 }
 

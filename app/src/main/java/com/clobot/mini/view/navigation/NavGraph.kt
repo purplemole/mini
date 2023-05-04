@@ -15,9 +15,15 @@ import com.clobot.mini.util.LocalRouteAction
 import com.clobot.mini.view.page.BootCheck
 import com.clobot.mini.view.page.Developer
 import com.clobot.mini.view.page.*
-import com.clobot.mini.view.page.Charging
-import com.clobot.mini.view.page.MovePosition
+import com.clobot.mini.view.page.etc.*
 import com.clobot.mini.view.page.Standby
+import com.clobot.mini.view.page.menuExsitingCustomer.*
+import com.clobot.mini.view.page.menuGuideRequest.*
+import com.clobot.mini.view.page.menuNewCustomer.NewCustomer
+import com.clobot.mini.view.page.menuNewCustomer.NewInformation
+import com.clobot.mini.view.page.menuReservationCustomer.*
+import com.clobot.mini.view.page.menuSiteInformation.*
+import com.clobot.mini.view.page.etc.move.*
 
 @Composable
 fun NavigationGraph() {

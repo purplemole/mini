@@ -1,7 +1,9 @@
-package com.clobot.mini.view.page
+package com.clobot.mini.view.page.menuSiteInformation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
@@ -56,50 +58,5 @@ private fun SitesInformationContent() {
             )
         },
         contentAlignment = Alignment.Center
-    )
-}
-
-@Composable
-fun HospitalHours() {
-    Scaffold(
-        topBar = { HospitalTopBar() },
-        content = {
-            Image(
-                painter = painterResource(R.drawable.hospital_hours),
-                contentDescription = "hospital-hours",
-                contentScale = ContentScale.Crop
-            )
-        },
-        modifier = Modifier.fillMaxSize()
-    )
-}
-
-@Composable
-fun ReservationMethod() {
-    Scaffold(
-        topBar = { HospitalTopBar() },
-        content = {
-            Image(
-                painter = painterResource(R.drawable.reservation_method),
-                contentDescription = "reservation-method",
-                contentScale = ContentScale.Crop
-            )
-        },
-        modifier = Modifier.fillMaxSize()
-    )
-}
-
-@Composable
-fun Parking() {
-    Scaffold(
-        topBar = { HospitalTopBar() },
-        content = {
-            Image(
-                painter = painterResource(R.drawable.parking),
-                contentDescription = "parking",
-                contentScale = ContentScale.Crop
-            )
-        },
-        modifier = Modifier.fillMaxSize()
     )
 }

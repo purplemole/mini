@@ -1,4 +1,4 @@
-package com.clobot.mini.view.page
+package com.clobot.mini.view.page.etc.move
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
