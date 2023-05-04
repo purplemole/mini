@@ -33,9 +33,9 @@
 * repo : 로봇 제어를 위한 repository
 * util : 각종 class ..
 * view : View에 해당하는 항목들 전부 포함
-  * common : 각종 custom item / 부팅 체크와 관리자 페이지 포함
-  * hospital : 현재 작업중인 치과 화면 페이지 (Home / main button을 통해 이동 가능한 루트 1,2,3,4 페이지 / 호출을 통해 접근하는 페이지)
-  * move : Charge / Move / Promote / Standby (로봇 기본 이동 / 대기 / 홍보 등 로봇의 움직임과 관련된 페이지들)
+  * components : custom compose item
+  * page : top page, menu, 이동 페이지 포함
+  * layout : 화면 layout
   * navigation : NavGraph / NavRoute / RouteAction (NavGraph는 composable / NavRoute는 sealed class / RouteAction은 동작을 정의한 class)
 * MainActivity : Activity는 MainActivity 하나만 사용.
 
@@ -78,3 +78,6 @@
     * @Composable Entity 이름은 대문자로 시작 - 명사
     * @Composable 값을 반환하는 Composable은 소문자로 시작
   * ViewModel 작성 시 LiveData 보다 Flow 사용 권장
+* local file 경로
+  * /mnt/sdcard/mini/*
+    * tts : 음성 tts 파일
