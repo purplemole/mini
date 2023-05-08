@@ -1,4 +1,4 @@
-package com.clobot.mini.view.page.promote
+package com.clobot.mini.view.page.etc.promote
 
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
@@ -7,10 +7,10 @@ import androidx.compose.ui.res.painterResource
 import com.clobot.mini.R
 
 @Composable
-fun Promote3() {
+fun Promote2() {
     Image(
-        painter = painterResource(R.drawable.promote_3),
-        contentDescription = "promote_3",
+        painter = painterResource(R.drawable.promote_2),
+        contentDescription = "promote_2",
         contentScale = ContentScale.Crop
     )
 }

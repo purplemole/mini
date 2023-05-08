@@ -21,7 +21,7 @@ fun MovePosition(pos: Int = 0) {
     val moveState = robotViewModel.moveReason.collectAsState()
     val routeAction = LocalRouteAction.current
 
-    var isStarted = remember { mutableStateOf(false) }
+    val isStarted = remember { mutableStateOf(false) }
 
     val backgroundImg = when (pos) {
         1 -> painterResource(R.drawable.move_position_1)
@@ -43,7 +43,7 @@ fun MovePosition(pos: Int = 0) {
                 2 -> robotViewModel.navController(NavMode.Start, "안내 대기 장소")
                 3 -> robotViewModel.navController(NavMode.Start, "대기2")
                 4 -> robotViewModel.navController(NavMode.Start, "충전 장소")
-                else -> {}
+                else -> robotViewModel.navController(NavMode.Start, "대기1")
             }
             isStarted.value = true
         } else {
